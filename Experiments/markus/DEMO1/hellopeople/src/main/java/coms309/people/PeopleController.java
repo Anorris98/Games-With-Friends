@@ -102,13 +102,12 @@ public class PeopleController {
                 .sorted()
                 .toList();
 
-        if (!sortedLastNames.isEmpty()) {
-            // Return OK status with the list if not empty
-            return ResponseEntity.ok(sortedLastNames);
-        } else {
-            // Return BAD REQUEST status if the list is empty
+        // Return BAD REQUEST status if the list is empty
+        if (sortedLastNames.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+
+        // Return OK status with the list if not empty
+        return ResponseEntity.ok(sortedLastNames);
     }
 }
 
