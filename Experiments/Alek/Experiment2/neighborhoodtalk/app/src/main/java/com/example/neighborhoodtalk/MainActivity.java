@@ -20,8 +20,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText firstNumEditText = (EditText) findViewById(R.id.FirstNumEditText);
-                EditText SecondNumEditText = (EditText) findViewById(R.id.SecondNumEditText);
-                TextView resultTextView Result = (TextView);
+                EditText secondNumEditText = (EditText) findViewById(R.id.SecondNumEditText);
+                TextView resultTextView = (TextView) findViewById(R.id.resultTextView);
+
+                int num1 = Integer.parseInt(firstNumEditText.getText().toString());
+                int num2 = Integer.parseInt(secondNumEditText.getText().toString());
+                int result = num1 + num2;
+                resultTextView.setText(result + "");
             }
         });
     }
