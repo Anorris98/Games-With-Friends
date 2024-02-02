@@ -19,8 +19,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);             // link to Main activity XML
 
-        /* initialize UI elements */
-        messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
-        messageText.setText("Does this count as Experiment #1?");
+
+        Button goodbyeBtn = findViewById(R.id.goodbyeBtn);
+        goodbyeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //intentionally crash app
+                throw new RuntimeException("Goodbye World - This crash was intentional");
+            }
+        });
     }
 }
