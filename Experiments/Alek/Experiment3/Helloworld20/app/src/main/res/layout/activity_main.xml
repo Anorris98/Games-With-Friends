@@ -2,32 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayoutCompat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/secondActivityBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:visibility="visible"
+        android:text="Second Activity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45999998"
-        tools:text="Hello World" />
+        app:layout_constraintVertical_bias="0.43" />
 
     <Button
-        android:id="@+id/goodbyeBtn"
+        android:id="@+id/googleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Goodbye World"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_marginTop="8dp"
+        android:text="GOOGLE"
+        app:layout_constraintEnd_toEndOf="@+id/secondActivityBtn"
+        app:layout_constraintStart_toStartOf="@+id/secondActivityBtn"
+        app:layout_constraintTop_toBottomOf="@+id/secondActivityBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
