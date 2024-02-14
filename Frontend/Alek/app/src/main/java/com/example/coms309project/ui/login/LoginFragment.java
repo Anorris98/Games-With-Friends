@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -125,8 +126,28 @@ public class LoginFragment extends Fragment {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
+//        EditText usernameField = (EditText) binding.password;
+//        EditText passwordField = (EditText) binding.password;
+//        ImageView CheckBox = binding.CheckBox;
+//        ImageView CheckBoxEmpty = binding.CheckBoxEmpty;
+//        EditText loginResult = (EditText) binding.loginResult;
+//        String loginMessage = loginResult.getText().toString();
+//        String welcome = getString(R.string.welcome) + model.getDisplayName();
+//        String username = usernameField.getText().toString();
+//        String password = passwordField.getText().toString();
+//
+//        if(username.equals("username") && password.equals("password")){
+//            CheckBoxEmpty.setVisibility(View.INVISIBLE);
+//            CheckBox.setVisibility(View.VISIBLE);
+//            loginMessage = "Success";
+//            loginResult.setText(loginMessage);
+//        }
+        //else login not successful
+//        else{
+//            loginMessage = "Account Not Found";
+//            loginResult.setText(loginMessage);
+//        }
+
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
         }
