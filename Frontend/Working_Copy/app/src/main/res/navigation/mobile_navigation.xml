@@ -8,14 +8,20 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.GameWFreinds.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/title_play"
+        tools:layout="@layout/fragment_play" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.GameWFreinds.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/account"
+        android:name="com.GameWFreinds.ui.dashboard.DashboardFragment"
+        android:label="account"
+        tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/navigation_notifications"
