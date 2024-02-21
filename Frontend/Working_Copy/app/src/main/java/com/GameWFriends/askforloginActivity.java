@@ -1,4 +1,4 @@
-package com.GameWFreinds;
+package com.GameWFriends;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,7 +37,7 @@ public class askforloginActivity extends AppCompatActivity {
             loginButton.setVisibility(View.INVISIBLE);              // set login button invisible
             signupButton.setVisibility(View.INVISIBLE);             // set signup button invisible
             //signed in, so open main activity.
-            Intent Loggedin = new Intent(com.GameWFreinds.askforloginActivity.this, MainActivity.class);
+            Intent Loggedin = new Intent(com.GameWFriends.askforloginActivity.this, MainActivity.class);
             Loggedin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(Loggedin);
             finish();

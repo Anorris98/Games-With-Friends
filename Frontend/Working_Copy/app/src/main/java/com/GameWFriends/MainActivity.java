@@ -1,4 +1,4 @@
-package com.GameWFreinds;
+package com.GameWFriends;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.GameWFreinds.databinding.ActivityMainBinding;
+import com.GameWFriends.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //check if user has logged in
-        if (hasLoggedIn == false) {
+        //TODO: this will be needing changed back to false for login screen to work, for demo 2 this has been nulled to use for testing of string pulling.
+        if (hasLoggedIn == true) {
             hasLoggedIn = true;
-            Intent intent = new Intent(com.GameWFreinds.MainActivity.this, askforloginActivity.class);
+            Intent intent = new Intent(com.GameWFriends.MainActivity.this, askforloginActivity.class);
             startActivity(intent);
         }
         //user has logged in, run like normal.

@@ -1,4 +1,4 @@
-package com.GameWFreinds.ui.home;
+package com.GameWFriends.ui.Play;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFreinds.databinding.FragmentPlayBinding;
+import com.GameWFriends.databinding.FragmentPlayBinding;
 
-public class HomeFragment extends Fragment {
+public class PlayFragment extends Fragment {
 
     private FragmentPlayBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        PlayViewModel playViewModel =
+                new ViewModelProvider(this).get(PlayViewModel.class);
 
         binding = FragmentPlayBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        final TextView textView = binding.textPlay;
+        playViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

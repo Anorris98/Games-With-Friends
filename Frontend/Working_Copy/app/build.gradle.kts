@@ -3,17 +3,19 @@ plugins {
 }
 
 android {
-    namespace = "com.GameWFreinds"
+    namespace = "com.GameWFriends"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.GameWFreinds"
+        applicationId = "com.GameWFriends"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
     }
 
     buildTypes {
@@ -31,6 +33,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -43,8 +46,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
-    implementation("androidx.preference:preference:1.2.0")
+    implementation("androidx.preference:preference:1.2.1")
+    implementation ("com.android.volley:volley:1.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
 }
