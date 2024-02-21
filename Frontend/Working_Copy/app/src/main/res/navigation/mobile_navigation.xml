@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_play" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.GameWFriends.ui.Messages.DashboardFragment"
+        android:id="@+id/navigation_messages"
+        android:name="com.GameWFriends.ui.Messages.MessagesFragment"
         android:label="@string/title_Messages"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_messages" />
 
     <fragment
         android:id="@+id/account"

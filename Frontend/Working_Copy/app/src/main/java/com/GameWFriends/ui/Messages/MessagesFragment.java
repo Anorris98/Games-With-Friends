@@ -10,22 +10,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFriends.databinding.FragmentDashboardBinding;
+import com.GameWFriends.databinding.FragmentMessagesBinding;
 
-public class DashboardFragment extends Fragment {
+public class MessagesFragment extends Fragment {
 
-    private FragmentDashboardBinding binding;
+    private FragmentMessagesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        MessagesViewModel messagesViewModel =
+                new ViewModelProvider(this).get(MessagesViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentMessagesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textMessages;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        messagesViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 

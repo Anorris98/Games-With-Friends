@@ -13,7 +13,7 @@
         android:title="@string/title_play" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_messages"
         android:icon="@drawable/ic_messages_black_24dp"
         android:title="@string/title_Messages" />
 

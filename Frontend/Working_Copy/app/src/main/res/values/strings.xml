@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GameWFriends</string>
     <string name="title_play">Play</string>
-    <string name="title_Messages">Dashboard</string>
+    <string name="title_Messages">Messages</string>
     <string name="title_Notifications">Notifications</string>
     <string name="title_Account">Account</string>
 <!--    <string name="title_messages">Messages</string>-->
