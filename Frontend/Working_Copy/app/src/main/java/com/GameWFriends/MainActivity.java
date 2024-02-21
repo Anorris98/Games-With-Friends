@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         //check if user has logged in
         //TODO: this will be needing changed back to false for login screen to work, for demo 2 this has been nulled to use for testing of string pulling.
-        if (hasLoggedIn == true) {
+        if (hasLoggedIn == false) {
             hasLoggedIn = true;
             Intent intent = new Intent(com.GameWFriends.MainActivity.this, askforloginActivity.class);
             startActivity(intent);

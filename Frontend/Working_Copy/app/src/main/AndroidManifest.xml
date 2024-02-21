@@ -23,6 +23,12 @@
             android:name=".askforloginActivity"
             android:exported="false" />
         <activity
+            android:name=".StringRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VolleyRequestActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
