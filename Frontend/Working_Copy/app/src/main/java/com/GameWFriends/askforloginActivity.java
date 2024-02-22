@@ -49,7 +49,7 @@ public class askforloginActivity extends AppCompatActivity {
                     startActivity(Loggedin);
                     finish();
                 }
-            }, 5000); // Delay in milliseconds (5000ms = 5s)
+            }, 2000); // Delay in milliseconds (1000ms = 1s)
 
         }
 

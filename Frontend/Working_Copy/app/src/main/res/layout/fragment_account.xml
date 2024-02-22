@@ -21,13 +21,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Account_button"
+        android:id="@+id/Button_Account_StringReqActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Account Fragment"
+        android:text="String Request Activity"
         app:layout_constraintBottom_toTopOf="@+id/text_Account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.915" />
+        app:layout_constraintVertical_bias="0.577" />
+
+    <Button
+        android:id="@+id/Button_Account_AdminTools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin Tools"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Button_Account_StringReqActivity"
+        app:layout_constraintVertical_bias="0.144" />
 </androidx.constraintlayout.widget.ConstraintLayout>
