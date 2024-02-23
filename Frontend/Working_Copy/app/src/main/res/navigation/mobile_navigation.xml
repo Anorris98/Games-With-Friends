@@ -3,29 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/account">
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.GameWFreinds.ui.home.HomeFragment"
+        android:name="com.GameWFriends.ui.Play.PlayFragment"
         android:label="@string/title_play"
         tools:layout="@layout/fragment_play" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.GameWFreinds.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_messages"
+        android:name="com.GameWFriends.ui.Messages.MessagesFragment"
+        android:label="@string/title_Messages"
+        tools:layout="@layout/fragment_messages" />
 
     <fragment
         android:id="@+id/account"
-        android:name="com.GameWFreinds.ui.dashboard.DashboardFragment"
-        android:label="account"
+        android:name="com.GameWFriends.ui.Account.AccountFragment"
+        android:label="@string/title_Account"
         tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.GameWFreinds.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:name="com.GameWFriends.ui.notifications.NotificationsFragment"
+        android:label="@string/title_Notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

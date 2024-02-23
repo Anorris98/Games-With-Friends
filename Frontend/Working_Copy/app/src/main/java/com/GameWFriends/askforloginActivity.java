@@ -1,7 +1,9 @@
-package com.GameWFreinds;
+package com.GameWFriends;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,11 +38,18 @@ public class askforloginActivity extends AppCompatActivity {
             usernameText.setText(extras.getString("USERNAME")); // this will come from LoginActivity
             loginButton.setVisibility(View.INVISIBLE);              // set login button invisible
             signupButton.setVisibility(View.INVISIBLE);             // set signup button invisible
-            //signed in, so open main activity.
-            Intent Loggedin = new Intent(com.GameWFreinds.askforloginActivity.this, MainActivity.class);
-            Loggedin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(Loggedin);
-            finish();
+            //signed in, so open main activity and adjust
+            //TODO: make sure UI updates to reflect the player signed in.
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // This code block will be executed after a 5-second delay
+                    Intent Loggedin = new Intent(com.GameWFriends.askforloginActivity.this, MainActivity.class);
+                    Loggedin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(Loggedin);
+                    finish();
+                }
+            }, 2000); // Delay in milliseconds (1000ms = 1s)
 
         }
 

@@ -1,16 +1,16 @@
-package com.GameWFreinds.ui.dashboard;
+package com.GameWFriends.ui.Messages;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class MessagesViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public MessagesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("This is Messages fragment");
     }
 
     public LiveData<String> getText() {

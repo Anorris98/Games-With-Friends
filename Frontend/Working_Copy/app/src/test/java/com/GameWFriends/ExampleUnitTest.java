@@ -1,4 +1,4 @@
-package com.GameWFreinds;
+package com.GameWFriends;
 
 import org.junit.Test;
 
