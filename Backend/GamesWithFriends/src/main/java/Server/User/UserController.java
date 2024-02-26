@@ -11,6 +11,7 @@ import java.util.Map;
 public class UserController {
 
     //for testing purposes
+    //TODO: replace with actual db functionality
     private static final Map<Integer, User> userMap = new HashMap<>();
 
     @PostMapping("/users")
