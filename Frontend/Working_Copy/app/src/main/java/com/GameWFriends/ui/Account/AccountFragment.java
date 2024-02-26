@@ -27,7 +27,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Set click listeners for certain buttons here
+        // Set click listeners for buttons here
         binding.ButtonAccountStringReqActivity.setOnClickListener(this);    // String Request Activity
         binding.ButtonAccountAdminTools.setOnClickListener(this);           // Admin tools
         // Example: binding.OtherButton.setOnClickListener(this);

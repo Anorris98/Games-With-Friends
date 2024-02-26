@@ -1,4 +1,5 @@
 package com.GameWFriends;
+//file gotten from IAstate 309 git, original author being Hongy Bian.
 
 import android.content.Context;
 import android.graphics.Bitmap;
