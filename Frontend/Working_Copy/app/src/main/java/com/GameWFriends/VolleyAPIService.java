@@ -31,7 +31,7 @@ import org.json.JSONObject;
 
 public class VolleyAPIService {
 
-    private String url = "https://jsonplaceholder.typicode.com/users/1";
+    private String url = "https://59a7d876-383e-468e-8b60-f3636af76d88.mock.pstmn.io/test";
     private RequestQueue requestQueue; // Volley request queue
 
     // Constructor
@@ -46,8 +46,10 @@ public class VolleyAPIService {
     }
 
     // GET Request
-    public void getRequest(final VolleyResponseListener listener) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+    public void getRequest(final String userId, final VolleyResponseListener listener) {
+        String urlWithId = url + "/users/" + userId; // Assuming 'url' is the base URL ending before '/users/'
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, urlWithId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

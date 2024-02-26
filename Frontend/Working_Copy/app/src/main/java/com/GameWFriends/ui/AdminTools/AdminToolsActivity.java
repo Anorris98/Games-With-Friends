@@ -109,6 +109,7 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding.ButtonFriendGroupsTable.setVisibility(View.GONE);
         binding.ButtonTrophiesTable.setVisibility(View.GONE);
         binding.ButtonAccessRolesTable.setVisibility(View.GONE);
+        binding.TextviewAdminGreeting.setVisibility(View.GONE);
     }
 
     private void ShowButtons(){
@@ -116,6 +117,7 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding.ButtonFriendGroupsTable.setVisibility(View.VISIBLE);
         binding.ButtonTrophiesTable.setVisibility(View.VISIBLE);
         binding.ButtonAccessRolesTable.setVisibility(View.VISIBLE);
+        binding.TextviewAdminGreeting.setVisibility(View.VISIBLE);
     }
 
 }
