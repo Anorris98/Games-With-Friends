@@ -41,6 +41,7 @@ public class AdminToolsActivity extends AppCompatActivity {
         Button ButtonAccessRoles        = findViewById(R.id.Button_AccessRolesTable);
 
 
+        //TODO: condense this code, the 4 calls can all be put into a method and we can shrink this whole thing and make it more readable.
         binding.ButtonAccessRolesTable.setOnClickListener(view -> {
             HideButtons();
             // Create a new instance of the fragment
@@ -108,6 +109,7 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding.ButtonFriendGroupsTable.setVisibility(View.GONE);
         binding.ButtonTrophiesTable.setVisibility(View.GONE);
         binding.ButtonAccessRolesTable.setVisibility(View.GONE);
+        binding.TextviewAdminGreeting.setVisibility(View.GONE);
     }
 
     private void ShowButtons(){
@@ -115,6 +117,7 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding.ButtonFriendGroupsTable.setVisibility(View.VISIBLE);
         binding.ButtonTrophiesTable.setVisibility(View.VISIBLE);
         binding.ButtonAccessRolesTable.setVisibility(View.VISIBLE);
+        binding.TextviewAdminGreeting.setVisibility(View.VISIBLE);
     }
 
 }
