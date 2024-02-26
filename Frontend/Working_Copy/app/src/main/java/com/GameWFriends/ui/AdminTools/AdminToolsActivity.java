@@ -41,6 +41,7 @@ public class AdminToolsActivity extends AppCompatActivity {
         Button ButtonAccessRoles        = findViewById(R.id.Button_AccessRolesTable);
 
 
+        //TODO: condense this code, the 4 calls can all be put into a method and we can shrink this whole thing and make it more readable.
         binding.ButtonAccessRolesTable.setOnClickListener(view -> {
             HideButtons();
             // Create a new instance of the fragment
