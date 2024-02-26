@@ -7,48 +7,49 @@
     tools:context=".ui.AdminTools.AdminToolsActivity">
 
   <Button
-      android:id="@+id/Button_UserAccountSettings"
+      android:id="@+id/Button_UserTable"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="292dp"
-      android:text="User Account Settings"
+      android:text="Manage Users"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.497"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
   <Button
-      android:id="@+id/Button_friendGroups"
+      android:id="@+id/Button_friendGroupsTable"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="8dp"
       android:text="Manage Friend Groups"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/Button_UserAccountSettings" />
+      app:layout_constraintTop_toBottomOf="@+id/Button_UserTable" />
 
   <Button
-      android:id="@+id/Button_Table3"
+      android:id="@+id/Button_TrophiesTable"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="4dp"
-      android:text="Table 3"
+      android:text="Manage Trophies"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.498"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/Button_friendGroups" />
+      app:layout_constraintTop_toBottomOf="@+id/Button_friendGroupsTable" />
 
   <Button
-      android:id="@+id/Button_Table4"
+      android:id="@+id/Button_AccessRolesTable"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Table 4"
+      android:text="Manage Access Roles"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.498"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/Button_Table3"
+      app:layout_constraintTop_toBottomOf="@+id/Button_TrophiesTable"
       app:layout_constraintVertical_bias="0.0" />
+
 
   <TextView
       android:id="@+id/Textview_AdminGreeting"
@@ -56,11 +57,21 @@
       android:layout_height="wrap_content"
       android:text="Admin Control Center"
       android:textSize="34sp"
-      app:layout_constraintBottom_toTopOf="@+id/Button_UserAccountSettings"
+      app:layout_constraintBottom_toBottomOf="@+id/fragment_container"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.497"
+      app:layout_constraintHorizontal_bias="0.494"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.488"
+      app:layout_constraintVertical_bias="0.192"
       tools:visibility="visible" />
+
+  <androidx.fragment.app.FragmentContainerView
+      android:id="@+id/fragment_container"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      app:layout_constraintTop_toBottomOf="@+id/Button_AccessRolesTable"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

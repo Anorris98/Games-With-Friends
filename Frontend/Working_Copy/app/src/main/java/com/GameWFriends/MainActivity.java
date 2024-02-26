@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;     // define login button variable
     private Button signupButton;    // define signup button variable
 
-    private boolean hasLoggedIn = false;
+    private boolean hasLoggedIn = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
