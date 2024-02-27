@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/admin/users") //call only for admins
-    public ResponseEntity<List<UserAdminDetails>> getAllUsers(@RequestBody userCredentialsDTO userCredentials) {
+    public ResponseEntity<List<UserDetailsWithoutPassword>> getAllUsers(@RequestBody userCredentialsDTO userCredentials) {
         boolean check = false;
 
         for(User user : userMap.values()) {
@@ -64,9 +64,9 @@ public class UserController {
             return ResponseEntity.status(401).build();
 
 
-        List<UserAdminDetails> tempList = new ArrayList<>();
+        List<UserDetailsWithoutPassword> tempList = new ArrayList<>();
         for(User user : userMap.values())
-            tempList.add(new UserAdminDetails(user.getID(), user.getEmail(), user.getDisplayName()));
+            tempList.add(new UserDetailsWithoutPassword(user.getID(), user.getEmail(), user.getDisplayName()));
 
         return ResponseEntity.ok(tempList);
     }
