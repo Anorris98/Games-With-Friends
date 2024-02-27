@@ -27,4 +27,12 @@ public class FriendGroup {
         this.name = name;
         this.members = members;
     }
+
+    public boolean containsUserWithId(int id) {
+        for(User user : members) {
+            if (user.getID() == id)
+                return true;
+        }
+        return false;
+    }
 }

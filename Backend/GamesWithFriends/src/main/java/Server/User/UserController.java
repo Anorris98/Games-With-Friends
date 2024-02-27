@@ -3,7 +3,9 @@ package Server.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -12,7 +14,7 @@ public class UserController {
 
     //for testing purposes
     //TODO: replace with actual db functionality
-    private static final Map<Integer, User> userMap = new HashMap<>();
+    public static final Map<Integer, User> userMap = new HashMap<>();
 
     @PostMapping("/users")
     public ResponseEntity<Integer> createUser(@RequestBody User newUser) {
@@ -42,6 +44,40 @@ public class UserController {
         }
         return ResponseEntity.status(404).build();
     }
+
+    @GetMapping("/admin/users") //call only for admins
+    public ResponseEntity<List<UserAdminDetails>> getAllUsers(@RequestBody userCredentialsDTO userCredentials) {
+        boolean check = false;
+
+        for(User user : userMap.values()) {
+            if (user.getUsername().equals(userCredentials.username())) {
+                if(user.getPassword().equals(userCredentials.password()))
+                    check = true;
+            }
+        }
+        if(!check)
+            return ResponseEntity.status(401).build();
+
+
+        List<UserAdminDetails> tempList = new ArrayList<>();
+        for(User user : userMap.values())
+            tempList.add(new UserAdminDetails(user.getID(), user.getUsername(), user.getDisplayName()));
+
+        return ResponseEntity.ok(tempList);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<userDetailsDTO>> getAllUserDetails() {
+        List<userDetailsDTO> tempList = new ArrayList<>();
+        for (User user : userMap.values())
+            tempList.add(new userDetailsDTO(user.getDisplayName(), user.getDescription(), user.getProfilePicture()));
+
+        if(tempList.isEmpty())
+            return ResponseEntity.internalServerError().build();
+
+        return ResponseEntity.ok(tempList);
+    }
+
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserInformationForSpecificUser(@PathVariable int id) {
