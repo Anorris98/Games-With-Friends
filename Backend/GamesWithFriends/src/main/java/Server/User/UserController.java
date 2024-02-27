@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 @RestController
 public class UserController {
 
@@ -17,17 +18,21 @@ public class UserController {
     public static final Map<Integer, User> userMap = new HashMap<>();
 
     @PostMapping("/users")
-    public ResponseEntity<Integer> createUser(@RequestBody User newUser) {
+    public ResponseEntity<Integer> createUser(@RequestBody userCredentialsDTO newCredentials) {
 
-        if(newUser == null)
+        User newUser = new User(newCredentials.email(), newCredentials.password());
+
+        if(newUser.getEmail().isEmpty() || newUser.getPassword().isEmpty())
             return ResponseEntity.badRequest().build();
 
         for(User user : userMap.values()) {
-            if(user.getUsername().equals(newUser.getUsername()))
+            if(user.getEmail().equals(newUser.getEmail()))
                 return ResponseEntity.status(409).build();
         }
 
         userMap.put(newUser.getID(), newUser);
+
+        System.out.println(newUser.getID());
 
         return ResponseEntity.ok(newUser.getID());
     }
@@ -35,7 +40,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Integer> userLogin(@RequestBody userCredentialsDTO loginData) {
         for(User user : userMap.values()) {
-            if(user.getUsername().equals(loginData.username())) {
+            if(user.getEmail().equals(loginData.email())) {
                 if(!user.getPassword().equals(loginData.password()))
                     return ResponseEntity.status(401).build();
 
@@ -50,7 +55,7 @@ public class UserController {
         boolean check = false;
 
         for(User user : userMap.values()) {
-            if (user.getUsername().equals(userCredentials.username())) {
+            if (user.getEmail().equals(userCredentials.email())) {
                 if(user.getPassword().equals(userCredentials.password()))
                     check = true;
             }
@@ -61,7 +66,7 @@ public class UserController {
 
         List<UserAdminDetails> tempList = new ArrayList<>();
         for(User user : userMap.values())
-            tempList.add(new UserAdminDetails(user.getID(), user.getUsername(), user.getDisplayName()));
+            tempList.add(new UserAdminDetails(user.getID(), user.getEmail(), user.getDisplayName()));
 
         return ResponseEntity.ok(tempList);
     }
@@ -80,11 +85,11 @@ public class UserController {
 
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserInformationForSpecificUser(@PathVariable int id) {
+    public ResponseEntity<userDetailsDTO> getUserInformationForSpecificUser(@PathVariable int id) {
 
         User requestedUser = userMap.get(id);
         if(requestedUser != null)
-            return ResponseEntity.ok(new User("admin", "admin"));
+            return ResponseEntity.ok(requestedUser.userToDetailsDTO());
 
         return ResponseEntity.notFound().build();
     }
@@ -108,7 +113,7 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUserEntry(@PathVariable int id, @RequestBody userCredentialsDTO userCredentials) {
         for(User user : userMap.values()) {
-            if (user.getUsername().equals(userCredentials.username())) {
+            if (user.getEmail().equals(userCredentials.email())) {
                 if(!user.getPassword().equals(userCredentials.password()))
                     return ResponseEntity.status(401).build();
 
@@ -128,7 +133,7 @@ public class UserController {
         if(!userMap.containsKey(id))
             return ResponseEntity.status(404).build();
 
-        if(!userMap.get(id).getPassword().equals(scuffXD.username()))
+        if(!userMap.get(id).getPassword().equals(scuffXD.email()))
             return ResponseEntity.status(401).build();
 
         User tempUser = userMap.get(id);

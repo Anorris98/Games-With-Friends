@@ -3,27 +3,26 @@ package Server.FriendGroup;
 import Server.User.User;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
+import java.util.Random;
+
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity
+
 public class FriendGroup {
 
-    @ManyToMany
     private List<User> members;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
     public FriendGroup(String name, List<User> members) {
+        this.id = new Random().nextInt();
         this.name = name;
         this.members = members;
     }
