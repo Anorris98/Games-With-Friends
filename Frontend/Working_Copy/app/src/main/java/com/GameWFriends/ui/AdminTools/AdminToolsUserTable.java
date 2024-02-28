@@ -60,10 +60,10 @@ public class AdminToolsUserTable extends Fragment {
 
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
-        EditText numberUserIDGroupID = view.findViewById(R.id.editTextNumberID);        // texview: Userid/GroupID
-        EditText emailEmailAddress  = view.findViewById(R.id.editTextTextEmailAddress); // texview: EmailAddress
-        EditText textUsername       = view.findViewById(R.id.editTextUsername);         // texview: Username
-        EditText passwordPassword   = view.findViewById(R.id.editTextPassword);         // texview: Password
+        EditText numberUserIDGroupID = view.findViewById(R.id.editTextGroupId);        // texview: Userid/GroupID
+        EditText emailEmailAddress  = view.findViewById(R.id.editTextGroup); // texview: EmailAddress
+        EditText textUsername       = view.findViewById(R.id.editTextUserID);         // texview: Username
+        EditText passwordPassword   = view.findViewById(R.id.editTextRoleId);         // texview: Password
 
         //edit text declarations for later use and getting values.
 //        int userGroupID;
@@ -84,9 +84,9 @@ public class AdminToolsUserTable extends Fragment {
         Button buttonRegister = view.findViewById(R.id.buttonRegister);             // button: Register
         Button buttonLogin = view.findViewById(R.id.buttonLogin);                   // button: login
         Button buttonViewUserInfo = view.findViewById(R.id.buttonViewUserInfo);     // button: View current user info
-        Button buttonUpdateUser = view.findViewById(R.id.buttonUpdateUser);         // button: Updated User account information, display name, Profile Picture, Bio/description
-        Button buttonUpdatePassword = view.findViewById(R.id.buttonUpdatePassword); // button: update Password/change password
-        Button buttonDeleteUser = view.findViewById(R.id.buttonDeleteUser);         // button: User Account Delete
+        Button buttonUpdateUser = view.findViewById(R.id.buttonUpdateFriendGroup);         // button: Updated User account information, display name, Profile Picture, Bio/description
+        Button buttonUpdatePassword = view.findViewById(R.id.buttonGetUsersInGroup); // button: update Password/change password
+        Button buttonDeleteUser = view.findViewById(R.id.buttonDeleteFriendGroup);         // button: User Account Delete
 
         //listeners start here
 
