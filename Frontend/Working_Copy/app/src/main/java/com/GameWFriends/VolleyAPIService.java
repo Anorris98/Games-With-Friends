@@ -11,7 +11,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -87,65 +86,133 @@ public class VolleyAPIService {
         requestQueue.add(jsonObjectRequest);
     }
 
-    // POST Request
-    public void postRequest(final String url, final JSONObject requestBody, final VolleyResponseListener listener) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+    /** Post Request function, allows a post request to be sent to the desired url with a payload.
+     *
+     * @param finalUrl the full final url that will be getting sent
+     * @param listener Listener instance
+     * @param requestBody the already formated request body to be sent.
+     */
+    public void postRequest(final String finalUrl, final JSONObject requestBody, final VolleyResponseListener listener) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, finalUrl, requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        listener.onResponse(response);
+                        listener.onResponse(response); // Notify listener about the response
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
-                        String errorMessage = error.getMessage();
+                        String errorMessage = "Request error";
+                        if (error.getMessage() != null) {
+                            errorMessage = error.getMessage();
+                        }
                         if (error.networkResponse != null && error.networkResponse.data != null) {
                             errorMessage += "\n" + new String(error.networkResponse.data);
                         }
+                        listener.onError(errorMessage); // Notify listener about the error
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json"); // Ensure the server knows we're sending JSON
+
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest); // Add the request to the queue
+    }
+
+    /** delete Request function, allows a post request to be sent to the desired url with a payload.
+     *
+     * @param finalUrl the full final url that will be getting sent
+     * @param listener Listener instance
+     * @param requestBody the already formated request body to be sent.
+     */
+    public void deleteRequest(final String finalUrl, final JSONObject requestBody, final VolleyResponseListener listener) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, finalUrl, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        listener.onResponse(response); // Notify listener about the successful response
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Construct a more detailed error message
+                        String errorMessage = "Request error";
+                        if (error.getMessage() != null) {
+                            errorMessage = error.getMessage();
+                        }
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage += "\n" + new String(error.networkResponse.data);
+                        }
+                        listener.onError(errorMessage); // Notify listener about the error
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+
+                return headers;
+            }
+        };
+
+        // Use VolleySingleton to add the request to the queue
+        requestQueue.add(jsonObjectRequest);
+    }
+
+
+    /**  Put Request function, allows a post request to be sent to the desired url with a payload.
+     *
+     * @param finalUrl the full final url that will be getting sent
+     * @param listener Listener instance
+     * @param requestBody the already formated request body to be sent.
+     */
+    public void putRequest(final String finalUrl, final JSONObject requestBody, final VolleyResponseListener listener) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, finalUrl, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Notify listener about the successful response
+                        listener.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle and construct a more detailed error message
+                        String errorMessage = "Request error";
+                        if (error.getMessage() != null) {
+                            errorMessage = error.getMessage();
+                        }
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage += "\n" + new String(error.networkResponse.data);
+                        }
+                        // Notify listener about the error
                         listener.onError(errorMessage);
                     }
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-
+                // Set content type to JSON to inform the server about the type of the request body
                 headers.put("Content-Type", "application/json");
-                // if we end up needing headers later: headers.put("Authorization", "Bearer " + YOUR_TOKEN); or something like that.
+
                 return headers;
             }
         };
 
+        // Add the request to the Volley request queue
         requestQueue.add(jsonObjectRequest);
     }
 
-//    // DELETE Request
-    public void deleteRequest(final String userId, final VolleyResponseListener listener) {
-        String urlWithId = url + "/users/" + userId; // Adjust URL to target specific resource for deletion
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, urlWithId, null,
-                response -> {
-                    try {
-                        listener.onResponse(new JSONObject().put("message", "Deleted Successfully."));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> listener.onError("Delete Failed: " + error.toString())
-        );
 
-        requestQueue.add(jsonObjectRequest);
-    }
-
-//    // PUT Request
-    public void putRequest(final JSONObject requestBody, final VolleyResponseListener listener) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
-                response -> listener.onResponse(response),
-                error -> listener.onError(error.getMessage())
-        );
-
-        requestQueue.add(jsonObjectRequest);
-    }
 
 }
