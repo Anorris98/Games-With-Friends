@@ -169,7 +169,6 @@ public class AdminToolsUserTable extends Fragment {
      */
     public void fetchUserProfile(int userId) {
         // Assuming 'baseUrl' is a String variable holding your API's base URL
-        String baseUrl = "https://your.api.url"; // Replace with your actual base URL
         String finalUrl = Constants.BASE_URL + "/users/" + userId; // Construct the full URL
 
         apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
