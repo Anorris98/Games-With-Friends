@@ -168,7 +168,6 @@ public class AdminToolsUserTable extends Fragment {
      * @param userId the ID of the user whose profile is to be fetched.
      */
     public void fetchUserProfile(int userId) {
-        // Assuming 'baseUrl' is a String variable holding your API's base URL
         String finalUrl = Constants.BASE_URL + "/users/" + userId; // Construct the full URL
 
         apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
@@ -190,7 +189,6 @@ public class AdminToolsUserTable extends Fragment {
                     // Handle JSON parsing error
                     Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
                 }
-                // Optionally, you might want to move or remove this success toast to suit your flow
                 Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
             }
         });
