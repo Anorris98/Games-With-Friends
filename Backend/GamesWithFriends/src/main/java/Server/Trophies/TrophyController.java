@@ -47,7 +47,7 @@ public class TrophyController
     }
 
     @PutMapping("/trophies/{userId}")
-    public ResponseEntity<Trophy> updateTrophy(@RequestBody Trophy targetTrophy)
+    public ResponseEntity<Trophy> updateTrophy(@PathVariable trophyId, @RequestBody count)
     {
         for (Trophy trophy : targetTrophy.values())
         {
@@ -55,12 +55,14 @@ public class TrophyController
             {
                 continue;
             }
-
-            //trophy.setRequirement
+            else
+            {
+                trophy.setRequirementCount(count);
+                return ResponseEntity.status(200).build();
+            }
         }
 
-        //Not final response, just for error prevention purposes in code.
-        return ResponseEntity.ok();
+        return ResponseEntity.status(404).build();
     }
 
     @DeleteMapping("/trophies/{trophyId}")
