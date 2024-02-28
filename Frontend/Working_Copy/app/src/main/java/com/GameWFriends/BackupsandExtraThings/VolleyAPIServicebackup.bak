@@ -1,0 +1,202 @@
+//package com.GameWFriends.BackupsandExtraThings;
+//
+//import android.content.Context;
+//
+//import com.android.volley.AuthFailureError;
+//import com.android.volley.Request;
+//import com.android.volley.RequestQueue;
+//import com.android.volley.Response;
+//import com.android.volley.VolleyError;
+//import com.android.volley.toolbox.JsonObjectRequest;
+//import com.android.volley.toolbox.Volley;
+//
+//import org.json.JSONException;
+//import org.json.JSONObject;
+//
+//import java.util.HashMap;
+//import java.util.Map;
+//
+//
+////Example of how to use this class in other activites:
+//// VolleyAPIService apiService = new VolleyAPIService(getContext()); // Use 'this' if in an Activity
+////
+////apiService.deleteRequest(new VolleyAPIService.VolleyResponseListener() {
+////    @Override
+////    public void onError(String message) {
+////        // Handle error
+////    }
+////
+////    @Override
+////    public void onResponse(String response) {
+////        // Handle response
+////    }
+////});
+//
+//public class VolleyAPIServicebackup {
+//
+//    private String url = "https://59a7d876-383e-468e-8b60-f3636af76d88.mock.pstmn.io";
+//    private RequestQueue requestQueue; // Volley request queue
+//
+//    // Constructor
+//    public VolleyAPIServicebackup(Context context) {
+//        this.requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+//    }
+//
+//    // Interface for GET request callbacks
+//    public interface VolleyResponseListener {
+//        void onError(String message);
+//        void onResponse(JSONObject response);
+//    }
+//
+//    // GET Request
+//    public void getRequest(final String userId, final VolleyResponseListener listener) {
+//        String urlWithId = url + "/users/" + userId; // Assuming 'url' is the base URL ending before '/users/'
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, urlWithId, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        listener.onResponse(response); //pass string value
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        String errorMessage = "That didn't work!";
+//                        if (error.getMessage() != null) {
+//                            errorMessage += " " + error.getMessage();
+//                        }
+//                        listener.onError(errorMessage);
+//                    }
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap<>();
+//                // Add your headers here. For example:
+//                headers.put("Content-Type", "application/json");
+//                // headers.put("Authorization", "Bearer " + YOUR_TOKEN);
+//                return headers;
+//            }
+//        };
+//
+//        requestQueue.add(jsonObjectRequest);
+//    }
+//
+//
+////    public void getRequest(final String userId, final VolleyResponseListener listener) {
+////        String urlWithId = url + "/users/" + userId; // Assuming 'url' is the base URL ending before '/users/'
+////
+////        StringRequest stringRequest = new StringRequest(Request.Method.GET, urlWithId,
+////                new Response.Listener<String>() {
+////                    @Override
+////                    public void onResponse(String response) {
+////                        listener.onResponse(response);
+////                    }
+////                },
+////                new Response.ErrorListener() {
+////                    @Override
+////                    public void onErrorResponse(VolleyError error) {
+////                        listener.onError("That didn't work!" + error.toString());
+////                    }
+////                });
+////
+////        requestQueue.add(stringRequest);
+////    }
+//
+//    // POST Request
+//    public void postRequest(final String url, final JSONObject requestBody, final VolleyResponseListener listener) {
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, requestBody,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        listener.onResponse(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // Handle error
+//                        String errorMessage = error.getMessage();
+//                        if (error.networkResponse != null && error.networkResponse.data != null) {
+//                            errorMessage += "\n" + new String(error.networkResponse.data);
+//                        }
+//                        listener.onError(errorMessage);
+//                    }
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap<>();
+//                // Add your headers here. For example:
+//                headers.put("Content-Type", "application/json");
+//                // headers.put("Authorization", "Bearer " + YOUR_TOKEN);
+//                return headers;
+//            }
+//        };
+//
+//        requestQueue.add(jsonObjectRequest);
+//    }
+//
+//    //    public void postRequest(final String requestBody, final VolleyResponseListener listener) throws JSONException {
+////        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
+////                requestBody.isEmpty() ? null : new JSONObject(requestBody),
+////                new Response.Listener<JSONObject>() {
+////                    @Override
+////                    public void onResponse(JSONObject response) {
+////                        listener.onResponse(response.toString());
+////                    }
+////                },
+////                new Response.ErrorListener() {
+////                    @Override
+////                    public void onErrorResponse(VolleyError error) {
+////                        listener.onError(error.getMessage());
+////                    }
+////                });
+////
+////        requestQueue.add(jsonObjectRequest);
+////    }
+////    // DELETE Request
+//    // Assuming VolleyResponseListener's onResponse has been overloaded to accept JSONObject as well
+//    public void deleteRequest(final String userId, final VolleyResponseListener listener) {
+//        String urlWithId = url + "/users/" + userId; // Adjust URL to target specific resource for deletion
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, urlWithId, null,
+//                response -> {
+//                    try {
+//                        listener.onResponse(new JSONObject().put("message", "Deleted Successfully."));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                },
+//                error -> listener.onError("Delete Failed: " + error.toString())
+//        );
+//
+//        requestQueue.add(jsonObjectRequest);
+//    }
+//
+//    //    public void deleteRequest(final VolleyResponseListener listener) {
+////        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
+////                response -> listener.onResponse("Deleted Successfully."),
+////                error -> listener.onError("Delete Failed: " + error.toString()));
+////
+////        requestQueue.add(stringRequest);
+////    }
+////
+////    // PUT Request
+//    public void putRequest(final JSONObject requestBody, final VolleyResponseListener listener) {
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
+//                response -> listener.onResponse(response),
+//                error -> listener.onError(error.getMessage())
+//        );
+//
+//        requestQueue.add(jsonObjectRequest);
+//    }
+//
+////    public void putRequest(final String requestBody, final VolleyResponseListener listener) throws JSONException {
+////        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url,
+////                requestBody.isEmpty() ? null : new JSONObject(requestBody),
+////                response -> listener.onResponse(response.toString()),
+////                error -> listener.onError(error.getMessage()));
+////
+////        requestQueue.add(jsonObjectRequest);
+////    }
+//}
