@@ -106,15 +106,18 @@ public class AdminToolsTrophiesTable extends Fragment {
         return userIDGroupID;
     }
     public void deleteTrophy(int trophyID){
-
+        String finalUrl = Constants.BASE_URL + "/trophies/"+trophyID;
     }
     public void addNewTrophy(int id, String name, String Description){
+        String finalUrl = Constants.BASE_URL + "/trophies";
 
     }
     public void listAllTrophies(int userID){
+        String finalUrl = Constants.BASE_URL + "/trophies";
 
     }
     public void updateLockedTrophy(int userID){
+        String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
 
     }
 

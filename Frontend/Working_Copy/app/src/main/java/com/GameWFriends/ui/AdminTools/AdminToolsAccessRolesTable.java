@@ -80,19 +80,24 @@ public class AdminToolsAccessRolesTable extends Fragment {
         });
     }
     public void promoteUsers(int id, int Userid, int Roleid){
+        String finalUrl = Constants.BASE_URL + "/access_roles";
+
 
     }
 
     public void demoteUsers(int id, int Userid, int Roleid){
+        String finalUrl = Constants.BASE_URL + "/access_roles";
 
     }
 
     public void listAllRoles(int id, int Userid, int Roleid){
+        String finalUrl = Constants.BASE_URL + "/access_roles";
 
     }
 
     public void changeUsersRole(int id, int Userid, int Roleid){
-
+        String finalUrl = Constants.BASE_URL + "/access_roles";
+        
     }
 
     public int getUseriD(EditText Id){
