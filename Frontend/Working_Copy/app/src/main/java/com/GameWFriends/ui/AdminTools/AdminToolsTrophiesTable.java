@@ -54,6 +54,7 @@ public class AdminToolsTrophiesTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int finalId = getUseriD(id);
+                listAllTrophies(finalId);
 
 
             }
@@ -65,6 +66,7 @@ public class AdminToolsTrophiesTable extends Fragment {
                 int finalId = getUseriD(id);
                 String na = name.getText().toString();
                 String de = Description.getText().toString();
+                addNewTrophy(finalId,na,de);
 
 
             }
@@ -73,6 +75,7 @@ public class AdminToolsTrophiesTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int finalId = getUseriD(id);
+                updateLockedTrophy(finalId);
 
 
             }
@@ -81,10 +84,11 @@ public class AdminToolsTrophiesTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int finalId = getUseriD(trophyid);
-
+                deleteTrophy(finalId);
 
             }
         });
+
 
     }
     public int getUseriD(EditText Id){
@@ -100,6 +104,18 @@ public class AdminToolsTrophiesTable extends Fragment {
             userIDGroupID = 402;
         }
         return userIDGroupID;
+    }
+    public void deleteTrophy(int trophyID){
+
+    }
+    public void addNewTrophy(int id, String name, String Description){
+
+    }
+    public void listAllTrophies(int userID){
+
+    }
+    public void updateLockedTrophy(int userID){
+
     }
 
 }

@@ -47,8 +47,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
                 int finalId = getUseriD(id);
                 int finalUserId = getUseriD(userId);
                 int finalRoleId = getUseriD(roleId);
-
-
+                promoteUsers(finalId,finalUserId,finalRoleId);
             }
         });
 
@@ -58,8 +57,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
                 int finalId = getUseriD(id);
                 int finalUserId = getUseriD(userId);
                 int finalRoleId = getUseriD(roleId);
-
-
+                demoteUsers(finalId,finalUserId,finalRoleId);
             }
         });
         listAllRoles.setOnClickListener(new View.OnClickListener() {          //register New user
@@ -68,8 +66,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
                 int finalId = getUseriD(id);
                 int finalUserId = getUseriD(userId);
                 int finalRoleId = getUseriD(roleId);
-
-
+                listAllRoles(finalId,finalUserId,finalRoleId);
             }
         });
         ChangeUserRole.setOnClickListener(new View.OnClickListener() {          //register New user
@@ -78,10 +75,24 @@ public class AdminToolsAccessRolesTable extends Fragment {
                 int finalId = getUseriD(id);
                 int finalUserId = getUseriD(userId);
                 int finalRoleId = getUseriD(roleId);
-
-
+                changeUsersRole(finalId,finalUserId,finalRoleId);
             }
         });
+    }
+    public void promoteUsers(int id, int Userid, int Roleid){
+
+    }
+
+    public void demoteUsers(int id, int Userid, int Roleid){
+
+    }
+
+    public void listAllRoles(int id, int Userid, int Roleid){
+
+    }
+
+    public void changeUsersRole(int id, int Userid, int Roleid){
+
     }
 
     public int getUseriD(EditText Id){
