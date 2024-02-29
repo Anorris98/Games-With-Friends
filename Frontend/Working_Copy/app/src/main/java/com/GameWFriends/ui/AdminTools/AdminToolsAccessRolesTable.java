@@ -35,10 +35,10 @@ public class AdminToolsAccessRolesTable extends Fragment {
         apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_access_roles_table, container, false);
     }
-/** @Override
+ @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(AdminToolsTrophiesTableViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(AdminToolsAccessRolesTableViewModel.class);
 
 
         // Setup button click listeners
@@ -46,12 +46,12 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
         // Observe the LiveData for changes and update the TextView accordingly
         // Update the TextView with the response (ide combined these two statements, left for note clarity.)
-        TextView textViewResponse = view.findViewById(R.id.trophyResponse);  //text view for string response
-       // mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
+        TextView textViewResponse = view.findViewById(R.id.accessRoleResponse);  //text view for string response
+       mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
 
 
     }
-**/
+
 
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
