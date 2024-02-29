@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
 
+import org.json.JSONObject;
+
 public class AdminToolsAccessRolesTable extends Fragment {
 
     private AdminToolsAccessRolesTableViewModel mViewModel;
@@ -81,23 +83,32 @@ public class AdminToolsAccessRolesTable extends Fragment {
     }
     public void promoteUsers(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
+        JSONObject postData = new JSONObject();
+
 
 
     }
 
     public void demoteUsers(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
+        JSONObject postData = new JSONObject();
+
 
     }
 
     public void listAllRoles(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
+        JSONObject postData = new JSONObject();
+
 
     }
 
     public void changeUsersRole(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
-        
+        JSONObject postData = new JSONObject();
+
+
+
     }
 
     public int getUseriD(EditText Id){

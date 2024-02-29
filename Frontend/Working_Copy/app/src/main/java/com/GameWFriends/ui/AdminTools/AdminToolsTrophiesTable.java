@@ -107,17 +107,30 @@ public class AdminToolsTrophiesTable extends Fragment {
     }
     public void deleteTrophy(int trophyID){
         String finalUrl = Constants.BASE_URL + "/trophies/"+trophyID;
+        JSONObject postData = new JSONObject();
+
     }
-    public void addNewTrophy(int id, String name, String Description){
+    public void addNewTrophy(int id, String name, String Description) {
         String finalUrl = Constants.BASE_URL + "/trophies";
+        JSONObject postData = new JSONObject();
+
+
 
     }
     public void listAllTrophies(int userID){
         String finalUrl = Constants.BASE_URL + "/trophies";
+        JSONObject postData = new JSONObject();
+
+
+
 
     }
     public void updateLockedTrophy(int userID){
         String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
+        JSONObject postData = new JSONObject();
+
+
+
 
     }
 
