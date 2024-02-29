@@ -116,6 +116,26 @@ public class AdminToolsAccessRolesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+                Toast.makeText(getContext(), "Promote User Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Toast.makeText(getContext(), "Promote User Success", Toast.LENGTH_LONG).show();
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
+                    mViewModel.setResponse("Promote response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error parsing promote response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -132,6 +152,26 @@ public class AdminToolsAccessRolesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.deleteRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Error message context for user deletion
+                Toast.makeText(getContext(), "Role Demoting Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+                // Success message context for user deletion
+                Toast.makeText(getContext(), "Role Demoting Success", Toast.LENGTH_LONG).show();
+                try {
+                    // Optionally display the response for demo purposes
+                    String formattedResponse = response.toString(4); // 4 spaces for indentation
+                    mViewModel.setResponse("Role Demoting response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error parsing Role Demoting response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
@@ -148,6 +188,26 @@ public class AdminToolsAccessRolesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Display error message
+                Toast.makeText(getContext(), "List All Roles Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("List All ROles Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling List All Roles JSON", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -164,6 +224,26 @@ public class AdminToolsAccessRolesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.putRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Error message context for password change
+                Toast.makeText(getContext(), "Change Role Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+                // Success message context for password change
+                Toast.makeText(getContext(), " Change Role Success", Toast.LENGTH_LONG).show();
+                try {
+                    //we only display for demo 2 purposes.
+                    String formattedResponse = response.toString(4); // 4 spaces for indentation
+                    mViewModel.setResponse("Change Role response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error parsing  change role response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 

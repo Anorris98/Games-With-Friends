@@ -134,6 +134,26 @@ public class AdminToolsTrophiesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.deleteRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Error message context for user deletion
+                Toast.makeText(getContext(), "Trophy Deletion Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+                // Success message context for user deletion
+                Toast.makeText(getContext(), "Trophy Deletion  Success", Toast.LENGTH_LONG).show();
+                try {
+                    // Optionally display the response for demo purposes
+                    String formattedResponse = response.toString(4); // 4 spaces for indentation
+                    mViewModel.setResponse("Trophy Deletion  response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error parsing Trophy Deletion response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
     public void addNewTrophy(int id, String name, String description) {
         String finalUrl = Constants.BASE_URL + "/trophies";
@@ -166,7 +186,7 @@ public class AdminToolsTrophiesTable extends Fragment {
             @Override
             public void onError(String message) {
                 // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "List All Trophies Error: " + message, Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -174,14 +194,15 @@ public class AdminToolsTrophiesTable extends Fragment {
                 try {
                     //this is currently being used to see the responses in a text for demo 2
                     String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                    mViewModel.setResponse("List All Trophies Response is:\n" + formattedResponse);
                 } catch (JSONException e) {
                     // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Error handling List All Trophies JSON", Toast.LENGTH_LONG).show();
                 }
                 Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
             }
         });
+
 
     }
     public void updateLockedTrophy(int userID){
@@ -195,7 +216,26 @@ public class AdminToolsTrophiesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.putRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Error message context for password change
+                Toast.makeText(getContext(), "Update Locked Trophy Error: " + message, Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onResponse(JSONObject response) {
+                // Success message context for password change
+                Toast.makeText(getContext(), "Update Locked Trophy Success", Toast.LENGTH_LONG).show();
+                try {
+                    //we only display for demo 2 purposes.
+                    String formattedResponse = response.toString(4); // 4 spaces for indentation
+                    mViewModel.setResponse("Update Locked Trophy response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error parsing Update locked Trophy response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
     }
 
