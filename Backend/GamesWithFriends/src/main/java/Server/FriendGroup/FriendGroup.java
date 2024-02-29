@@ -36,4 +36,12 @@ public class FriendGroup {
         }
         return false;
     }
+
+    public void addMembers(List<User> usersToAdd) {
+        this.members.addAll(usersToAdd);
+    }
+
+    public void removeMembers(List<User> usersToRemove) {
+        this.members.removeAll(usersToRemove);
+    }
 }

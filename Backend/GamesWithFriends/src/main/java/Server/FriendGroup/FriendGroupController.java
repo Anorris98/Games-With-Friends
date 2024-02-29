@@ -2,14 +2,12 @@ package Server.FriendGroup;
 
 import Server.User.User;
 import Server.User.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class FriendGroupController {
@@ -20,62 +18,86 @@ public class FriendGroupController {
     @Autowired
     UserRepository userRepository;
 
-    private final Map<Integer, FriendGroup> friendGroups = new HashMap<>();
-
-    /*@PostMapping("/friend_groups")
+    @PostMapping("/friend_groups")
     public ResponseEntity<?> createFriendGroup(@RequestBody FriendGroupMembersDTO memberIds) {
+
         List<User> tempList = new ArrayList<>();
+
         for(int id : memberIds.memberIds()) {
-            if (!UserController.userMap.containsKey(id))
+            if(userRepository.findById(id).isEmpty())
                 return ResponseEntity.status(404).build();
-            tempList.add(UserController.userMap.get(id));
+            tempList.add(userRepository.findById(id).get());
         }
+
         FriendGroup newFriendGroup = new FriendGroup("test");
-        //System.out.println(newFriendGroup.getId());
-        //friendGroups.put(newFriendGroup.getId(), newFriendGroup);
-        return ResponseEntity.ok().build();
-    }*/
-
-    @GetMapping("/friend_groups")
-    public ResponseEntity<List<Integer>> getAllFriendGroupsOfUser(@RequestBody int userId) {
-        List<Integer> returnList = new ArrayList<>();
-
-        /*for (FriendGroup group : friendGroups.values()) {
-            if (group.containsUserWithId(userId))
-                returnList.add(group.getId());
-        }*/
-
-        if(returnList.isEmpty())
-            return ResponseEntity.internalServerError().build();
-
-        return ResponseEntity.ok(returnList);
+        newFriendGroup.setMembers(tempList);
+        System.out.println(newFriendGroup.getID());
+        friendGroupRepository.save(newFriendGroup);
+        return ResponseEntity.ok(newFriendGroup.getID());
     }
 
-    /*@PutMapping("/friend_groups/{id}")
-    public ResponseEntity<?> updateUsersOfFriendGroup(@RequestParam int groupId, @RequestBody FriendGroupMembersDTO members) {
+    @GetMapping("/friend_groups")
+    public ResponseEntity<List<Integer>> getAllFriendGroupsOfUser(@RequestHeader(value = "Authorization") String auth) {
 
-        if(!friendGroups.containsKey(groupId))
+        String[] parts = auth.split(" ");
+        if (parts.length < 2) {
             return ResponseEntity.badRequest().build();
-
-        List<User> tempList = new ArrayList<>();
-        for(int id : members.memberIds()) {
-            if (!UserController.userMap.containsKey(id))
-                return ResponseEntity.status(404).build();
-            tempList.add(UserController.userMap.get(id));
         }
 
-        friendGroups.get(groupId).setMembers(tempList);
+        int sourceId;
+
+        try {
+            sourceId = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(500).build();
+        }
+
+        if(userRepository.findById(sourceId).isEmpty())
+            return ResponseEntity.status(403).build();
+
+        List<Integer> outputList = new ArrayList<>();
+        for(FriendGroup group : userRepository.findById(sourceId).get().getFriendGroupList())
+            outputList.add(group.getID());
+
+        if(outputList.isEmpty())
+            return ResponseEntity.internalServerError().build();
+
+        return ResponseEntity.ok(outputList);
+    }
+
+    @PutMapping("/friend_groups/{id}")
+    @Transactional
+    public ResponseEntity<?> addUsersToFriendgroup(@RequestParam int groupId, @RequestBody FriendGroupMembersDTO members) {
+
+        Optional<FriendGroup> groupOptional = friendGroupRepository.findById(groupId);
+        if (groupOptional.isEmpty())
+            return ResponseEntity.badRequest().build();
+
+        FriendGroup toUpdate = groupOptional.get();
+        List<User> usersToAdd = new ArrayList<>();
+
+        for (int userId : members.memberIds()) {
+            Optional<User> tempUser = userRepository.findById(userId);
+            if (tempUser.isEmpty())
+                return ResponseEntity.status(404).build();
+
+            usersToAdd.add(tempUser.get());
+        }
+
+        toUpdate.addMembers(usersToAdd);
+        friendGroupRepository.save(toUpdate);
+
         return ResponseEntity.ok().build();
-    }*/
+    }
 
     @GetMapping("/friend_groups/{id}")
     public ResponseEntity<?> getAllUserIdsFromFriendList(@RequestParam int groupId) {
-        if (!friendGroups.containsKey(groupId))
+        if (friendGroupRepository.findById(groupId).isEmpty())
             return ResponseEntity.status(404).build();
 
         FriendGroupMembersDTO tempDTO = new FriendGroupMembersDTO(new ArrayList<>());
 
-        for(User user : friendGroups.get(groupId).getMembers()) {
+        for(User user : friendGroupRepository.findById(groupId).get().getMembers()) {
             tempDTO.memberIds().add(user.getID());
         }
 
@@ -83,11 +105,38 @@ public class FriendGroupController {
     }
 
     @DeleteMapping("/friend_groups/{id}")
-    public ResponseEntity<?> deleteSpecificFriendGroup(@RequestParam int groupId) {
-        if (!friendGroups.containsKey(groupId))
+    public ResponseEntity<?> deleteSpecificFriendGroup(@RequestParam int groupId, @RequestHeader(value = "Authorization") String auth) {
+
+        boolean check = false;
+
+        String[] parts = auth.split(" ");
+        if (parts.length < 2) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        int sourceId;
+
+        try {
+            sourceId = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(500).build();
+        }
+
+        if (friendGroupRepository.findById(groupId).isEmpty())
             return ResponseEntity.status(404).build();
 
-        friendGroups.remove(groupId);
+        if(userRepository.findById(sourceId).isEmpty())
+            return ResponseEntity.status(401).build();
+
+        //TODO: add check if source is admin
+
+        if(friendGroupRepository.findById(groupId).get().getMembers().contains(userRepository.findById(sourceId).get()))
+            check = true;
+
+        if(!check)
+            return ResponseEntity.status(401).build();
+
+        friendGroupRepository.delete(friendGroupRepository.findById(groupId).get());
 
         return ResponseEntity.ok().build();
     }
