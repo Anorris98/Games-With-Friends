@@ -8,14 +8,111 @@
     tools:context=".ui.AdminTools.AdminToolsTrophiesTable" >
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/listUserTrophies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TRophies fragment"
+        android:text="List User Trophies"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.406"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.664" />
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:hint="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.336" />
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="304dp"
+        android:hint="Description"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Textview_Response"
+        android:layout_width="378dp"
+        android:layout_height="156dp"
+        android:text="Response Will go here"
+        app:layout_constraintBottom_toTopOf="@+id/editName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.219" />
+
+    <EditText
+        android:id="@+id/editTextNumberTrophyID"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="292dp"
+        android:ems="10"
+        android:hint="Trophyid"
+        android:inputType="number"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Textview_Response" />
+
+    <EditText
+        android:id="@+id/editTextNumberID"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:hint="User/Groupid"
+        android:inputType="number"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Textview_Response" />
+
+    <Button
+        android:id="@+id/addNewTrophy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Trophy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.834" />
+
+    <Button
+        android:id="@+id/updateLockedTrophy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Locked Trophy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.749" />
+
+    <Button
+        android:id="@+id/deleteTrophy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Trophy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.919" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
