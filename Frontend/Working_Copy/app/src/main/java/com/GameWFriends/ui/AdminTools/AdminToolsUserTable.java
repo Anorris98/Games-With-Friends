@@ -33,8 +33,10 @@ public class AdminToolsUserTable extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Initialize the VolleyAPIService with the fragment's context
-        apiService = new VolleyAPIService(getContext());
+        // Initialize the VolleyAPIService with the fragment's context, context is required for being able to use device resources
+        //find view by ID etc.
+        apiService = new VolleyAPIService(requireContext());
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_admin_tools_user_table, container, false);
 
@@ -52,41 +54,28 @@ public class AdminToolsUserTable extends Fragment {
 
         // Observe the LiveData for changes and update the TextView accordingly
         // Update the TextView with the response (ide combined these two statements, left for note clarity.)
-        TextView textViewResponse = view.findViewById(R.id.Textview_Response);  //text view for string response
+        TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
         mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
 
 
     }
 
     private void setupListeners(View view) {
-//      Edit text declarations delete when done with this part
-        EditText numberUserIDGroupID = view.findViewById(R.id.editTextNumberID);        // texview: Userid/GroupID
-        EditText emailEmailAddress  = view.findViewById(R.id.editTextTextEmailAddress); // texview: EmailAddress
-        EditText textUsername       = view.findViewById(R.id.editTextUsername);         // texview: Username
-        EditText passwordPassword   = view.findViewById(R.id.editTextPassword);         // texview: Password
-
-        //edit text declarations for later use and getting values.
-//        int userGroupID;
-//        String emailAddress;
-//        String username;
-//        String password;
-
-
-        //convert to strings and usable int.
-//        int userIDGroupID = Integer.parseInt(numberUserIDGroupID.getText().toString());
-//        String emailAddress = emailEmailAddress.getText().toString();
-//        String username = textUsername.getText().toString();
-//        String password = passwordPassword.getText().toString();
+        //Edit text declarations
+        EditText numberUserIDGroupID = view.findViewById(R.id.editTextGroupId);        // texview: Userid/GroupID
+        EditText emailEmailAddress  = view.findViewById(R.id.editTextGroup);           // texview: EmailAddress
+        EditText textUsername       = view.findViewById(R.id.editTextUserID);          // texview: Username, Havent Used Yet, but will need to eventually.
+        EditText passwordPassword   = view.findViewById(R.id.editTextRoleId);          // texview: Password
 
 
 
         //button declarations
-        Button buttonRegister = view.findViewById(R.id.buttonRegister);             // button: Register
-        Button buttonLogin = view.findViewById(R.id.buttonLogin);                   // button: login
+        Button buttonRegister = view.findViewById(R.id.buttonCreateFriendGroup);             // button: Register
+        Button buttonLogin = view.findViewById(R.id.buttonGetFriendGroupsUserIsIn);                   // button: login
         Button buttonViewUserInfo = view.findViewById(R.id.buttonViewUserInfo);     // button: View current user info
-        Button buttonUpdateUser = view.findViewById(R.id.buttonUpdateUser);         // button: Updated User account information, display name, Profile Picture, Bio/description
-        Button buttonUpdatePassword = view.findViewById(R.id.buttonUpdatePassword); // button: update Password/change password
-        Button buttonDeleteUser = view.findViewById(R.id.buttonDeleteUser);         // button: User Account Delete
+        Button buttonUpdateUser = view.findViewById(R.id.buttonUpdateFriendGroup);         // button: Updated User account information, display name, Profile Picture, Bio/description
+        Button buttonUpdatePassword = view.findViewById(R.id.buttonGetUsersInGroup); // button: update Password/change password
+        Button buttonDeleteUser = view.findViewById(R.id.buttonDeleteFriendGroup);         // button: User Account Delete
 
         //listeners start here
 
@@ -162,12 +151,13 @@ public class AdminToolsUserTable extends Fragment {
         buttonDeleteUser.setOnClickListener(new View.OnClickListener() {        //Delete user
             @Override
             public void onClick(View v) {
-                int finalId = getUseriD(numberUserIDGroupID);
+                int IdtoDelete = getUseriD(numberUserIDGroupID);
+                int UserIdRequestingDelete = getUseriD(textUsername);
 
                 String email = emailEmailAddress.getText().toString();
                 String password = passwordPassword.getText().toString();
 
-                deleteUser(finalId, password, email);
+                deleteUser(IdtoDelete, UserIdRequestingDelete);
 
             }
         });
@@ -176,24 +166,23 @@ public class AdminToolsUserTable extends Fragment {
 
     /**
      * Function for Deleting a user
-     * @param userId the users ID
-     * @param password the users current password
-     * @param email the users email the account is registered to.
+     * @param userIdtoDelete the users ID
+     * @param UserIdRequestingDelete the users current password
      */
-    public void deleteUser(int userId, String password, String email) {
-        String finalUrl = Constants.BASE_URL + "/users/" + userId;
+    public void deleteUser(int userIdtoDelete, int UserIdRequestingDelete) {
+        String finalUrl = Constants.BASE_URL + "/users/" + userIdtoDelete;
 
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("password", password);
-            postData.put("email", email);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for user deletion", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        JSONObject postData = new JSONObject();
+//        try {
+//            postData.put("password", password);
+//            postData.put("email", email);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getContext(), "Error creating JSON object for user deletion", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
-        apiService.deleteRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+        apiService.deleteRequest(finalUrl, UserIdRequestingDelete, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Error message context for user deletion
@@ -381,7 +370,7 @@ public class AdminToolsUserTable extends Fragment {
     public void fetchUserProfile(int userId) {
         String finalUrl = Constants.BASE_URL + "/users/" + userId;
 
-        apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
+        apiService.getRequest(finalUrl,  userId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Display error message

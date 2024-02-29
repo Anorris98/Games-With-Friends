@@ -34,10 +34,11 @@
     <!-- Delete User Button -->
 
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/editTextUserID"
         android:layout_width="410dp"
         android:layout_height="56dp"
         android:hint="Username"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -46,7 +47,7 @@
         app:layout_constraintVertical_bias="0.42" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/editTextRoleId"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -57,11 +58,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editTextUsername"
+        app:layout_constraintTop_toTopOf="@+id/editTextUserID"
         app:layout_constraintVertical_bias="0.133" />
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/buttonCreateFriendGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -69,10 +70,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRoleId" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonGetFriendGroupsUserIsIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -80,10 +81,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCreateFriendGroup" />
 
     <Button
-        android:id="@+id/buttonUpdateUser"
+        android:id="@+id/buttonUpdateFriendGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -91,10 +92,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonGetFriendGroupsUserIsIn" />
 
     <Button
-        android:id="@+id/buttonUpdatePassword"
+        android:id="@+id/buttonGetUsersInGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -102,10 +103,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonUpdateUser" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonUpdateFriendGroup" />
 
     <Button
-        android:id="@+id/buttonDeleteUser"
+        android:id="@+id/buttonDeleteFriendGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -113,15 +114,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonUpdatePassword"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGetUsersInGroup"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/Textview_Response"
+        android:id="@+id/Textview_ResponseFriend"
         android:layout_width="378dp"
         android:layout_height="156dp"
         android:text="Response Will go here"
-        app:layout_constraintBottom_toTopOf="@+id/editTextUsername"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUserID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,37 +137,37 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonDeleteUser"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDeleteFriendGroup"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/editTextGroup"
         android:layout_width="408dp"
         android:layout_height="52dp"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextRoleId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Textview_Response"
+        app:layout_constraintTop_toBottomOf="@+id/Textview_ResponseFriend"
         app:layout_constraintVertical_bias="0.341" />
 
     <EditText
-        android:id="@+id/editTextNumberID"
+        android:id="@+id/editTextGroupId"
         android:layout_width="410dp"
         android:layout_height="50dp"
         android:ems="10"
         android:hint="User/Groupid"
         android:inputType="number"
         android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextUsername"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextUserID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Textview_Response"
+        app:layout_constraintTop_toTopOf="@+id/Textview_ResponseFriend"
         app:layout_constraintVertical_bias="0.588" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
