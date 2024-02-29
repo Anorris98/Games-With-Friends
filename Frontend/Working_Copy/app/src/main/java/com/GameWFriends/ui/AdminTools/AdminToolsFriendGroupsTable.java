@@ -178,7 +178,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
     }
 
     public void getFriendGroupsUserIsIn(Integer userId) {
-        String finalUrl = Constants.BASE_URL + "/friend-groups";
+        String finalUrl = Constants.BASE_URL + "/friend_groups";
 
         // Create the JSON body with userId
         JSONObject requestBody = new JSONObject();
