@@ -1,21 +1,21 @@
 package Server.Trophies;
 
-import com.fasterxml.jackson.annotation.jsonTypeId;
+import Server.User.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table(name = "Trophies")
 @Entity
 public class Trophy
 {
@@ -35,6 +35,8 @@ public class Trophy
     //A flag of whether this trophy is unlocked for a user. 0 = locked, 1 = unlocked
     private int lockStatus;
 
+
+
     public Trophy(String name, String requirementDescription, int requirement)
     {
         this.name = name;
@@ -43,49 +45,5 @@ public class Trophy
 
         this.requirementCount = 0;
         this.lockStatus = 0;
-    }
-
-    public int getID()
-    {
-        return ID;
-    }
-
-    public String getTrophyName()
-    {
-        return this.mame;
-    }
-
-    public String getRequirementDescription()
-    {
-        return this.requirementDescription;
-    }
-
-    public void updateRequirementCount(int count)
-    {
-        this.requirementCount += count;
-        updateStatus();
-    }
-
-    private void updateStatus()
-    {
-        if (requirementCount >= requirement)
-        {
-            lockStatus = 1;
-        }
-    }
-
-    public int getRequirement()
-    {
-        return requirement;
-    }
-
-    public int getRequirementCount()
-    {
-        return this.requirementCount;
-    }
-
-    public int getLockStatus()
-    {
-        return lockStatus;
     }
 }
