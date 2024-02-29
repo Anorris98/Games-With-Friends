@@ -7,13 +7,100 @@
     android:layout_height="match_parent"
     tools:context=".ui.AdminTools.AdminToolsAccessRolesTable" >
 
+    <TextView
+        android:id="@+id/Textview_Response"
+        android:layout_width="378dp"
+        android:layout_height="156dp"
+        android:text="Response Will go here"
+        app:layout_constraintBottom_toTopOf="@+id/editName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.219" />
+
+    <EditText
+        android:id="@+id/editTextNumberId"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:hint="ID"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.336" />
+
+    <EditText
+        android:id="@+id/editTextNumberUserID"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="292dp"
+        android:ems="10"
+        android:hint="User ID"
+        android:inputType="number"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Textview_Response" />
+
+    <EditText
+        android:id="@+id/editTextNumberRoleID"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="304dp"
+        android:hint="Role ID"
+        android:inputType="number"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/promoteUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Access Roles Fragment"
+        android:text="Promote User"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.651" />
+
+    <Button
+        android:id="@+id/demoteUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Demote User"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.746" />
+
+    <Button
+        android:id="@+id/listAllRoles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List All Roles"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.837" />
+
+    <Button
+        android:id="@+id/ChangeUserRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Users Role"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.926" />
 </androidx.constraintlayout.widget.ConstraintLayout>
