@@ -33,8 +33,10 @@ public class AdminToolsUserTable extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Initialize the VolleyAPIService with the fragment's context
-        apiService = new VolleyAPIService(getContext());
+        // Initialize the VolleyAPIService with the fragment's context, context is required for being able to use device resources
+        //find view by ID etc.
+        apiService = new VolleyAPIService(requireContext());
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_admin_tools_user_table, container, false);
 
@@ -59,30 +61,17 @@ public class AdminToolsUserTable extends Fragment {
     }
 
     private void setupListeners(View view) {
-//      Edit text declarations delete when done with this part
+        //Edit text declarations
         EditText numberUserIDGroupID = view.findViewById(R.id.editTextGroupId);        // texview: Userid/GroupID
-        EditText emailEmailAddress  = view.findViewById(R.id.editTextGroup); // texview: EmailAddress
-        EditText textUsername       = view.findViewById(R.id.editTextUserID);         // texview: Username
-        EditText passwordPassword   = view.findViewById(R.id.editTextRoleId);         // texview: Password
-
-        //edit text declarations for later use and getting values.
-//        int userGroupID;
-//        String emailAddress;
-//        String username;
-//        String password;
-
-
-        //convert to strings and usable int.
-//        int userIDGroupID = Integer.parseInt(numberUserIDGroupID.getText().toString());
-//        String emailAddress = emailEmailAddress.getText().toString();
-//        String username = textUsername.getText().toString();
-//        String password = passwordPassword.getText().toString();
+        EditText emailEmailAddress  = view.findViewById(R.id.editTextGroup);           // texview: EmailAddress
+        EditText textUsername       = view.findViewById(R.id.editTextUserID);          // texview: Username, Havent Used Yet, but will need to eventually.
+        EditText passwordPassword   = view.findViewById(R.id.editTextRoleId);          // texview: Password
 
 
 
         //button declarations
-        Button buttonRegister = view.findViewById(R.id.buttonRegister);             // button: Register
-        Button buttonLogin = view.findViewById(R.id.buttonLogin);                   // button: login
+        Button buttonRegister = view.findViewById(R.id.buttonCreateFriendGroup);             // button: Register
+        Button buttonLogin = view.findViewById(R.id.buttonGetFriendGroupsUserIsIn);                   // button: login
         Button buttonViewUserInfo = view.findViewById(R.id.buttonViewUserInfo);     // button: View current user info
         Button buttonUpdateUser = view.findViewById(R.id.buttonUpdateFriendGroup);         // button: Updated User account information, display name, Profile Picture, Bio/description
         Button buttonUpdatePassword = view.findViewById(R.id.buttonGetUsersInGroup); // button: update Password/change password
@@ -381,7 +370,7 @@ public class AdminToolsUserTable extends Fragment {
     public void fetchUserProfile(int userId) {
         String finalUrl = Constants.BASE_URL + "/users/" + userId;
 
-        apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
+        apiService.getRequest(finalUrl,  new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Display error message

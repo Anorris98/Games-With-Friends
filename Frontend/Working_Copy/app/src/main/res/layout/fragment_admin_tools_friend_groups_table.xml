@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:hint="User ID"
         android:padding="25dp"
+        android:inputType="number"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +41,7 @@
         android:layout_height="56dp"
         android:hint="UserId"
         android:padding="16dp"
+        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -53,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="RoleId"
-        android:inputType="textPassword"
+        android:inputType="number"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +65,7 @@
         app:layout_constraintVertical_bias="0.133" />
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/buttonCreateFriendGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -74,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextRoleId" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonGetFriendGroupsUserIsIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -82,7 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCreateFriendGroup" />
 
     <Button
         android:id="@+id/buttonUpdateFriendGroup"
@@ -93,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonGetFriendGroupsUserIsIn" />
 
     <Button
         android:id="@+id/buttonGetUsersInGroup"

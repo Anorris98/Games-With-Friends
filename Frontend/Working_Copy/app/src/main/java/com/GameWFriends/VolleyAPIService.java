@@ -54,7 +54,7 @@ public class VolleyAPIService {
      *
      * @param finalUrl the full final url that will be getting sent
      * @param listener Listener instance
-    */
+     */
     public void getRequest(final String finalUrl, final VolleyResponseListener listener) {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, finalUrl, null,
