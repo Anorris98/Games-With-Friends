@@ -3,8 +3,8 @@ package Server.FriendGroup;
 import Server.User.User;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.List;
-import java.util.Random;
 
 
 @Getter
@@ -12,19 +12,21 @@ import java.util.Random;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
+@Entity
+@Table(name = "friendgroups")
 public class FriendGroup {
 
-    private List<User> members;
-
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
 
     private String name;
 
-    public FriendGroup(String name, List<User> members) {
-        this.id = new Random().nextInt();
+    @ManyToMany(mappedBy = "friendGroupList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<User> members;
+
+    public FriendGroup(String name) {
         this.name = name;
-        this.members = members;
     }
 
     public boolean containsUserWithId(int id) {

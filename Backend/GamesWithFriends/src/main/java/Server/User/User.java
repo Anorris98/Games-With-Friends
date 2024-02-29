@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
-import java.util.Random;
 
 
 @Getter
@@ -16,7 +15,11 @@ import java.util.Random;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     private String email;
@@ -25,6 +28,12 @@ public class User {
     private String description;
     private String profilePicture;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_friendgroup",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "friendgroup_id", referencedColumnName = "ID")
+    )
     private List<FriendGroup> friendGroupList;
 
     public User(String username, String password) {
@@ -33,8 +42,6 @@ public class User {
         this.displayName = "";
         this.description = "";
         this.profilePicture = "";
-        friendGroupList = new ArrayList<>();
-        this.ID = new Random().nextInt();
     }
 
     public User(String username, String password, String displayName, String description, String profilePicture, List<FriendGroup> friendGroupList) {
@@ -46,7 +53,7 @@ public class User {
         this.friendGroupList = friendGroupList;
     }
 
-    public userDetailsDTO userToDetailsDTO() {
-        return new userDetailsDTO(this.getDisplayName(), this.getEmail(), this.getProfilePicture());
+    public UserDetailsDTO userToDetailsDTO() {
+        return new UserDetailsDTO(this.getDisplayName(), this.getDescription(), this.getProfilePicture());
     }
 }

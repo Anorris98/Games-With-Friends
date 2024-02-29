@@ -1,44 +1,45 @@
 package Server.User;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 @RestController
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     //for testing purposes
     //TODO: replace with actual db functionality
     public static final Map<Integer, User> userMap = new HashMap<>();
 
     @PostMapping("/users")
-    public ResponseEntity<Integer> createUser(@RequestBody userCredentialsDTO newCredentials) {
+    public ResponseEntity<Integer> createUser(@RequestBody UserCredentialsDTO newCredentials) {
 
-        User newUser = new User(newCredentials.email(), newCredentials.password());
-
-        if(newUser.getEmail().isEmpty() || newUser.getPassword().isEmpty())
+        //checks if body data is not empty
+        if(newCredentials.email().isEmpty() || newCredentials.password().isEmpty())
             return ResponseEntity.badRequest().build();
 
-        for(User user : userMap.values()) {
-            if(user.getEmail().equals(newUser.getEmail()))
-                return ResponseEntity.status(409).build();
-        }
+        //looks if user already exists within db
+        Optional<User> existingUser = userRepository.findByEmail(newCredentials.email());
+        if(existingUser.isPresent())
+            return ResponseEntity.status(409).build();
 
-        userMap.put(newUser.getID(), newUser);
+        //creates and saves new user to db
+        User newUser = new User(newCredentials.email(), newCredentials.password());
+        newUser = userRepository.save(newUser);
 
-        System.out.println(newUser.getID());
+        System.out.println("Registered new user with the id:" + newUser.getID());
 
         return ResponseEntity.ok(newUser.getID());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Integer> userLogin(@RequestBody userCredentialsDTO loginData) {
+    public ResponseEntity<Integer> userLogin(@RequestBody UserCredentialsDTO loginData) {
         for(User user : userMap.values()) {
             if(user.getEmail().equals(loginData.email())) {
                 if(!user.getPassword().equals(loginData.password()))
@@ -51,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/admin/users") //call only for admins
-    public ResponseEntity<List<UserDetailsWithoutPassword>> getAllUsers(@RequestBody userCredentialsDTO userCredentials) {
+    public ResponseEntity<List<UserDetailsWithoutPassword>> getAllUsers(@RequestBody UserCredentialsDTO userCredentials) {
         boolean check = false;
 
         for(User user : userMap.values()) {
@@ -72,10 +73,10 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<userDetailsDTO>> getAllUserDetails() {
-        List<userDetailsDTO> tempList = new ArrayList<>();
+    public ResponseEntity<List<UserDetailsDTO>> getAllUserDetails() {
+        List<UserDetailsDTO> tempList = new ArrayList<>();
         for (User user : userMap.values())
-            tempList.add(new userDetailsDTO(user.getDisplayName(), user.getDescription(), user.getProfilePicture()));
+            tempList.add(new UserDetailsDTO(user.getDisplayName(), user.getDescription(), user.getProfilePicture()));
 
         if(tempList.isEmpty())
             return ResponseEntity.internalServerError().build();
@@ -85,7 +86,7 @@ public class UserController {
 
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<userDetailsDTO> getUserInformationForSpecificUser(@PathVariable int id) {
+    public ResponseEntity<UserDetailsDTO> getUserInformationForSpecificUser(@PathVariable int id) {
 
         User requestedUser = userMap.get(id);
         if(requestedUser != null)
@@ -95,7 +96,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<?> updateUserDetails(@PathVariable int id, @RequestBody userDetailsDTO userDetails) {
+    public ResponseEntity<?> updateUserDetails(@PathVariable int id, @RequestBody UserDetailsDTO userDetails) {
         if(!userMap.containsKey(id))
             return ResponseEntity.status(404).build();
 
@@ -111,7 +112,7 @@ public class UserController {
 
     //TODO: update API specification for added response codes
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUserEntry(@PathVariable int id, @RequestBody userCredentialsDTO userCredentials) {
+    public ResponseEntity<?> deleteUserEntry(@PathVariable int id, @RequestBody UserCredentialsDTO userCredentials) {
         for(User user : userMap.values()) {
             if (user.getEmail().equals(userCredentials.email())) {
                 if(!user.getPassword().equals(userCredentials.password()))
@@ -129,7 +130,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}/password")
-    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody userCredentialsDTO scuffXD) {
+    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserCredentialsDTO scuffXD) {
         if(!userMap.containsKey(id))
             return ResponseEntity.status(404).build();
 
