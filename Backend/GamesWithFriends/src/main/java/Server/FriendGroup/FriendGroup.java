@@ -3,7 +3,7 @@ package Server.FriendGroup;
 import Server.User.User;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 
@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Entity
 @Table(name = "users")
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,24 +36,21 @@ public class User {
     )
     private List<FriendGroup> friendGroupList;
 
-    public User(String username, String password) {
-        this.email = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
         this.displayName = "";
         this.description = "";
         this.profilePicture = "";
     }
 
-    public User(String username, String password, String displayName, String description, String profilePicture, List<FriendGroup> friendGroupList) {
-        this.email = username;
-        this.password = password;
-        this.displayName = displayName;
-        this.description = description;
-        this.profilePicture = profilePicture;
-        this.friendGroupList = friendGroupList;
-    }
-
     public UserDetailsDTO userToDetailsDTO() {
         return new UserDetailsDTO(this.getDisplayName(), this.getDescription(), this.getProfilePicture());
+    }
+
+    public void updateUserDetails(UserDetailsDTO details) {
+        this.description = details.description();
+        this.displayName = details.displayName();
+        this.profilePicture = details.profilePicture();
     }
 }

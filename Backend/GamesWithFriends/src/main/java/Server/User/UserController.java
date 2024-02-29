@@ -1,5 +1,6 @@
 package Server.User;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,7 @@ import java.util.*;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    //for testing purposes
-    //TODO: replace with actual db functionality
-    public static final Map<Integer, User> userMap = new HashMap<>();
+    UserRepository userRepository;
 
     @PostMapping("/users")
     public ResponseEntity<Integer> createUser(@RequestBody UserCredentialsDTO newCredentials) {
@@ -40,33 +37,51 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Integer> userLogin(@RequestBody UserCredentialsDTO loginData) {
-        for(User user : userMap.values()) {
-            if(user.getEmail().equals(loginData.email())) {
-                if(!user.getPassword().equals(loginData.password()))
-                    return ResponseEntity.status(401).build();
 
-                return ResponseEntity.ok(user.getID());
-            }
-        }
-        return ResponseEntity.status(404).build();
+        if(loginData.email().isEmpty() || loginData.password().isEmpty())
+            return ResponseEntity.badRequest().build();
+
+        Optional<User> existingUser = userRepository.findByEmail(loginData.email());
+
+        if(existingUser.isEmpty())
+            return ResponseEntity.status(404).build();
+
+        if(!existingUser.get().getPassword().equals(loginData.password()))
+            return ResponseEntity.status(401).build();
+
+        return ResponseEntity.ok(existingUser.get().getID());
     }
 
     @GetMapping("/admin/users") //call only for admins
-    public ResponseEntity<List<UserDetailsWithoutPassword>> getAllUsers(@RequestBody UserCredentialsDTO userCredentials) {
-        boolean check = false;
+    public ResponseEntity<List<UserDetailsWithoutPassword>> getAllUsers(@RequestHeader(value = "Authorization") String auth) {
 
-        for(User user : userMap.values()) {
-            if (user.getEmail().equals(userCredentials.email())) {
-                if(user.getPassword().equals(userCredentials.password()))
-                    check = true;
-            }
+        String[] parts = auth.split(" ");
+        if (parts.length < 2) {
+            return ResponseEntity.badRequest().build();
         }
+
+        int userId;
+
+        try {
+            userId = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(500).build();
+        }
+
+        boolean check = true; //for now because we do not have a way to check if a user is an admin
+
+        Optional<User> currentUser = userRepository.findById(userId);
+
+        if(currentUser.isEmpty())
+            return ResponseEntity.status(404).build();
+
+        //TODO: insert checking for admin access here
         if(!check)
             return ResponseEntity.status(401).build();
 
 
         List<UserDetailsWithoutPassword> tempList = new ArrayList<>();
-        for(User user : userMap.values())
+        for(User user : userRepository.findAll())
             tempList.add(new UserDetailsWithoutPassword(user.getID(), user.getEmail(), user.getDisplayName()));
 
         return ResponseEntity.ok(tempList);
@@ -74,72 +89,97 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDetailsDTO>> getAllUserDetails() {
+
         List<UserDetailsDTO> tempList = new ArrayList<>();
-        for (User user : userMap.values())
-            tempList.add(new UserDetailsDTO(user.getDisplayName(), user.getDescription(), user.getProfilePicture()));
+        for(User user : userRepository.findAll())
+            tempList.add(user.userToDetailsDTO());
 
-        if(tempList.isEmpty())
-            return ResponseEntity.internalServerError().build();
-
-        return ResponseEntity.ok(tempList);
+        return  !tempList.isEmpty() ? ResponseEntity.ok(tempList) : ResponseEntity.status(500).build();
     }
 
 
     @GetMapping("/users/{id}")
     public ResponseEntity<UserDetailsDTO> getUserInformationForSpecificUser(@PathVariable int id) {
 
-        User requestedUser = userMap.get(id);
-        if(requestedUser != null)
-            return ResponseEntity.ok(requestedUser.userToDetailsDTO());
+        Optional<User> requestedUser = userRepository.findById(id);
 
-        return ResponseEntity.notFound().build();
+        return requestedUser.isPresent() ? ResponseEntity.ok(requestedUser.get().userToDetailsDTO()) : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/users/{id}")
+    @Transactional
     public ResponseEntity<?> updateUserDetails(@PathVariable int id, @RequestBody UserDetailsDTO userDetails) {
-        if(!userMap.containsKey(id))
+
+        Optional<User> requestedUser = userRepository.findById(id);
+
+        if(requestedUser.isEmpty())
             return ResponseEntity.status(404).build();
 
-        User tempUser = userMap.get(id);
-        tempUser.setDisplayName(userDetails.displayName());
-        tempUser.setDescription(userDetails.description());
-        tempUser.setProfilePicture(userDetails.profilePicture());
+        if(userDetails.displayName().isEmpty())
+            return ResponseEntity.status(500).build();
 
-        userMap.replace(id, tempUser);
+        requestedUser.get().updateUserDetails(userDetails);
+
+        userRepository.save(requestedUser.get());
 
         return ResponseEntity.ok().build();
     }
 
-    //TODO: update API specification for added response codes
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUserEntry(@PathVariable int id, @RequestBody UserCredentialsDTO userCredentials) {
-        for(User user : userMap.values()) {
-            if (user.getEmail().equals(userCredentials.email())) {
-                if(!user.getPassword().equals(userCredentials.password()))
-                    return ResponseEntity.status(401).build();
+    public ResponseEntity<?> deleteUserEntry(@PathVariable int id, @RequestHeader(value = "Authorization") String auth) {
 
-                if(!userMap.containsKey(id))
-                    return ResponseEntity.status(404).build();
-
-                userMap.remove(id);
-                return ResponseEntity.ok().build();
-            }
+        String[] parts = auth.split(" ");
+        if (parts.length < 2) {
+            return ResponseEntity.badRequest().build();
         }
-        //TODO: update to different response code
-        return ResponseEntity.status(401).build();
+
+        int sourceId;
+
+        try {
+            sourceId = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.status(500).body(e);
+        }
+
+        Optional<User> sourceUser = userRepository.findById(sourceId);
+
+        //checks if sourceId is valid
+        if(sourceUser.isEmpty())
+            return ResponseEntity.status(403).build();
+
+        //checks if sourceUser is the user to be deleted
+        //TODO: add additional checking for if the sourceUser is an admin
+        if(sourceUser.get().getID() != id)
+            return ResponseEntity.status(401).build();
+
+        Optional<User> toUpdateUser = userRepository.findById(id);
+
+        if(toUpdateUser.isEmpty())
+            return ResponseEntity.status(404).build();
+
+        userRepository.delete(toUpdateUser.get());
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/users/{id}/password")
-    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserCredentialsDTO scuffXD) {
-        if(!userMap.containsKey(id))
+    @Transactional
+    public ResponseEntity<?> updateUserPassword(@PathVariable int id, @RequestBody UserUpdatePasswordDTO update) {
+
+        Optional<User> userToUpdate = userRepository.findById(id);
+
+        if(userToUpdate.isEmpty())
             return ResponseEntity.status(404).build();
 
-        if(!userMap.get(id).getPassword().equals(scuffXD.email()))
+        if(!userToUpdate.get().getPassword().equals(update.oldPassword()))
             return ResponseEntity.status(401).build();
 
-        User tempUser = userMap.get(id);
-        tempUser.setPassword(scuffXD.password());
-        userMap.replace(id, tempUser);
+        if(update.newPassword().isEmpty())
+            return ResponseEntity.badRequest().build();
+
+        userToUpdate.get().setPassword(update.newPassword());
+
+        userRepository.save(userToUpdate.get());
 
         return ResponseEntity.ok().build();
     }
