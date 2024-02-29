@@ -55,7 +55,8 @@ public class VolleyAPIService {
      * @param finalUrl the full final url that will be getting sent
      * @param listener Listener instance
      */
-    public void getRequest(final String finalUrl, final VolleyResponseListener listener) {
+    public void getRequest(final String finalUrl,  final int userOrGroupId, final VolleyResponseListener listener) {
+
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, finalUrl, null,
                 new Response.Listener<JSONObject>() {
@@ -78,7 +79,7 @@ public class VolleyAPIService {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
-                // if we end up needing headers later: headers.put("Authorization", "Bearer " + YOUR_TOKEN); or something like that.
+                headers.put("Authorization", "Bearer " + userOrGroupId);
                 return headers;
             }
         };
@@ -130,10 +131,9 @@ public class VolleyAPIService {
      *
      * @param finalUrl the full final url that will be getting sent
      * @param listener Listener instance
-     * @param requestBody the already formated request body to be sent.
      */
-    public void deleteRequest(final String finalUrl, final JSONObject requestBody, final VolleyResponseListener listener) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, finalUrl, requestBody,
+    public void deleteRequest(final String finalUrl, final int UserRequestingDelete, final VolleyResponseListener listener) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, finalUrl, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -158,7 +158,9 @@ public class VolleyAPIService {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
-
+                //url will have the id of the person to delete.
+                //header is the id for the person wanting to do the delete.
+                headers.put("Authorization", "Bearer " + UserRequestingDelete);
                 return headers;
             }
         };

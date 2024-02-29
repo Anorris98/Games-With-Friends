@@ -121,7 +121,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/Textview_Response"
+        android:id="@+id/Textview_ResponseFriend"
         android:layout_width="378dp"
         android:layout_height="156dp"
         android:text="Response Will go here"
@@ -144,6 +144,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Textview_Response" />
+        app:layout_constraintTop_toTopOf="@+id/Textview_ResponseFriend" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

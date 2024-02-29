@@ -46,7 +46,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
 
         // Observe the LiveData for changes and update the TextView accordingly
         // Update the TextView with the response (ide combined these two statements, left for note clarity.)
-        TextView textViewResponse = view.findViewById(R.id.Textview_Response);  //text view for string response
+        TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
         mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
     }
 
@@ -113,9 +113,9 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         buttonDeleteFriendGroup.setOnClickListener(new View.OnClickListener() { // button: Delete Friend Groups
             @Override
             public void onClick(View v) {
-
-                    Integer groupId = Integer.parseInt(numberGroupId.getText().toString());
-                    deleteFriendGroup(groupId);
+                    int userId = Integer.parseInt(numberUserId.getText().toString());
+                    int groupId = Integer.parseInt(numberGroupId.getText().toString());
+                    deleteFriendGroup(groupId, userId);
 
             }
         });
@@ -162,6 +162,14 @@ public class AdminToolsFriendGroupsTable extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
                 // Handle successful response
                 Toast.makeText(getContext(), "Friend group updated successfully", Toast.LENGTH_LONG).show();
 
@@ -181,7 +189,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
             return;
         }
 
-        apiService.postRequest(finalUrl, requestBody, new VolleyAPIService.VolleyResponseListener() {
+        apiService.getRequest(finalUrl, userId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Display error message
@@ -190,6 +198,15 @@ public class AdminToolsFriendGroupsTable extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
+
                 // Handle successful response
                 Toast.makeText(getContext(), "Friend groups retrieved successfully", Toast.LENGTH_LONG).show();
                 // Optionally parse and use the response data
@@ -239,6 +256,14 @@ public class AdminToolsFriendGroupsTable extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
                 // Handle successful response
                 Toast.makeText(getContext(), "Friend group updated successfully", Toast.LENGTH_LONG).show();
 
@@ -251,7 +276,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/friend_groups/" + groupId;
 
         // Make the GET request
-        apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
+        apiService.getRequest(finalUrl, groupId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Display error message
@@ -260,6 +285,14 @@ public class AdminToolsFriendGroupsTable extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
                 // Handle successful response
                 Toast.makeText(getContext(), "Users retrieved successfully", Toast.LENGTH_LONG).show();
                 // Optionally parse and use the response data
@@ -267,11 +300,11 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         });
     }
 
-    public void deleteFriendGroup(Integer groupId) {
+    public void deleteFriendGroup(int groupId, int UserRequestingDeleteId) {
         String finalUrl = Constants.BASE_URL + "/friend_groups/" + groupId; // Assuming this is your endpoint for deleting friend groups
 
         // Make the DELETE request
-        apiService.deleteRequest(finalUrl, null, new VolleyAPIService.VolleyResponseListener() {
+        apiService.deleteRequest(finalUrl, UserRequestingDeleteId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Display error message
@@ -280,6 +313,14 @@ public class AdminToolsFriendGroupsTable extends Fragment {
 
             @Override
             public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
                 // Handle successful response
                 Toast.makeText(getContext(), "Friend group deleted successfully", Toast.LENGTH_LONG).show();
                 // Optionally parse and use the response data

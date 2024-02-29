@@ -54,7 +54,7 @@ public class AdminToolsUserTable extends Fragment {
 
         // Observe the LiveData for changes and update the TextView accordingly
         // Update the TextView with the response (ide combined these two statements, left for note clarity.)
-        TextView textViewResponse = view.findViewById(R.id.Textview_Response);  //text view for string response
+        TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
         mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
 
 
@@ -151,12 +151,13 @@ public class AdminToolsUserTable extends Fragment {
         buttonDeleteUser.setOnClickListener(new View.OnClickListener() {        //Delete user
             @Override
             public void onClick(View v) {
-                int finalId = getUseriD(numberUserIDGroupID);
+                int IdtoDelete = getUseriD(numberUserIDGroupID);
+                int UserIdRequestingDelete = getUseriD(textUsername);
 
                 String email = emailEmailAddress.getText().toString();
                 String password = passwordPassword.getText().toString();
 
-                deleteUser(finalId, password, email);
+                deleteUser(IdtoDelete, UserIdRequestingDelete);
 
             }
         });
@@ -165,24 +166,23 @@ public class AdminToolsUserTable extends Fragment {
 
     /**
      * Function for Deleting a user
-     * @param userId the users ID
-     * @param password the users current password
-     * @param email the users email the account is registered to.
+     * @param userIdtoDelete the users ID
+     * @param UserIdRequestingDelete the users current password
      */
-    public void deleteUser(int userId, String password, String email) {
-        String finalUrl = Constants.BASE_URL + "/users/" + userId;
+    public void deleteUser(int userIdtoDelete, int UserIdRequestingDelete) {
+        String finalUrl = Constants.BASE_URL + "/users/" + userIdtoDelete;
 
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("password", password);
-            postData.put("email", email);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for user deletion", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        JSONObject postData = new JSONObject();
+//        try {
+//            postData.put("password", password);
+//            postData.put("email", email);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getContext(), "Error creating JSON object for user deletion", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
-        apiService.deleteRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+        apiService.deleteRequest(finalUrl, UserIdRequestingDelete, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Error message context for user deletion
@@ -370,7 +370,7 @@ public class AdminToolsUserTable extends Fragment {
     public void fetchUserProfile(int userId) {
         String finalUrl = Constants.BASE_URL + "/users/" + userId;
 
-        apiService.getRequest(finalUrl,  new VolleyAPIService.VolleyResponseListener() {
+        apiService.getRequest(finalUrl,  userId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Display error message
