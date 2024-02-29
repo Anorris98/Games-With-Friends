@@ -8,19 +8,17 @@
     tools:context=".ui.AdminTools.AdminToolsAccessRolesTable" >
 
     <TextView
-        android:id="@+id/Textview_Response"
+        android:id="@+id/accessRoleResponse"
         android:layout_width="378dp"
         android:layout_height="156dp"
         android:text="Response Will go here"
-        app:layout_constraintBottom_toTopOf="@+id/editName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.219" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumberId"
+        android:id="@+id/editTextNumberIdent"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_marginStart="4dp"
