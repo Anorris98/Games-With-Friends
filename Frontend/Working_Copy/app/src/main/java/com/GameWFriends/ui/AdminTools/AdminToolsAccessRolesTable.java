@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
+import com.GameWFriends.VolleyAPIService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 public class AdminToolsAccessRolesTable extends Fragment {
 
     private AdminToolsAccessRolesTableViewModel mViewModel;
+    private VolleyAPIService apiService;
 
     public static AdminToolsAccessRolesTable newInstance() {
         return new AdminToolsAccessRolesTable();
@@ -29,7 +32,24 @@ public class AdminToolsAccessRolesTable extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_access_roles_table, container, false);
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(AdminToolsTrophiesTableViewModel.class);
+
+
+        // Setup button click listeners
+        setupListeners(view);
+
+        // Observe the LiveData for changes and update the TextView accordingly
+        // Update the TextView with the response (ide combined these two statements, left for note clarity.)
+        TextView textViewResponse = view.findViewById(R.id.trophyResponse);  //text view for string response
+       // mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
+
+
     }
 
     private void setupListeners(View view) {

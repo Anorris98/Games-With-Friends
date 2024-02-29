@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.336" />
+        app:layout_constraintVertical_bias="0.276" />
 
     <EditText
         android:id="@+id/editTextDescription"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Textview_Response"
+        android:id="@+id/trophyResponse"
         android:layout_width="378dp"
         android:layout_height="156dp"
         android:text="Response Will go here"
@@ -51,34 +51,32 @@
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.219" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/editTextNumberTrophyID"
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:layout_marginTop="292dp"
         android:ems="10"
         android:hint="Trophyid"
         android:inputType="number"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.272"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Textview_Response" />
+        tools:layout_editor_absoluteY="238dp" />
 
     <EditText
         android:id="@+id/editTextNumberID"
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:layout_marginTop="172dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="User/Groupid"
         android:inputType="number"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Textview_Response" />
+        tools:layout_editor_absoluteY="304dp" />
 
     <Button
         android:id="@+id/addNewTrophy"

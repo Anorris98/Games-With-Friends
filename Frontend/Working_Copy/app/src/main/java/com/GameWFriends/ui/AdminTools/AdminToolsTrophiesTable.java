@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+
 import com.GameWFriends.R;
 import com.GameWFriends.VolleyAPIService;
 
@@ -36,6 +37,22 @@ public class AdminToolsTrophiesTable extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_trophies_table, container, false);
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(AdminToolsTrophiesTableViewModel.class);
+
+
+        // Setup button click listeners
+        setupListeners(view);
+
+        // Observe the LiveData for changes and update the TextView accordingly
+        // Update the TextView with the response (ide combined these two statements, left for note clarity.)
+        TextView textViewResponse = view.findViewById(R.id.trophyResponse);  //text view for string response
+        //mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
+
+
     }
 
     private void setupListeners(View view) {
@@ -144,7 +161,26 @@ public class AdminToolsTrophiesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.getRequest(finalUrl, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Display error message
+                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
     public void updateLockedTrophy(int userID){
