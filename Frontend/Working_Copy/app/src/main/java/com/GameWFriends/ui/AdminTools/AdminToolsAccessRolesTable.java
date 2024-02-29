@@ -35,7 +35,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_access_roles_table, container, false);
     }
-    @Override
+/** @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(AdminToolsTrophiesTableViewModel.class);
@@ -51,6 +51,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
 
     }
+**/
 
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part

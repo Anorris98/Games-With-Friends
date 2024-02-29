@@ -38,7 +38,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_trophies_table, container, false);
     }
-    @Override
+  /**  @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(AdminToolsTrophiesTableViewModel.class);
@@ -54,6 +54,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
 
     }
+  **/
 
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
@@ -173,7 +174,7 @@ public class AdminToolsTrophiesTable extends Fragment {
                 try {
                     //this is currently being used to see the responses in a text for demo 2
                     String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                    //mViewModel.setResponse("Response is:\n" + formattedResponse);
                 } catch (JSONException e) {
                     // Handle JSON parsing error
                     Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
