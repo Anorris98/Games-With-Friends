@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class AdminToolsAccessRolesTable extends Fragment {
@@ -85,7 +86,15 @@ public class AdminToolsAccessRolesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
 
-
+        try {
+            postData.put("id", id);
+            postData.put("userId", Userid);
+            postData.put("RoleId", Roleid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
     }
 
@@ -93,6 +102,15 @@ public class AdminToolsAccessRolesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
 
+        try {
+            postData.put("id", id);
+            postData.put("userId", Userid);
+            postData.put("RoleId", Roleid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
     }
 
@@ -100,6 +118,15 @@ public class AdminToolsAccessRolesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
 
+        try {
+            postData.put("id", id);
+            postData.put("userId", Userid);
+            postData.put("RoleId", Roleid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
     }
 
@@ -107,7 +134,15 @@ public class AdminToolsAccessRolesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
 
-
+        try {
+            postData.put("id", id);
+            postData.put("userId", Userid);
+            postData.put("RoleId", Roleid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
     }
 

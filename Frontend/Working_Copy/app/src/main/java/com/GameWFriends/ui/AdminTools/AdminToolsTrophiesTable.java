@@ -109,11 +109,27 @@ public class AdminToolsTrophiesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/trophies/"+trophyID;
         JSONObject postData = new JSONObject();
 
+        try {
+            postData.put("trophyId", trophyID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
-    public void addNewTrophy(int id, String name, String Description) {
+    public void addNewTrophy(int id, String name, String description) {
         String finalUrl = Constants.BASE_URL + "/trophies";
         JSONObject postData = new JSONObject();
 
+        try {
+            postData.put("id", id);
+            postData.put("name", name);
+            postData.put("description", description);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
     }
@@ -121,7 +137,13 @@ public class AdminToolsTrophiesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/trophies";
         JSONObject postData = new JSONObject();
 
-
+        try {
+            postData.put("userId", userID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
     }
@@ -129,7 +151,13 @@ public class AdminToolsTrophiesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
         JSONObject postData = new JSONObject();
 
-
+        try {
+            postData.put("userId", userID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
     }
