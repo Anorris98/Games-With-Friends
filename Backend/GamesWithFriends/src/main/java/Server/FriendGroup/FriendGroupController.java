@@ -19,6 +19,7 @@ public class FriendGroupController {
     UserRepository userRepository;
 
     @PostMapping("/friend_groups")
+    @Transactional
     public ResponseEntity<?> createFriendGroup(@RequestBody FriendGroupMembersDTO memberIds) {
 
         List<User> tempList = new ArrayList<>();
@@ -36,11 +37,20 @@ public class FriendGroupController {
         System.out.println(newFriendGroup.getMembers().get(1).getEmail());
         System.out.println(newFriendGroup.getID());
         friendGroupRepository.save(newFriendGroup);
+
+        for(int id : memberIds.memberIds()) {
+            Optional<User> user = userRepository.findById(id);
+            if(user.isPresent()) {
+                user.get().getFriendGroupList().add(newFriendGroup);
+                userRepository.save(user.get());
+            }
+        }
+
         return ResponseEntity.ok(newFriendGroup.getID());
     }
 
     @GetMapping("/friend_groups")
-    public ResponseEntity<List<Integer>> getAllFriendGroupsOfUser(@RequestHeader(value = "Authorization") String auth) {
+    public ResponseEntity<?> getAllFriendGroupsOfUser(@RequestHeader(value = "Authorization") String auth) {
 
         String[] parts = auth.split(" ");
         if (parts.length < 2) {
@@ -58,14 +68,14 @@ public class FriendGroupController {
         if(userRepository.findById(sourceId).isEmpty())
             return ResponseEntity.status(403).build();
 
-        List<Integer> outputList = new ArrayList<>();
+        FriendGroupGroupsDTO friendGroups = new FriendGroupGroupsDTO(new ArrayList<>());
         for(FriendGroup group : userRepository.findById(sourceId).get().getFriendGroupList())
-            outputList.add(group.getID());
+            friendGroups.groups().add(group.getID());
 
-        if(outputList.isEmpty())
+        if(friendGroups.groups().isEmpty())
             return ResponseEntity.internalServerError().build();
 
-        return ResponseEntity.ok(outputList);
+        return ResponseEntity.ok(friendGroups);
     }
 
     @PutMapping("/friend_groups/{id}")
@@ -99,17 +109,18 @@ public class FriendGroupController {
         if (friendGroupRepository.findById(id).isEmpty())
             return ResponseEntity.status(404).build();
 
-        List<Integer> userIds = new ArrayList<>();
+        FriendGroupMembersDTO members = new FriendGroupMembersDTO(new ArrayList<>());
 
         for(User user : friendGroupRepository.findById(id).get().getMembers()) {
             System.out.println(user.getEmail());
-            userIds.add(user.getID());
+            members.memberIds().add(user.getID());
         }
 
-        return ResponseEntity.ok(userIds);
+        return ResponseEntity.ok(members);
     }
 
     @DeleteMapping("/friend_groups/{id}")
+    @Transactional
     public ResponseEntity<?> deleteSpecificFriendGroup(@PathVariable int id, @RequestHeader(value = "Authorization") String auth) {
 
         boolean check = false;
@@ -127,19 +138,28 @@ public class FriendGroupController {
             return ResponseEntity.status(500).build();
         }
 
-        if (friendGroupRepository.findById(id).isEmpty())
-            return ResponseEntity.status(404).build();
-
         if(userRepository.findById(sourceId).isEmpty())
             return ResponseEntity.status(401).build();
 
-        //TODO: add check if source is admin
+        Optional<FriendGroup> friendGroupToDelete = friendGroupRepository.findById(id);
 
-        if(friendGroupRepository.findById(id).get().getMembers().contains(userRepository.findById(sourceId).get()))
+        if(friendGroupToDelete.isEmpty())
+            return ResponseEntity.status(404).build();
+
+        if(friendGroupToDelete.get().getMembers().contains(userRepository.findById(sourceId).get()))
             check = true;
+
+        //TODO: admin check
 
         if(!check)
             return ResponseEntity.status(401).build();
+
+        for(User user : friendGroupToDelete.get().getMembers()) {
+            if(userRepository.findById(user.getID()).isPresent()) {
+                user.getFriendGroupList().remove(friendGroupToDelete.get());
+                userRepository.save(user);
+            }
+        }
 
         friendGroupRepository.delete(friendGroupRepository.findById(id).get());
 

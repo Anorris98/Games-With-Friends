@@ -22,7 +22,7 @@ public class FriendGroup {
 
     private String name;
 
-    @ManyToMany(mappedBy = "friendGroupList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "friendGroupList", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<User> members;
 
     public FriendGroup(String name) {
