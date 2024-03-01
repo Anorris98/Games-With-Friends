@@ -119,7 +119,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         return userIDGroupID;
     }
     public void promoteUsers(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
@@ -155,7 +155,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
     }
 
     public void demoteUsers(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
@@ -191,7 +191,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
     }
 
     public void listAllRoles(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
@@ -227,7 +227,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
     }
 
     public void changeUsersRole(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {

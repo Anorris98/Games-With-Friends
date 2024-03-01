@@ -124,7 +124,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         return userIDGroupID;
     }
     public void deleteTrophy(int trophyID){
-        String finalUrl = Constants.BASE_URL + "/trophies/" + trophyID;
+        String finalUrl = Constants.ELIURL + "/trophies/" + trophyID;
         JSONObject postData = new JSONObject();
 
         try {
@@ -156,7 +156,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         });
     }
     public void addNewTrophy(int id, String name, String description) {
-        String finalUrl = Constants.BASE_URL + "/trophies";
+        String finalUrl = Constants.ELIURL + "/trophies";
         JSONObject postData = new JSONObject();
 
         try {
@@ -190,7 +190,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
     }
     public void listAllTrophies(int userID){
-        String finalUrl = Constants.BASE_URL + "/trophies";
+        String finalUrl = Constants.ELIURL + "/trophies";
         JSONObject postData = new JSONObject();
 
         try {
@@ -224,7 +224,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
     }
     public void updateLockedTrophy(int userID,int progress){
-        String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
+        String finalUrl = Constants.ELIURL + "/trophies/"+userID;
         JSONObject postData = new JSONObject();
 
         try {
