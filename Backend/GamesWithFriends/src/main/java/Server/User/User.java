@@ -46,9 +46,9 @@ public class User {
     )
     private List<Trophy> trophiesList;
 
-//    @ManyToOne(name = "role_id", fetch = FetchType.LAZY, referencedComlumnName = "ID")
-//    @JoinColumn(name = "role_id")
-//    private  AccessRole role;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private AccessRole role;
 
     public User(String email, String password) {
         this.email = email;

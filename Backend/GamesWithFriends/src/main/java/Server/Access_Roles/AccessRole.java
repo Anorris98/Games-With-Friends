@@ -31,7 +31,7 @@ public class AccessRole
 
     RoleEnum roleEnum;
 
-    @OneToMany(mappedBy = "role_id", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "role_id", cascade = CascadeType.PERSIST)
     private List<User> userList;
 
     public AccessRole(int userId, int roleValue)
