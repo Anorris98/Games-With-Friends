@@ -29,8 +29,11 @@ public class FriendGroupController {
             tempList.add(userRepository.findById(id).get());
         }
 
+        System.out.println(tempList.get(1).getEmail());
+
         FriendGroup newFriendGroup = new FriendGroup("test");
         newFriendGroup.setMembers(tempList);
+        System.out.println(newFriendGroup.getMembers().get(1).getEmail());
         System.out.println(newFriendGroup.getID());
         friendGroupRepository.save(newFriendGroup);
         return ResponseEntity.ok(newFriendGroup.getID());
@@ -67,9 +70,9 @@ public class FriendGroupController {
 
     @PutMapping("/friend_groups/{id}")
     @Transactional
-    public ResponseEntity<?> addUsersToFriendgroup(@RequestParam int groupId, @RequestBody FriendGroupMembersDTO members) {
+    public ResponseEntity<?> addUsersToFriendgroup(@PathVariable int id, @RequestBody FriendGroupMembersDTO members) {
 
-        Optional<FriendGroup> groupOptional = friendGroupRepository.findById(groupId);
+        Optional<FriendGroup> groupOptional = friendGroupRepository.findById(id);
         if (groupOptional.isEmpty())
             return ResponseEntity.badRequest().build();
 
@@ -91,21 +94,23 @@ public class FriendGroupController {
     }
 
     @GetMapping("/friend_groups/{id}")
-    public ResponseEntity<?> getAllUserIdsFromFriendList(@RequestParam int groupId) {
-        if (friendGroupRepository.findById(groupId).isEmpty())
+    public ResponseEntity<?> getAllUserIdsFromFriendList(@PathVariable int id) {
+
+        if (friendGroupRepository.findById(id).isEmpty())
             return ResponseEntity.status(404).build();
 
-        FriendGroupMembersDTO tempDTO = new FriendGroupMembersDTO(new ArrayList<>());
+        List<Integer> userIds = new ArrayList<>();
 
-        for(User user : friendGroupRepository.findById(groupId).get().getMembers()) {
-            tempDTO.memberIds().add(user.getID());
+        for(User user : friendGroupRepository.findById(id).get().getMembers()) {
+            System.out.println(user.getEmail());
+            userIds.add(user.getID());
         }
 
-        return ResponseEntity.ok(tempDTO);
+        return ResponseEntity.ok(userIds);
     }
 
     @DeleteMapping("/friend_groups/{id}")
-    public ResponseEntity<?> deleteSpecificFriendGroup(@RequestParam int groupId, @RequestHeader(value = "Authorization") String auth) {
+    public ResponseEntity<?> deleteSpecificFriendGroup(@PathVariable int id, @RequestHeader(value = "Authorization") String auth) {
 
         boolean check = false;
 
@@ -122,7 +127,7 @@ public class FriendGroupController {
             return ResponseEntity.status(500).build();
         }
 
-        if (friendGroupRepository.findById(groupId).isEmpty())
+        if (friendGroupRepository.findById(id).isEmpty())
             return ResponseEntity.status(404).build();
 
         if(userRepository.findById(sourceId).isEmpty())
@@ -130,13 +135,13 @@ public class FriendGroupController {
 
         //TODO: add check if source is admin
 
-        if(friendGroupRepository.findById(groupId).get().getMembers().contains(userRepository.findById(sourceId).get()))
+        if(friendGroupRepository.findById(id).get().getMembers().contains(userRepository.findById(sourceId).get()))
             check = true;
 
         if(!check)
             return ResponseEntity.status(401).build();
 
-        friendGroupRepository.delete(friendGroupRepository.findById(groupId).get());
+        friendGroupRepository.delete(friendGroupRepository.findById(id).get());
 
         return ResponseEntity.ok().build();
     }

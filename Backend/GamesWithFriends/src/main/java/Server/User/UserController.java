@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/admin/users") //call only for admins
-    public ResponseEntity<List<UserDetailsWithoutPassword>> getAllUsers(@RequestHeader(value = "Authorization") String auth) {
+    public ResponseEntity<List<UserDetailsWithoutPasswordDTO>> getAllUsers(@RequestHeader(value = "Authorization") String auth) {
 
         String[] parts = auth.split(" ");
         if (parts.length < 2) {
@@ -80,9 +80,9 @@ public class UserController {
             return ResponseEntity.status(401).build();
 
 
-        List<UserDetailsWithoutPassword> tempList = new ArrayList<>();
+        List<UserDetailsWithoutPasswordDTO> tempList = new ArrayList<>();
         for(User user : userRepository.findAll())
-            tempList.add(new UserDetailsWithoutPassword(user.getID(), user.getEmail(), user.getDisplayName()));
+            tempList.add(new UserDetailsWithoutPasswordDTO(user.getID(), user.getEmail(), user.getDisplayName()));
 
         return ResponseEntity.ok(tempList);
     }
