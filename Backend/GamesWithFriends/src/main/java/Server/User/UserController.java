@@ -88,13 +88,13 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserDetailsDTO>> getAllUserDetails() {
+    public ResponseEntity<UserDetailsArrayDTO> getAllUserDetails() {
 
-        List<UserDetailsDTO> tempList = new ArrayList<>();
+        UserDetailsArrayDTO output = new UserDetailsArrayDTO(new ArrayList<>());
         for(User user : userRepository.findAll())
-            tempList.add(user.userToDetailsDTO());
+            output.userDetails().add(user.userToDetailsDTO());
 
-        return  !tempList.isEmpty() ? ResponseEntity.ok(tempList) : ResponseEntity.status(500).build();
+        return  !output.userDetails().isEmpty() ? ResponseEntity.ok(output) : ResponseEntity.status(500).build();
     }
 
 
