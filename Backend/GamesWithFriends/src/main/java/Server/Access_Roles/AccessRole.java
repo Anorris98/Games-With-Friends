@@ -1,6 +1,7 @@
 package Server.Access_Roles;
 
 import Server.User.User;
+import Server.Access_Roles.RoleEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.ToString;
 
 import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.web.WebProperties;
+
+import javax.management.relation.Role;
 import java.util.List;
 
 @Getter
@@ -20,19 +24,51 @@ import java.util.List;
 public class AccessRole
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY);
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
-
-    private String name;
 
     private int userId;
 
-    private int roleId;
+    RoleEnum roleEnum;
 
-    public AccessRole(String name, int userId, int roldId)
+    @OneToMany(mappedBy = "role_id", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private List<User> userList;
+
+    public AccessRole(int userId, int roleValue)
     {
-        this.name = name;
         this.userId = userId;
-        this.roleId = roldId;
+
+        switch(roleValue) {
+            case 0:
+                roleEnum = RoleEnum.ADMIN;
+                break;
+            case 1:
+                roleEnum = RoleEnum.MOD;
+                break;
+            default:
+                roleEnum = RoleEnum.USER;
+                break;
+        }
     }
+
+    public RoleDetailsDTO toRoleDTO()
+    {
+        return new RoleDetailsDTO(this.getID(), this.userId, this.roleEnum);
+    }
+
+    public void updateRole(int newRole)
+    {
+        switch(newRole) {
+            case 0:
+                roleEnum = RoleEnum.ADMIN;
+                break;
+            case 1:
+                roleEnum = RoleEnum.MOD;
+                break;
+            default:
+                roleEnum = RoleEnum.USER;
+                break;
+        }
+    }
+
 }
