@@ -72,7 +72,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String userIds = numberUserId.getText().toString();
+                String userIds = numberRoleId.getText().toString();
                 createFriendGroup(userIds);
 
             }
@@ -93,7 +93,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String userIds = numberUserId.getText().toString();
+                String userIds = numberGroupId.getText().toString();
                 Integer groupId = Integer.parseInt(numberGroupId.getText().toString());
                 updateFriendGroup(userIds, groupId);
             }
@@ -131,7 +131,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         // Convert each ID from the string array to an integer and add it to the JSON array
         for (String idStr : idStrings) {
             try {
-                int id = Integer.parseInt(idStr.trim()); // Trim to remove any leading or trailing spaces
+                Integer id = Integer.parseInt(idStr.trim()); // Trim to remove any leading or trailing spaces
                 userIdsJsonArray.put(id);
             } catch (NumberFormatException e) {
                 // Handle the case where the input is not a valid integer
@@ -146,7 +146,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         // Create the JSON object for the request body
         JSONObject postData = new JSONObject();
         try {
-            postData.put("userList", userIdsJsonArray); // Add the user ID array to the JSON object under the key "userList"
+            postData.put("memberIds", userIdsJsonArray); // Add the user ID array to the JSON object under the key "groups"
         } catch (JSONException e) {
             Toast.makeText(getContext(), "Error creating JSON for update", Toast.LENGTH_SHORT).show();
             return; // Return early if there is an error creating the JSON object
@@ -225,7 +225,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         // Convert each ID from the string array to an integer and add it to the JSON array
         for (String idStr : idStrings) {
             try {
-                int id = Integer.parseInt(idStr.trim()); // Trim to remove any leading or trailing spaces
+                Integer id = Integer.parseInt(idStr.trim()); // Trim to remove any leading or trailing spaces
                 userIdsJsonArray.put(id);
             } catch (NumberFormatException e) {
                 // Handle the case where the input is not a valid integer
@@ -235,12 +235,12 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         }
 
         // Construct the final URL using the groupId
-        String finalUrl = Constants.BASE_URL + "/friend-groups/" + groupId;
+        String finalUrl = Constants.BASE_URL + "/friend_groups/" + groupId;
 
         // Create the JSON object for the request body
         JSONObject postData = new JSONObject();
         try {
-            postData.put("userList", userIdsJsonArray); // Add the user ID array to the JSON object under the key "userList"
+            postData.put("memberIds", userIdsJsonArray); // Add the user ID array to the JSON object under the key "groups"
         } catch (JSONException e) {
             Toast.makeText(getContext(), "Error creating JSON for update", Toast.LENGTH_SHORT).show();
             return; // Return early if there is an error creating the JSON object

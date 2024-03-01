@@ -65,10 +65,9 @@
         android:id="@+id/buttonCreateFriendGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="60dp"
         android:text="Register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRoleId" />
 
@@ -76,12 +75,11 @@
         android:id="@+id/buttonGetFriendGroupsUserIsIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Login"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonCreateFriendGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCreateFriendGroup" />
+        app:layout_constraintHorizontal_bias="0.234"
+        app:layout_constraintStart_toEndOf="@+id/buttonCreateFriendGroup" />
 
     <Button
         android:id="@+id/buttonUpdateFriendGroup"
@@ -145,7 +143,7 @@
         android:layout_width="408dp"
         android:layout_height="52dp"
         android:ems="10"
-        android:hint="Email Address"
+        android:hint="Email Address/OldPassword"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/editTextRoleId"
@@ -160,7 +158,7 @@
         android:layout_width="410dp"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="User/Groupid"
+        android:hint="id"
         android:inputType="number"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/editTextUserID"
@@ -169,5 +167,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Textview_ResponseFriend"
         app:layout_constraintVertical_bias="0.588" />
+
+    <Button
+        android:id="@+id/buttonGetAllUserInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get All Users List"
+        app:layout_constraintBottom_toTopOf="@+id/buttonUpdateFriendGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Textview_ResponseFriend"
+        app:layout_constraintVertical_bias="0.882" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

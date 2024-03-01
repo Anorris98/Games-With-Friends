@@ -2,6 +2,7 @@ package com.GameWFriends.ui.AdminTools;
 
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
 import com.GameWFriends.VolleyAPIService;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminToolsUserTable extends Fragment {
 
@@ -76,6 +85,7 @@ public class AdminToolsUserTable extends Fragment {
         Button buttonUpdateUser = view.findViewById(R.id.buttonUpdateFriendGroup);         // button: Updated User account information, display name, Profile Picture, Bio/description
         Button buttonUpdatePassword = view.findViewById(R.id.buttonGetUsersInGroup); // button: update Password/change password
         Button buttonDeleteUser = view.findViewById(R.id.buttonDeleteFriendGroup);         // button: User Account Delete
+        Button buttonGetAllUserData = view.findViewById(R.id.buttonGetAllUserInfo);         // button: Get all users
 
         //listeners start here
 
@@ -121,9 +131,10 @@ public class AdminToolsUserTable extends Fragment {
             public void onClick(View v) {
 
                 int finalId = getUseriD(numberUserIDGroupID);
+                //getusername and put it in a string.
 
                 // Call PutRequest from VolleyAPIService
-                String displayName = "test-displayname";
+                String displayName = textUsername.getText().toString();
                 String description = "I am vibing ^-^";
                 byte[] profilePicture = {1,2,3,4,5};
                 updateUserProfile(finalId, displayName, description, profilePicture);
@@ -152,13 +163,17 @@ public class AdminToolsUserTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int IdtoDelete = getUseriD(numberUserIDGroupID);
-                int UserIdRequestingDelete = getUseriD(textUsername);
-
-                String email = emailEmailAddress.getText().toString();
-                String password = passwordPassword.getText().toString();
+                int UserIdRequestingDelete = getUseriD(numberUserIDGroupID); //for testing pass the same variable.
 
                 deleteUser(IdtoDelete, UserIdRequestingDelete);
 
+            }
+        });
+        //get all users button, then call method GetAllUsers
+        buttonGetAllUserData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAllUserData();
             }
         });
 
@@ -262,9 +277,9 @@ public class AdminToolsUserTable extends Fragment {
 
         JSONObject postData = new JSONObject();
         try {
-            postData.put("displayname", displayName);
+            postData.put("displayName", displayName);
             postData.put("description", description);
-            postData.put("profile-picture", profilePictureBase64); // Include the Base64 encoded picture data
+            postData.put("profilePicture", profilePictureBase64); // Include the Base64 encoded picture data
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -325,7 +340,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param password the password the person wants to register
      */
     public void loginUser(String email, String password) {
-        String finalUrl = Constants.BASE_URL + "/users";
+        String finalUrl = Constants.BASE_URL + "/login";
 
         JSONObject postData = new JSONObject();
         try {
@@ -399,7 +414,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param email the email of the new user..
      * @param password the password the person wants to register
      */
-    //TODO: Markus refused to add username to registration call, so we will have to update this to take in a username as well, then make a call to set the username.
+
     public void registerUser(String email, String password) {
         String finalUrl = Constants.BASE_URL + "/users";
 
@@ -419,7 +434,9 @@ public class AdminToolsUserTable extends Fragment {
         apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
+                Log.e("RegistrationError", message);
                 Toast.makeText(getContext(), "Registration Error: " + message, Toast.LENGTH_LONG).show();
+                mViewModel.setResponse("Registration response: " + message);
             }
 
             @Override
@@ -435,6 +452,68 @@ public class AdminToolsUserTable extends Fragment {
             }
         });
     }
+
+
+    /**
+     * Retrieves all users from the server.
+     */
+    public void getAllUserData() {
+        String finalUrl = Constants.BASE_URL + "/users";
+
+        apiService.getRequest(finalUrl, 0, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                // Display error message
+                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces
+                    mViewModel.setResponse("Response is:\n" + formattedResponse);
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
+                }
+                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     * Specific Get request for get users (for demo 2 only currently.)
+     */
+    public void getRequest(final String finalUrl,  final int userOrGroupId, final VolleyAPIService.VolleyResponseListener listener) {
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, finalUrl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        listener.onResponse(response); //pass string value
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage = "That didn't work!";
+                        if (error.getMessage() != null) {
+                            errorMessage += " " + error.getMessage();
+                        }
+                        listener.onError(errorMessage);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+    }
+
 
 
 }
