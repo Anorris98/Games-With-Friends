@@ -1,5 +1,7 @@
 package Server.User;
 import Server.FriendGroup.FriendGroup;
+import Server.Trophies.Trophy;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,14 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "friendgroup_id", referencedColumnName = "ID")
     )
     private List<FriendGroup> friendGroupList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_trophy",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "trophy_id", referencedColumnName = "ID")
+    )
+    private List<Trophy> trophiesList;
 
     public User(String email, String password) {
         this.email = email;

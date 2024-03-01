@@ -19,18 +19,17 @@ public class TrophyController
      * @param newTrophy - A data Transfer Object which contains a new trophy's name, requirement description, and unlock requirement.
      * @return A 404 code if any of the DTO fields are empty or a 200 code if the trophy is created successfully.
      */
+    //TODO: Check if trophy exists.
     @PostMapping("/trophies")
-    public ResponseEntity<Integer> createTrophy(@RequestBody CreatedTrophyDTO newTrophy)
+    public ResponseEntity<?> createTrophy(@RequestBody CreatedTrophyDTO newTrophy)
     {
-        if (newTrophy.name().isEmpty() || newTrophy.requirementsDescription().isEmpty() || newTrophy.requirement() < 0)
-        {
+        if (newTrophy.name().isEmpty() || newTrophy.requirementDescription().isEmpty() || newTrophy.requirement() < 0)
             return ResponseEntity.badRequest().build();
-        }
 
-        Trophy trophy = new Trophy(newTrophy.name(), newTrophy.requirementsDescription(), newTrophy.requirement());
+        Trophy trophy = new Trophy(newTrophy.name(), newTrophy.requirementDescription(), newTrophy.requirement());
         trophyRepository.save(trophy);
 
-        return ResponseEntity.ok(200);
+        return ResponseEntity.ok(trophy.getID());
     }
 
     /**
@@ -45,7 +44,7 @@ public class TrophyController
      * @return A list of all the trophies currently in the list.
      */
     @GetMapping("/trophies")
-    public ResponseEntity<List<TrophyDetailsDTO>> listTrophies()
+    public ResponseEntity<List<?>> listTrophies()
     {
         List<TrophyDetailsDTO> trophyList = new ArrayList<>();
 
@@ -63,54 +62,33 @@ public class TrophyController
      * @return A 404 code if the trophy id does not exist or a trophy detail DTO if found.
      */
     @GetMapping("/trophies/{trophyId}")
-    public ResponseEntity<TrophyDetailsDTO> findTrophy(@PathVariable int trophyId)
+    public ResponseEntity<?> findTrophy(@PathVariable int trophyId)
     {
         Optional<Trophy> trophy = trophyRepository.findById(trophyId);
 
         if (trophy.isPresent())
-        {
             return ResponseEntity.ok(trophy.get().toTrophyDTO());
-        }
 
         return ResponseEntity.badRequest().build();
     }
 
     /**
-     * Updates a list of trophies by searching the table for request body provided ids.
-     * These trophies are then updated by the amount of corresponding progress.
-     * Returned is a list of the updated trophy details via DTOs.
-     * @param trophyUpdates - A list of id/progress pairs that indicate which trophies need to be updated and by how much
-     * @return A list of the updated trophy details.
+     * Updates one trophy with a user's progress toward that trophy's unlock requirement.
+     * @param updateTrophyDTO - contains an id/progress pair used to identify a trophy and update its progress field.
+     * @return A TrophyDetailsDTO contianing the updated progress.
      */
-    //TODO: Update to track a list of id's that do not exist.
     @PutMapping("/trophies")
-    public ResponseEntity<List<TrophyDetailsDTO>> updateTrophies(@RequestBody List<TrophyUpdateDTO> trophyUpdates)
+    public ResponseEntity<?> updateTrophies(@RequestBody TrophyUpdateDTO updateTrophyDTO)
     {
-        /*
-        for each id that must be updated in the updateDTO,
-            1. find that trophy's id in the trophyRepo
-            2. update that id
-         */
-
-        if (trophyUpdates.isEmpty())
+        for (Trophy trophy : trophyRepository.findAll())
         {
-            ResponseEntity.status(409).build();
-        }
-
-        List<TrophyDetailsDTO> returnList = new ArrayList<>();
-
-        int index = 0;
-        for(Trophy trophy : trophyRepository.findAll())
-        {
-            if (trophyUpdates.contains(trophy.getID()))
-            {
-                //trophy.updateTrophy(trophyUpdates.get(index).progress());
-                returnList.add(trophy.toTrophyDTO());
+            if (trophy.getID() == updateTrophyDTO.id()) {
+                trophy.updateDescription(updateTrophyDTO.requirementDescription());
+                return ResponseEntity.ok(trophy.toTrophyDTO());
             }
-            index ++;
         }
 
-        return ResponseEntity.ok(returnList);
+        return ResponseEntity.badRequest().build();
     }
 
     /**
@@ -119,14 +97,14 @@ public class TrophyController
      * @return A 404 code if the id does not exist or a 200 if the trophy is found and sucessfully deleted.
      */
     @DeleteMapping("/trophies/{trophyId}")
-    public ResponseEntity<Integer> deleteTrophy(@PathVariable int trophyId)
+    public ResponseEntity<?> deleteTrophy(@PathVariable int trophyId)
     {
         for (Trophy trophy : trophyRepository.findAll())
         {
             if (trophy.getID() == trophyId)
             {
                 trophyRepository.delete(trophy);
-                return ResponseEntity.ok(200);
+                return ResponseEntity.ok().build();
             }
         }
 

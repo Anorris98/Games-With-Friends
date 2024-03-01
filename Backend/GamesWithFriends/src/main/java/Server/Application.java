@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 
 @SpringBootApplication
-@EntityScan(basePackages = {"Server.User", "Server.FriendGroup"})
-@EnableJpaRepositories(basePackages = {"Server.User", "Server.FriendGroup"})
+@EntityScan(basePackages = {"Server.User", "Server.FriendGroup", "Server.Trophies"})
+@EnableJpaRepositories(basePackages = {"Server.User", "Server.FriendGroup", "Server.Trophies"})
 public class Application {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);

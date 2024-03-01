@@ -1,4 +1,4 @@
 package Server.Trophies;
 
-public record TrophyUpdateDTO(int id, int progress) {
+public record TrophyUpdateDTO(int id, String requirementDescription) {
 }
