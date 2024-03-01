@@ -1,4 +1,4 @@
 package Server.Trophies;
 
-public record CreatedTrophyDTO(int ID, String name, String requirementDescription, int requirement, int progress, int status) {
+public record CreatedTrophyDTO(String name, String requirementsDescription, int requirement) {
 }
