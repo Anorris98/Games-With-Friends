@@ -1,7 +1,7 @@
 package Server.User;
 import Server.FriendGroup.FriendGroup;
 import Server.Trophies.Trophy;
-
+import Server.Access_Roles.AccessRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -45,6 +45,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "trophy_id", referencedColumnName = "ID")
     )
     private List<Trophy> trophiesList;
+
+//    @ManyToOne(name = "role_id", fetch = FetchType.LAZY, referencedComlumnName = "ID")
+//    @JoinColumn(name = "role_id")
+//    private  AccessRole role;
 
     public User(String email, String password) {
         this.email = email;
