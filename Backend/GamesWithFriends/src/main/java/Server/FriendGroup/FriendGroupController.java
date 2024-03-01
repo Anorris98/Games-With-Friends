@@ -19,6 +19,7 @@ public class FriendGroupController {
     UserRepository userRepository;
 
     @PostMapping("/friend_groups")
+    @Transactional
     public ResponseEntity<?> createFriendGroup(@RequestBody FriendGroupMembersDTO memberIds) {
 
         List<User> tempList = new ArrayList<>();
@@ -36,6 +37,15 @@ public class FriendGroupController {
         System.out.println(newFriendGroup.getMembers().get(1).getEmail());
         System.out.println(newFriendGroup.getID());
         friendGroupRepository.save(newFriendGroup);
+
+        for(int id : memberIds.memberIds()) {
+            Optional<User> user = userRepository.findById(id);
+            if(user.isPresent()) {
+                user.get().getFriendGroupList().add(newFriendGroup);
+                userRepository.save(user.get());
+            }
+        }
+
         return ResponseEntity.ok(newFriendGroup.getID());
     }
 
@@ -110,6 +120,7 @@ public class FriendGroupController {
     }
 
     @DeleteMapping("/friend_groups/{id}")
+    @Transactional
     public ResponseEntity<?> deleteSpecificFriendGroup(@PathVariable int id, @RequestHeader(value = "Authorization") String auth) {
 
         boolean check = false;
@@ -127,19 +138,28 @@ public class FriendGroupController {
             return ResponseEntity.status(500).build();
         }
 
-        if (friendGroupRepository.findById(id).isEmpty())
-            return ResponseEntity.status(404).build();
-
         if(userRepository.findById(sourceId).isEmpty())
             return ResponseEntity.status(401).build();
 
-        //TODO: add check if source is admin
+        Optional<FriendGroup> friendGroupToDelete = friendGroupRepository.findById(id);
 
-        if(friendGroupRepository.findById(id).get().getMembers().contains(userRepository.findById(sourceId).get()))
+        if(friendGroupToDelete.isEmpty())
+            return ResponseEntity.status(404).build();
+
+        if(friendGroupToDelete.get().getMembers().contains(userRepository.findById(sourceId).get()))
             check = true;
+
+        //TODO: admin check
 
         if(!check)
             return ResponseEntity.status(401).build();
+
+        for(User user : friendGroupToDelete.get().getMembers()) {
+            if(userRepository.findById(user.getID()).isPresent()) {
+                user.getFriendGroupList().remove(friendGroupToDelete.get());
+                userRepository.save(user);
+            }
+        }
 
         friendGroupRepository.delete(friendGroupRepository.findById(id).get());
 
