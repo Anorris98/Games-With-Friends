@@ -124,7 +124,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         return userIDGroupID;
     }
     public void deleteTrophy(int trophyID){
-        String finalUrl = Constants.BASE_URL + "/trophies/"+trophyID;
+        String finalUrl = Constants.BASE_URL + "/trophies/" + trophyID;
         JSONObject postData = new JSONObject();
 
         try {
@@ -160,14 +160,32 @@ public class AdminToolsTrophiesTable extends Fragment {
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("name", name);
-            postData.put("requirementDescription", description);
             postData.put("id", id);
+            postData.put("name", name);
+            postData.put("description", description);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getContext(), "create new trophy Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getContext(), "create new to Success", Toast.LENGTH_LONG).show();
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
+                    mViewModel.setResponse("Registration response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(getContext(), "Error parsing registration response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
 
     }
@@ -210,8 +228,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("id", userID);
-            postData.put("progress", progress);
+            postData.put("userId", userID);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();

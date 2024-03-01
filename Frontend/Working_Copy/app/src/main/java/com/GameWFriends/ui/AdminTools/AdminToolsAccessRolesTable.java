@@ -23,6 +23,7 @@ import org.json.JSONObject;
 public class AdminToolsAccessRolesTable extends Fragment {
 
     private AdminToolsAccessRolesTableViewModel mViewModel;
+
     private VolleyAPIService apiService;
 
     public static AdminToolsAccessRolesTable newInstance() {
@@ -35,7 +36,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_access_roles_table, container, false);
     }
- @Override
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(AdminToolsAccessRolesTableViewModel.class);
@@ -55,15 +56,15 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
-        EditText id = view.findViewById(R.id.editTextNumberIdent);        //ID
-        EditText userId = view.findViewById(R.id.editName); //
-        EditText roleId = view.findViewById(R.id.editTextNumberRoleID);         //
+        EditText id = view.findViewById(R.id.editTextNumIdent);        //ID
+        EditText userId = view.findViewById(R.id.editTextNumUsID); //
+        EditText roleId = view.findViewById(R.id.editTextNumRoleID);         //
 
 
-        Button promoteUser = view.findViewById(R.id.promoteUser);             // button: Register
-        Button demoteUser = view.findViewById(R.id.demoteUser);                   // button: login
-        Button listAllRoles = view.findViewById(R.id.listAllRoles);     // button: View current user info
-        Button ChangeUserRole = view.findViewById(R.id.ChangeUserRole);
+        Button promoteUser = view.findViewById(R.id.promoteUse);             // button: Register
+        Button demoteUser = view.findViewById(R.id.demoteUse);                   // button: login
+        Button listAllRoles = view.findViewById(R.id.listAllRol);     // button: View current user info
+        Button ChangeUserRole = view.findViewById(R.id.ChangeUserRo);
 
         promoteUser.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
@@ -103,6 +104,20 @@ public class AdminToolsAccessRolesTable extends Fragment {
             }
         });
     }
+    public int getUseriD(EditText Id){
+        int userIDGroupID;
+
+        try {
+            userIDGroupID = Integer.parseInt(Id.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "Error: please Enter a number ", Toast.LENGTH_LONG).show();
+
+
+            //just incase set it to error 402 for now.
+            userIDGroupID = 402;
+        }
+        return userIDGroupID;
+    }
     public void promoteUsers(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
@@ -110,7 +125,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -146,7 +161,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -182,7 +197,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -218,7 +233,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -247,19 +262,5 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
     }
 
-    public int getUseriD(EditText Id){
-        int userIDGroupID;
-
-        try {
-            userIDGroupID = Integer.parseInt(Id.getText().toString());
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Error: please Enter a number ", Toast.LENGTH_LONG).show();
-
-
-            //just incase set it to error 402 for now.
-            userIDGroupID = 402;
-        }
-        return userIDGroupID;
-    }
 
 }

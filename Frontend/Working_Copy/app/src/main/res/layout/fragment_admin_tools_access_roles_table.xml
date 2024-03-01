@@ -12,40 +12,41 @@
         android:layout_width="378dp"
         android:layout_height="156dp"
         android:text="Response Will go here"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.078" />
 
     <EditText
-        android:id="@+id/editTextNumberIdent"
+        android:id="@+id/editTextNumIdent"
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:layout_marginStart="4dp"
         android:hint="ID"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.336" />
 
     <EditText
-        android:id="@+id/editTextNumberUserID"
+        android:id="@+id/editTextNumUsID"
         android:layout_width="400dp"
         android:layout_height="50dp"
-        android:layout_marginTop="292dp"
         android:ems="10"
         android:hint="User ID"
         android:inputType="number"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumberRoleID"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNumRoleID"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/accessRoleResponse" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumIdent" />
 
     <EditText
-        android:id="@+id/editTextNumberRoleID"
+        android:id="@+id/editTextNumRoleID"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:layout_marginBottom="304dp"
@@ -54,11 +55,13 @@
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumIdent"
+        app:layout_constraintVertical_bias="0.938" />
 
     <Button
-        android:id="@+id/promoteUser"
+        android:id="@+id/promoteUse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Promote User"
@@ -70,7 +73,7 @@
         app:layout_constraintVertical_bias="0.651" />
 
     <Button
-        android:id="@+id/demoteUser"
+        android:id="@+id/demoteUse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Demote User"
@@ -81,7 +84,7 @@
         app:layout_constraintVertical_bias="0.746" />
 
     <Button
-        android:id="@+id/listAllRoles"
+        android:id="@+id/listAllRol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="List All Roles"
@@ -93,7 +96,7 @@
         app:layout_constraintVertical_bias="0.837" />
 
     <Button
-        android:id="@+id/ChangeUserRole"
+        android:id="@+id/ChangeUserRo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Users Role"
