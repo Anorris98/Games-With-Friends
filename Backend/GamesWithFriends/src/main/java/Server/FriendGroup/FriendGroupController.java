@@ -50,7 +50,7 @@ public class FriendGroupController {
     }
 
     @GetMapping("/friend_groups")
-    public ResponseEntity<List<Integer>> getAllFriendGroupsOfUser(@RequestHeader(value = "Authorization") String auth) {
+    public ResponseEntity<?> getAllFriendGroupsOfUser(@RequestHeader(value = "Authorization") String auth) {
 
         String[] parts = auth.split(" ");
         if (parts.length < 2) {
@@ -68,14 +68,14 @@ public class FriendGroupController {
         if(userRepository.findById(sourceId).isEmpty())
             return ResponseEntity.status(403).build();
 
-        List<Integer> outputList = new ArrayList<>();
+        FriendGroupGroupsDTO friendGroups = new FriendGroupGroupsDTO(new ArrayList<>());
         for(FriendGroup group : userRepository.findById(sourceId).get().getFriendGroupList())
-            outputList.add(group.getID());
+            friendGroups.groups().add(group.getID());
 
-        if(outputList.isEmpty())
+        if(friendGroups.groups().isEmpty())
             return ResponseEntity.internalServerError().build();
 
-        return ResponseEntity.ok(outputList);
+        return ResponseEntity.ok(friendGroups);
     }
 
     @PutMapping("/friend_groups/{id}")
@@ -109,14 +109,14 @@ public class FriendGroupController {
         if (friendGroupRepository.findById(id).isEmpty())
             return ResponseEntity.status(404).build();
 
-        List<Integer> userIds = new ArrayList<>();
+        FriendGroupMembersDTO members = new FriendGroupMembersDTO(new ArrayList<>());
 
         for(User user : friendGroupRepository.findById(id).get().getMembers()) {
             System.out.println(user.getEmail());
-            userIds.add(user.getID());
+            members.memberIds().add(user.getID());
         }
 
-        return ResponseEntity.ok(userIds);
+        return ResponseEntity.ok(members);
     }
 
     @DeleteMapping("/friend_groups/{id}")
