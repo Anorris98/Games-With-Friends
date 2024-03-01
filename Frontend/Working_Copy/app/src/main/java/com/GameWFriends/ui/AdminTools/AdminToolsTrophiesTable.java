@@ -1,7 +1,6 @@
 package com.GameWFriends.ui.AdminTools;
 
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +57,9 @@ public class AdminToolsTrophiesTable extends Fragment {
 
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
-        EditText id = view.findViewById(R.id.editTextNumberID);        //ID
+        EditText id = view.findViewById(R.id.editTextRequirements);        //ID
         EditText name = view.findViewById(R.id.editName); //
-        EditText trophyid = view.findViewById(R.id.editTextNumberTrophyID);         //
+        EditText requirements = view.findViewById(R.id.editTextNumberID);         //
         EditText Description = view.findViewById(R.id.editTextDescription);
 
         Button listUserTrophies = view.findViewById(R.id.listUserTrophies);             // button: Register
@@ -93,7 +92,8 @@ public class AdminToolsTrophiesTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int finalId = getUseriD(id);
-                updateLockedTrophy(finalId);
+                int TrophyUpdate = getUseriD(requirements);
+                updateLockedTrophy(finalId,TrophyUpdate);
 
 
             }
@@ -101,7 +101,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         deleteTrophy.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
-                int finalId = getUseriD(trophyid);
+                int finalId = getUseriD(id);
                 deleteTrophy(finalId);
 
             }
@@ -160,9 +160,9 @@ public class AdminToolsTrophiesTable extends Fragment {
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("id", id);
             postData.put("name", name);
-            postData.put("description", description);
+            postData.put("requirementDescription", description);
+            postData.put("id", id);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -205,12 +205,13 @@ public class AdminToolsTrophiesTable extends Fragment {
 
 
     }
-    public void updateLockedTrophy(int userID){
+    public void updateLockedTrophy(int userID,int progress){
         String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("userId", userID);
+            postData.put("id", userID);
+            postData.put("progress", progress);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();

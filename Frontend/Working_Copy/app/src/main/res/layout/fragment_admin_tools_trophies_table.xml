@@ -55,11 +55,11 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/editTextNumberTrophyID"
+        android:id="@+id/editTextNumberID"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="Trophyid"
+        android:hint="id"
         android:inputType="number"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,17 +70,17 @@
         app:layout_constraintVertical_bias="0.368" />
 
     <EditText
-        android:id="@+id/editTextNumberID"
+        android:id="@+id/editTextRequirements"
         android:layout_width="400dp"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="User/Groupid"
+        android:hint="Requirement/progress"
         android:inputType="number"
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberTrophyID" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberID" />
 
     <Button
         android:id="@+id/addNewTrophy"
