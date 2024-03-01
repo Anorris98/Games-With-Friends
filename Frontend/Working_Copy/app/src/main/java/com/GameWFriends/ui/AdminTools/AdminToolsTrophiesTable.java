@@ -160,9 +160,9 @@ public class AdminToolsTrophiesTable extends Fragment {
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("name", name);
-            postData.put("requirementDescription", description);
             postData.put("id", id);
+            postData.put("name", name);
+            postData.put("description", description);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -210,8 +210,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("id", userID);
-            postData.put("progress", progress);
+            postData.put("userID", userID);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();

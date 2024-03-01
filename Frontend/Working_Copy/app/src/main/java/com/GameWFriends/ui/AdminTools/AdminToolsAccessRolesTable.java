@@ -110,7 +110,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -182,7 +182,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -218,7 +218,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
         try {
             postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("RoleId", Roleid);
+            postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
