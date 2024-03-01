@@ -164,6 +164,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+
         **/
         apiService.deleteRequest(finalUrl, Roleid, new VolleyAPIService.VolleyResponseListener() {
             @Override
