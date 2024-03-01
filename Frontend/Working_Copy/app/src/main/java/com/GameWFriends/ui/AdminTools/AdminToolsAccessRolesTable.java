@@ -79,10 +79,9 @@ public class AdminToolsAccessRolesTable extends Fragment {
         demoteUser.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
-                int finalId = getUseriD(id);
-                int finalUserId = getUseriD(userId);
+
                 int finalRoleId = getUseriD(roleId);
-                demoteUsers(finalId,finalUserId,finalRoleId);
+                demoteUsers(finalRoleId);
             }
         });
         listAllRoles.setOnClickListener(new View.OnClickListener() {          //register New user
@@ -98,9 +97,9 @@ public class AdminToolsAccessRolesTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int finalId = getUseriD(id);
-                int finalUserId = getUseriD(userId);
+
                 int finalRoleId = getUseriD(roleId);
-                changeUsersRole(finalId,finalUserId,finalRoleId);
+                changeUsersRole(finalId,finalRoleId);
             }
         });
     }
@@ -123,9 +122,8 @@ public class AdminToolsAccessRolesTable extends Fragment {
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("id", id);
             postData.put("userId", Userid);
-            postData.put("roleId", Roleid);
+            postData.put("role", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -154,20 +152,20 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
     }
 
-    public void demoteUsers(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+    public void demoteUsers( int Roleid){
+        String finalUrl = Constants.BASE_URL + "/access_roles"+Roleid;
         JSONObject postData = new JSONObject();
 
-        try {
-            postData.put("id", id);
-            postData.put("userId", Userid);
+       /** try {
+
             postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
-        apiService.deleteRequest(finalUrl, id, new VolleyAPIService.VolleyResponseListener() {
+        **/
+        apiService.deleteRequest(finalUrl, Roleid, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
                 // Error message context for user deletion
@@ -194,15 +192,15 @@ public class AdminToolsAccessRolesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
 
-        try {
-            postData.put("id", id);
-            postData.put("userId", Userid);
-            postData.put("roleId", Roleid);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        try {
+//            postData.put("id", id);
+//            postData.put("userId", Userid);
+//            postData.put("roleId", Roleid);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         apiService.getRequest(finalUrl,  Userid, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -226,13 +224,13 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
     }
 
-    public void changeUsersRole(int id, int Userid, int Roleid){
+    public void changeUsersRole(int id, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
             postData.put("id", id);
-            postData.put("userId", Userid);
+
             postData.put("roleId", Roleid);
         } catch (JSONException e) {
             e.printStackTrace();

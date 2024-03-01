@@ -80,7 +80,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         addNewTrophy.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
-                int finalId = getUseriD(id);
+                int finalId = getUseriD(requirements);
                 String na = name.getText().toString();
                 String de = Description.getText().toString();
                 addNewTrophy(finalId,na,de);
@@ -92,8 +92,8 @@ public class AdminToolsTrophiesTable extends Fragment {
             @Override
             public void onClick(View v) {
                 int finalId = getUseriD(id);
-                int TrophyUpdate = getUseriD(requirements);
-                updateLockedTrophy(finalId,TrophyUpdate);
+                String de = Description.getText().toString();
+                updateLockedTrophy(finalId,de);
 
 
             }
@@ -127,13 +127,14 @@ public class AdminToolsTrophiesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/trophies/" + trophyID;
         JSONObject postData = new JSONObject();
 
-        try {
+        /**try {
             postData.put("trophyId", trophyID);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+         **/
         apiService.deleteRequest(finalUrl, trophyID, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -155,14 +156,14 @@ public class AdminToolsTrophiesTable extends Fragment {
             }
         });
     }
-    public void addNewTrophy(int id, String name, String description) {
+    public void addNewTrophy(int requirement, String name, String description) {
         String finalUrl = Constants.BASE_URL + "/trophies";
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("id", id);
             postData.put("name", name);
-            postData.put("description", description);
+            postData.put("requirementDescription", description);
+            postData.put("requirement", requirement);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
@@ -193,13 +194,14 @@ public class AdminToolsTrophiesTable extends Fragment {
         String finalUrl = Constants.BASE_URL + "/trophies";
         JSONObject postData = new JSONObject();
 
-        try {
+        /**try {
             postData.put("userId", userID);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
             return;
         }
+        */
         apiService.getRequest(finalUrl,  userID, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -223,12 +225,14 @@ public class AdminToolsTrophiesTable extends Fragment {
 
 
     }
-    public void updateLockedTrophy(int userID,int progress){
+    public void updateLockedTrophy(int userID,String requirementDescription){
         String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
         JSONObject postData = new JSONObject();
 
         try {
-            postData.put("userId", userID);
+            postData.put("id", userID);
+            postData.put("requirementDescription", requirementDescription);
+
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
