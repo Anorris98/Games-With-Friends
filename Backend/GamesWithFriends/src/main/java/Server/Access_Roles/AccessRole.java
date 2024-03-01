@@ -1,58 +1,38 @@
-package Server.Access_Roeles;
+package Server.Access_Roles;
 
-import com.fasterxml.jackson.annotation.jsonTypeId;
+import Server.User.User;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import jakarta.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table(name = "access_roles")
 @Entity
 public class AccessRole
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY);
     private int ID;
 
-    //Id regarded user
+    private String name;
+
     private int userId;
 
-    //Id of the role asigned to the user
     private int roleId;
 
-    public AccessRole(int id, int userId, int roleId)
+    public AccessRole(String name, int userId, int roldId)
     {
-        this.ID = id;
+        this.name = name;
         this.userId = userId;
-        this.roleId = roleId;
-    }
-
-    public int getID()
-    {
-        return ID;
-    }
-
-    public int getUserId()
-    {
-        return userId;
-    }
-
-    public void setRoleIdq(int newId)
-    {
-        roleId = newId;
-    }
-
-    public int getRoleId()
-    {
-        return roleId;
+        this.roleId = roldId;
     }
 }
