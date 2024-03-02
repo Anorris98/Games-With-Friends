@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import javax.management.relation.Role;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -31,8 +32,8 @@ public class AccessRole
 
     RoleEnum roleEnum;
 
-    @OneToMany(mappedBy = "role_id", cascade = CascadeType.PERSIST)
-    private List<User> userList;
+    @OneToMany(mappedBy = "role")
+    private List<User> userList = new ArrayList<>();
 
     public AccessRole(int userId, int roleValue)
     {
