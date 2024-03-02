@@ -1,5 +1,7 @@
 package Server.Access_Roles;
 
+import Server.User.User;
+import Server.User.UserRepository;
 import org.apache.coyote.Response;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,26 @@ public class AccessRoleController
 {
     @Autowired
     AccessRoleRepository roleRepository;
+    @Autowired
+    UserRepository userRepository;
 
-    @PostMapping("/acess_roles")
+    @PostMapping("/access_roles")
+    @Transactional
     public ResponseEntity<?> promoteUser(@RequestBody PromoteUserDTO promoteUser)
     {
-        if (promoteUser.userId() < 0 || promoteUser.role() < 0)
+        Optional<User> userToUpdate = userRepository.findById(promoteUser.userId());
+
+        if (roleRepository.findById((promoteUser.role())).isEmpty() || userToUpdate.isEmpty())
             return ResponseEntity.badRequest().build();
 
         if (roleRepository.existsById(promoteUser.userId()))
             return ResponseEntity.status(409).build();
 
         AccessRole newRole = new AccessRole(promoteUser.userId(), promoteUser.role());
+        userToUpdate.get().setRole(newRole);
 
         roleRepository.save(newRole);
+        userRepository.save(userToUpdate.get());
 
         return ResponseEntity.ok(newRole.toRoleDTO());
     }
@@ -35,6 +44,7 @@ public class AccessRoleController
     public ResponseEntity<List<?>> listRoles()
     {
         List<RoleDetailsDTO> roleList = new ArrayList<>();
+
         for (AccessRole role : roleRepository.findAll())
             roleList.add(role.toRoleDTO());
 
@@ -53,33 +63,35 @@ public class AccessRoleController
     }
 
     @PutMapping("/access_roles")
+    @Transactional
     public ResponseEntity<?> updateRole(@RequestBody RoleUpdateDTO roleUpdateDTO)
     {
-        for (AccessRole role : roleRepository.findAll())
+        Optional<User> userToUpdate = userRepository.findById(roleUpdateDTO.userId());
+
+        if(userToUpdate.isPresent())
         {
-            if (role.getID() == roleUpdateDTO.id())
-            {
-                role.updateRole(roleUpdateDTO.newRole());
-                return ResponseEntity.ok(role.toRoleDTO());
-            }
+            AccessRole newRole = userToUpdate.get().getRole();
+            newRole.updateRole(roleUpdateDTO.newRole());
+
+            return ResponseEntity.ok(newRole.toRoleDTO());
         }
 
         return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/access_roles/{roleId}")
-    public ResponseEntity<?> demoteUser(@PathVariable int roleId)
+    @DeleteMapping("/access_roles/{userId}")
+    @Transactional
+    public ResponseEntity<?> demoteUser(@PathVariable int userId)
     {
-        for (AccessRole role : roleRepository.findAll())
-        {
-            if (role.getID() == roleId)
-            {
-                role.updateRole(3);
-                return ResponseEntity.ok(role.toRoleDTO());
-            }
-        }
+        Optional<User> user = userRepository.findById(userId);
 
-        return ResponseEntity.badRequest().build();
+        if (user.isPresent())
+        {
+            AccessRole role = user.get().getRole();
+            role.updateRole(2);
+            return ResponseEntity.ok(role.toRoleDTO());
+        }
+            return ResponseEntity.badRequest().build();
     }
 
 //    @PostMapping("/access_roles")
