@@ -13,6 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.GameWFriends.StringRequestActivity;
 import com.GameWFriends.databinding.FragmentAccountBinding;
 
+/**
+ * This class is the fragment for the Account, Has buttons for the user to interact with to change
+ * and edit their personal account.
+ */
 public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private FragmentAccountBinding binding;

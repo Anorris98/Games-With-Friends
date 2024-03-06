@@ -30,9 +30,20 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * AdminToolsUserTable is a fragment that allows an admin to perform various actions on user accounts
+ * Through Buttons to access specific fragments.
+ * Also was used while building the app to test calls and functions for functionality.
+ */
 public class AdminToolsUserTable extends Fragment {
 
+    /**
+     * The ViewModel for the AdminToolsUserTable fragment
+     */
     private AdminToolsUserTableViewModel mViewModel;
+    /**
+     * The VolleyAPIService for the AdminToolsUserTable fragment
+     */
     private VolleyAPIService apiService;
 
     public static AdminToolsUserTable newInstance() {
@@ -69,6 +80,10 @@ public class AdminToolsUserTable extends Fragment {
 
     }
 
+    /**
+     * Setup the listeners for the buttons in the fragment
+     * @param view the view for buttons and listeners to be recognized. View must be passed.
+     */
     private void setupListeners(View view) {
         //Edit text declarations
         EditText numberUserIDGroupID = view.findViewById(R.id.editTextGroupId);        // texview: Userid/GroupID
@@ -186,16 +201,6 @@ public class AdminToolsUserTable extends Fragment {
      */
     public void deleteUser(int userIdtoDelete, int UserIdRequestingDelete) {
         String finalUrl = Constants.BASE_URL + "/users/" + userIdtoDelete;
-
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("password", password);
-//            postData.put("email", email);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            Toast.makeText(getContext(), "Error creating JSON object for user deletion", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
 
         apiService.deleteRequest(finalUrl, UserIdRequestingDelete, new VolleyAPIService.VolleyResponseListener() {
             @Override
@@ -430,7 +435,6 @@ public class AdminToolsUserTable extends Fragment {
             Toast.makeText(getContext(), "Error creating JSON object for registration", Toast.LENGTH_SHORT).show();
             return;
         }
-
         apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
@@ -455,7 +459,7 @@ public class AdminToolsUserTable extends Fragment {
 
 
     /**
-     * Retrieves all users from the server.
+     * Retrieves all user data for a specific user
      */
     public void getAllUserData() {
         String finalUrl = Constants.BASE_URL + "/users";
@@ -484,6 +488,9 @@ public class AdminToolsUserTable extends Fragment {
 
     /**
      * Specific Get request for get users (for demo 2 only currently.)
+     * @param finalUrl the final url
+     * @param userOrGroupId the user or group id
+     * @param listener the listener
      */
     public void getRequest(final String finalUrl,  final int userOrGroupId, final VolleyAPIService.VolleyResponseListener listener) {
 

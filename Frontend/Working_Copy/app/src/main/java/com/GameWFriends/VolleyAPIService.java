@@ -18,26 +18,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-
-//Example of how to use this class in other activites:
-// VolleyAPIService apiService = new VolleyAPIService(getContext()); // Use 'this' if in an Activity
-//
-//apiService.deleteRequest(new VolleyAPIService.VolleyResponseListener() {
-//    @Override
-//    public void onError(String message) {
-//        // Handle error
-//    }
-//
-//    @Override
-//    public void onResponse(String response) {
-//        // Handle response
-//    }
-//});
-
+/**
+ * This class is used to make formated API requests using Volley library.
+ */
 public class VolleyAPIService {
 
-    //made equal to base as to not have to refactor this code.
+
+    /**
+     * The base url for the API
+     */
     private String url = Constants.BASE_URL;
+
+    /**
+     * The request queue
+     */
     private RequestQueue requestQueue; // Volley request queue
 
     // Constructor

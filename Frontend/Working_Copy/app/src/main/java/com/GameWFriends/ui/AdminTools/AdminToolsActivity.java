@@ -11,6 +11,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.GameWFriends.R;
 import com.GameWFriends.databinding.ActivityAdminToolsBinding;
 
+/**
+ * This class is the activity for the Admin Tools, Has buttons for the user
+ * To interact with  and be able to view the tools and manipulation tools.
+ */
 public class AdminToolsActivity extends AppCompatActivity {
 
     private ActivityAdminToolsBinding binding;
@@ -102,8 +106,9 @@ public class AdminToolsActivity extends AppCompatActivity {
     }
 
 
-
-    //hides the button from the activity when transitioning.
+    /**
+     * Hides the buttons from the User views
+     */
     private void HideButtons(){
         binding.ButtonUserTable.setVisibility(View.GONE);
         binding.ButtonFriendGroupsTable.setVisibility(View.GONE);
@@ -112,6 +117,9 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding.TextviewAdminGreeting.setVisibility(View.GONE);
     }
 
+    /**
+     * Shows the buttons from the User views
+     */
     private void ShowButtons(){
         binding.ButtonUserTable.setVisibility(View.VISIBLE);
         binding.ButtonFriendGroupsTable.setVisibility(View.VISIBLE);
