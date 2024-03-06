@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class StringRequestActivity extends AppCompatActivity {
 
+
     private Button btnStringReq;
     private TextView msgResponse;
 
