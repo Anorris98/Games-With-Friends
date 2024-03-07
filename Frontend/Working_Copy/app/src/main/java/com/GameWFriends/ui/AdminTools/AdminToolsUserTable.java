@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
-import com.GameWFriends.VolleyAPIService;
+import com.GameWFriends.APIServices.VolleyAPIService;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -45,6 +45,8 @@ public class AdminToolsUserTable extends Fragment {
      * The VolleyAPIService for the AdminToolsUserTable fragment
      */
     private VolleyAPIService apiService;
+
+
 
     public static AdminToolsUserTable newInstance() {
         return new AdminToolsUserTable();
@@ -419,6 +421,43 @@ public class AdminToolsUserTable extends Fragment {
      * @param email the email of the new user..
      * @param password the password the person wants to register
      */
+
+//    public void registerUser(String email, String password) {
+//        String finalUrl = Constants.BASE_URL + "/users";
+//
+//        JSONObject postData = new JSONObject();
+//
+//        try {
+//            postData.put("email", email);
+//            postData.put("password", password);
+//            //when needing to add a username with the todo later, add it here.
+//            // postData.put("username", username);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            Toast.makeText(getContext(), "Error creating JSON object for registration", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+//            @Override
+//            public void onError(String message) {
+//                Log.e("RegistrationError", message);
+//                Toast.makeText(getContext(), "Registration Error: " + message, Toast.LENGTH_LONG).show();
+//                mViewModel.setResponse("Registration response: " + message);
+//            }
+//
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                Toast.makeText(getContext(), "Registration Success", Toast.LENGTH_LONG).show();
+//                try {
+//                    //this is currently being used to see the responses in a text for demo 2
+//                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
+//                    mViewModel.setResponse("Registration response: " + formattedResponse);
+//                } catch (JSONException e) {
+//                    Toast.makeText(getContext(), "Error parsing registration response", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
+//    }
 
     public void registerUser(String email, String password) {
         String finalUrl = Constants.BASE_URL + "/users";

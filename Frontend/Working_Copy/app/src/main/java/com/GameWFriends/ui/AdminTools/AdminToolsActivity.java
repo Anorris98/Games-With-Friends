@@ -38,7 +38,6 @@ public class AdminToolsActivity extends AppCompatActivity {
         });
 
 
-
         Button ButtonUserTable          = findViewById(R.id.Button_UserTable);
         Button ButtonFriendGroupsTable  = findViewById(R.id.Button_friendGroupsTable);
         Button ButtonTrophiesTable      = findViewById(R.id.Button_TrophiesTable);

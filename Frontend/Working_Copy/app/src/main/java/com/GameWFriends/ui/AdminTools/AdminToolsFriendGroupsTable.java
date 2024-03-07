@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
-import com.GameWFriends.VolleyAPIService;
+import com.GameWFriends.APIServices.VolleyAPIService;
 
 import org.json.JSONArray;
 import org.json.JSONException;

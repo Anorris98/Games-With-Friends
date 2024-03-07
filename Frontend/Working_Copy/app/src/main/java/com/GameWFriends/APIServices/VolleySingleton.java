@@ -1,4 +1,4 @@
-package com.GameWFriends;
+package com.GameWFriends.APIServices;
 //file gotten from IAstate 309 git, original author being Hongy Bian.
 
 import android.content.Context;

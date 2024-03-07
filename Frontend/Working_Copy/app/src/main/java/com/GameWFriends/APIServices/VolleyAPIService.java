@@ -1,4 +1,4 @@
-package com.GameWFriends;
+package com.GameWFriends.APIServices;
 
 import android.content.Context;
 
