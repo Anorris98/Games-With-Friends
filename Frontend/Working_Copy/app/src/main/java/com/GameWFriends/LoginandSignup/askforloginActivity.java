@@ -1,4 +1,4 @@
-package com.GameWFriends;
+package com.GameWFriends.LoginandSignup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.GameWFriends.MainActivity;
+import com.GameWFriends.R;
 
 public class askforloginActivity extends AppCompatActivity {
 
@@ -44,7 +47,7 @@ public class askforloginActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     // This code block will be executed after a 5-second delay
-                    Intent Loggedin = new Intent(com.GameWFriends.askforloginActivity.this, MainActivity.class);
+                    Intent Loggedin = new Intent(askforloginActivity.this, MainActivity.class);
                     Loggedin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(Loggedin);
                     finish();

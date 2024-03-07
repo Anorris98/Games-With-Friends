@@ -1,4 +1,4 @@
-package com.GameWFriends;
+package com.GameWFriends.LoginandSignup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.GameWFriends.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,10 +37,14 @@ public class LoginActivity extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
+
                 /* when login button is pressed, use intent to switch to Login Activity */
                 Intent intent = new Intent(LoginActivity.this, askforloginActivity.class);
                 intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
                 intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
+
+
+
                 startActivity(intent);  // go to MainActivity with the key-value data
             }
         });

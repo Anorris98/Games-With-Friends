@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.GameWFriends.LoginandSignup.askforloginActivity;
 import com.GameWFriends.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;     // define login button variable
     private Button signupButton;    // define signup button variable
 
-    private boolean hasLoggedIn = true;
+    private boolean hasLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

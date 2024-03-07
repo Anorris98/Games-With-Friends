@@ -19,13 +19,13 @@
             android:name=".ui.AdminTools.AdminToolsActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".LoginandSignup.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginandSignup.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".askforloginActivity"
+            android:name=".LoginandSignup.askforloginActivity"
             android:exported="false" />
         <activity
             android:name=".StringRequestActivity"
