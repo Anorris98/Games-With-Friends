@@ -26,7 +26,10 @@ public class AdminToolsTrophiesTable extends Fragment {
     private AdminToolsTrophiesTableViewModel mViewModel;
 
     private VolleyAPIService apiService;
-
+    /**
+     * Create a new instance of AdminToolsTrophiesTable fragment.
+     * @return A new instance of AdminToolsTrophiesTable fragment.
+     */
     public static AdminToolsTrophiesTable newInstance() {
         return new AdminToolsTrophiesTable();
     }
@@ -54,19 +57,23 @@ public class AdminToolsTrophiesTable extends Fragment {
 
     }
 
-
+    /**
+     * Setup listeners for buttons in the fragment.
+     * @param view The root view of the fragment.
+     */
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
-        EditText id = view.findViewById(R.id.editTextRequirements);        //ID
-        EditText name = view.findViewById(R.id.editName); //
-        EditText requirements = view.findViewById(R.id.editTextNumberID);         //
-        EditText Description = view.findViewById(R.id.editTextDescription);
+        EditText id = view.findViewById(R.id.editTextRequirements);        // store the value of id
+        EditText name = view.findViewById(R.id.editName); // store the value of name
+        EditText requirements = view.findViewById(R.id.editTextNumberID);         // store the value of requiremtn
+        EditText Description = view.findViewById(R.id.editTextDescription); // store the name of desciption
 
-        Button listUserTrophies = view.findViewById(R.id.listUserTrophies);             // button: Register
-        Button addNewTrophy = view.findViewById(R.id.addNewTrophy);                   // button: login
-        Button updateLockedTrophy = view.findViewById(R.id.updateLockedTrophy);     // button: View current user info
-        Button deleteTrophy = view.findViewById(R.id.deleteTrophy);
+        Button listUserTrophies = view.findViewById(R.id.listUserTrophies);             // button: list Viewers
+        Button addNewTrophy = view.findViewById(R.id.addNewTrophy);                   // button: Add new trophys
+        Button updateLockedTrophy = view.findViewById(R.id.updateLockedTrophy);     // button: update locked trophys
+        Button deleteTrophy = view.findViewById(R.id.deleteTrophy);                 // button: delete trophyies
 
+        // listen to the button listen User Table
         listUserTrophies.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
@@ -76,7 +83,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
             }
         });
-
+        //listen to the button add trophy
         addNewTrophy.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
@@ -88,6 +95,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
             }
         });
+        //listen to the button update locked trophy
         updateLockedTrophy.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
@@ -98,6 +106,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
             }
         });
+        //listen to the delete trophy button
         deleteTrophy.setOnClickListener(new View.OnClickListener() {          //register New user
             @Override
             public void onClick(View v) {
@@ -109,6 +118,11 @@ public class AdminToolsTrophiesTable extends Fragment {
 
 
     }
+    /**
+     * Get user ID from EditText field.
+     * @param Id EditText field containing user ID.
+     * @return User ID as an integer.
+     */
     public int getUseriD(EditText Id){
         int userIDGroupID;
 
@@ -123,6 +137,7 @@ public class AdminToolsTrophiesTable extends Fragment {
         }
         return userIDGroupID;
     }
+    //action preformed once delete trophy is slected
     public void deleteTrophy(int trophyID){
         String finalUrl = Constants.BASE_URL + "/trophies/" + trophyID;
         JSONObject postData = new JSONObject();
@@ -155,6 +170,7 @@ public class AdminToolsTrophiesTable extends Fragment {
             }
         });
     }
+    //action preformed once add new trophy is slected
     public void addNewTrophy(int id, String name, String description) {
         String finalUrl = Constants.BASE_URL + "/trophies";
         JSONObject postData = new JSONObject();
@@ -189,6 +205,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
 
     }
+    //action preformed once list all trophy is slected
     public void listAllTrophies(int userID){
         String finalUrl = Constants.BASE_URL + "/trophies";
         JSONObject postData = new JSONObject();
@@ -223,6 +240,7 @@ public class AdminToolsTrophiesTable extends Fragment {
 
 
     }
+    //action preformed once update locked trophy is slected
     public void updateLockedTrophy(int userID,int progress){
         String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
         JSONObject postData = new JSONObject();

@@ -25,17 +25,39 @@ public class AdminToolsAccessRolesTable extends Fragment {
     private AdminToolsAccessRolesTableViewModel mViewModel;
 
     private VolleyAPIService apiService;
-
+    /**
+     * Creates a new instance of the {@link AdminToolsAccessRolesTable} fragment.
+     * @return A new instance of the fragment.
+     */
     public static AdminToolsAccessRolesTable newInstance() {
         return new AdminToolsAccessRolesTable();
     }
-
+    /**
+     * Called to create the view hierarchy associated with the fragment.
+     * @param inflater The LayoutInflater object that can be used to inflate
+     *                 any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's
+     *                  UI should be attached to. The fragment should not add the view itself,
+     *                  but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return The root view of the fragment.
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         apiService = new VolleyAPIService(getContext());
         return inflater.inflate(R.layout.fragment_admin_tools_access_roles_table, container, false);
     }
+    /**
+     * Called immediately after onCreateView(LayoutInflater, ViewGroup, Bundle)
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once they know their view hierarchy
+     * has been completely created.
+     * @param view The view created in {@link #onCreateView}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -53,7 +75,10 @@ public class AdminToolsAccessRolesTable extends Fragment {
 
     }
 
-
+    /**
+     * Sets up the click listeners for buttons in the fragment.
+     * @param view The root view of the fragment.
+     */
     private void setupListeners(View view) {
 //      Edit text declarations delete when done with this part
         EditText id = view.findViewById(R.id.editTextNumIdent);        //ID
@@ -104,6 +129,11 @@ public class AdminToolsAccessRolesTable extends Fragment {
             }
         });
     }
+    /**
+     * Retrieves the integer value from an EditText.
+     * @param Id The EditText containing the integer value.
+     * @return The integer value parsed from the EditText, or a default value if parsing fails.
+     */
     public int getUseriD(EditText Id){
         int userIDGroupID;
 
@@ -118,6 +148,12 @@ public class AdminToolsAccessRolesTable extends Fragment {
         }
         return userIDGroupID;
     }
+    /**
+     * Promotes a user to a higher role.
+     * @param id The ID of the access role.
+     * @param Userid The ID of the user.
+     * @param Roleid The ID of the role to promote the user to.
+     */
     public void promoteUsers(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
@@ -153,7 +189,12 @@ public class AdminToolsAccessRolesTable extends Fragment {
         });
 
     }
-
+    /**
+     * Demotes a user to a lower role.
+     * @param id The ID of the access role.
+     * @param Userid The ID of the user.
+     * @param Roleid The ID of the role to demote the user to.
+     */
     public void demoteUsers(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
@@ -189,7 +230,12 @@ public class AdminToolsAccessRolesTable extends Fragment {
         });
 
     }
-
+    /**
+     * Lists all roles associated with a user.
+     * @param id The ID of the access role.
+     * @param Userid The ID of the user.
+     * @param Roleid The ID of the role.
+     */
     public void listAllRoles(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
@@ -225,7 +271,12 @@ public class AdminToolsAccessRolesTable extends Fragment {
         });
 
     }
-
+    /**
+     * Changes the role of a user.
+     * @param id The ID of the access role.
+     * @param Userid The ID of the user.
+     * @param Roleid The ID of the new role.
+     */
     public void changeUsersRole(int id, int Userid, int Roleid){
         String finalUrl = Constants.BASE_URL + "/access_roles";
         JSONObject postData = new JSONObject();
