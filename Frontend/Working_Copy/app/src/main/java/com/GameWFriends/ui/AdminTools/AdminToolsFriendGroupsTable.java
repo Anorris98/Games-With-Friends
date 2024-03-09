@@ -7,30 +7,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFriends.R;
+import com.GameWFriends.APIServices.GenericViewModel;
+import com.GameWFriends.APIServices.ServerTools;
 import com.GameWFriends.APIServices.VolleyAPIService;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.GameWFriends.R;
 
 /**
+ * @author Alek
+ * @updated 3/8/2024 functions moved to ServerTools helper class to clear up clutter and reduce redundancy.
  * This class is the fragment for the Admin Tools Friend Groups Table, Has buttons for the user
  * To interact with  and be able to view the tools and manipulation tools.
  */
 public class AdminToolsFriendGroupsTable extends Fragment {
 
     /**AdminToolsFriendGroupsTableViewModel mViewModel; */
-    private AdminToolsFriendGroupsTableViewModel mViewModel;
+    private GenericViewModel mViewModel;
     /**VolleyAPIService apiService; */
     private VolleyAPIService apiService;
+
+    private ServerTools serverTools;
 
     /**
      * This method is used to create a new instance of the fragment.
@@ -44,13 +45,17 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         //Initalize the VolleyAPI Service with the fragments context.
         apiService = new VolleyAPIService(requireContext());
 
+
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_admin_tools_friend_groups_table, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(AdminToolsFriendGroupsTableViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(GenericViewModel.class);
+
+        serverTools = new ServerTools(getContext(), apiService, mViewModel);
 
         setupListeners(view);
 
@@ -58,6 +63,8 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         // Update the TextView with the response (ide combined these two statements, left for note clarity.)
         TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
         mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
+
+
     }
 
     /**
@@ -136,59 +143,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param stringUserIds the string of user ids to be added to the friend group.
      */
     public void createFriendGroup(String stringUserIds) {
-        // Split the input string into an array of ID strings
-        String[] idStrings = stringUserIds.split(",");
-
-        // Create a JSON array to hold the user IDs
-        JSONArray userIdsJsonArray = new JSONArray();
-
-        // Convert each ID from the string array to an integer and add it to the JSON array
-        for (String idStr : idStrings) {
-            try {
-                Integer id = Integer.parseInt(idStr.trim()); // Trim to remove any leading or trailing spaces
-                userIdsJsonArray.put(id);
-            } catch (NumberFormatException e) {
-                // Handle the case where the input is not a valid integer
-                Toast.makeText(getContext(), "Invalid input: " + idStr, Toast.LENGTH_SHORT).show();
-                return; // Return early if any input is invalid
-            }
-        }
-
-        // Construct the final URL using the groupId
-        String finalUrl = Constants.BASE_URL + "/friend_groups";
-
-        // Create the JSON object for the request body
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("memberIds", userIdsJsonArray); // Add the user ID array to the JSON object under the key "groups"
-        } catch (JSONException e) {
-            Toast.makeText(getContext(), "Error creating JSON for update", Toast.LENGTH_SHORT).show();
-            return; // Return early if there is an error creating the JSON object
-        }
-
-        // Make the PUT request
-        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                // Handle successful response
-                Toast.makeText(getContext(), "Friend group updated successfully", Toast.LENGTH_LONG).show();
-
-            }
-        });
+        serverTools.createFriendGroup(stringUserIds);
     }
 
     /**
@@ -196,102 +151,16 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param userId the user id to get the friend groups for.
      */
     public void getFriendGroupsUserIsIn(Integer userId) {
-        String finalUrl = Constants.BASE_URL + "/friend_groups";
-
-        // Create the JSON body with userId
-        JSONObject requestBody = new JSONObject();
-        try {
-            requestBody.put("userId", userId);
-        } catch (JSONException e) {
-            Toast.makeText(getContext(), "Error creating JSON object", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        apiService.getRequest(finalUrl, userId, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-
-                // Handle successful response
-                Toast.makeText(getContext(), "Friend groups retrieved successfully", Toast.LENGTH_LONG).show();
-                // Optionally parse and use the response data
-            }
-        });
+        serverTools.getFriendGroupsUserIsIn(userId);
     }
 
-    //TODO: needs to be updated/checked to see if we need to send a list of user id's still to add to the group or just an individual user ID is needed.
     /**
      * This method is used to update a friend group.
      * @param stringUserIds the string of user ids to be added to the friend group.
      * @param groupId the id of the group to be updated.
      */
     public void updateFriendGroup(String stringUserIds, Integer groupId) {
-        // Split the input string into an array of ID strings
-        String[] idStrings = stringUserIds.split(",");
-
-        // Create a JSON array to hold the user IDs
-        JSONArray userIdsJsonArray = new JSONArray();
-
-        // Convert each ID from the string array to an integer and add it to the JSON array
-        for (String idStr : idStrings) {
-            try {
-                Integer id = Integer.parseInt(idStr.trim()); // Trim to remove any leading or trailing spaces
-                userIdsJsonArray.put(id);
-            } catch (NumberFormatException e) {
-                // Handle the case where the input is not a valid integer
-                Toast.makeText(getContext(), "Invalid input: " + idStr, Toast.LENGTH_SHORT).show();
-                return; // Return early if any input is invalid
-            }
-        }
-
-        // Construct the final URL using the groupId
-        String finalUrl = Constants.BASE_URL + "/friend_groups/" + groupId;
-
-        // Create the JSON object for the request body
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("memberIds", userIdsJsonArray); // Add the user ID array to the JSON object under the key "groups"
-        } catch (JSONException e) {
-            Toast.makeText(getContext(), "Error creating JSON for update", Toast.LENGTH_SHORT).show();
-            return; // Return early if there is an error creating the JSON object
-        }
-
-        // Make the PUT request
-        apiService.putRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                // Handle successful response
-                Toast.makeText(getContext(), "Friend group updated successfully", Toast.LENGTH_LONG).show();
-
-            }
-        });
+        serverTools.updateFriendGroup(stringUserIds, groupId);
     }
 
     /**
@@ -299,31 +168,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param groupId the id of the group to get the users for.
      */
     public void getUsersInGroup(Integer groupId) {
-        String finalUrl = Constants.BASE_URL + "/friend_groups/" + groupId;
-
-        // Make the GET request
-        apiService.getRequest(finalUrl, groupId, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                // Handle successful response
-                Toast.makeText(getContext(), "Users retrieved successfully", Toast.LENGTH_LONG).show();
-                // Optionally parse and use the response data
-            }
-        });
+        serverTools.getUsersInGroup(groupId);
     }
 
     /**
@@ -332,37 +177,6 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param UserRequestingDeleteId the id of the user requesting the delete.
      */
     public void deleteFriendGroup(int groupId, int UserRequestingDeleteId) {
-        String finalUrl = Constants.BASE_URL + "/friend_groups/" + groupId; // Assuming this is your endpoint for deleting friend groups
-
-        // Make the DELETE request
-        apiService.deleteRequest(finalUrl, UserRequestingDeleteId, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                // Handle successful response
-                Toast.makeText(getContext(), "Friend group deleted successfully", Toast.LENGTH_LONG).show();
-                // Optionally parse and use the response data
-            }
-        });
+        serverTools.deleteFriendGroup(groupId, UserRequestingDeleteId);
     }
-
-    //TODO: need to implement single user removal from group, waiting on backend to finish implementing it, or to let me know officially how it will be implemented, either by sending an update with a group id of a user in the group, or by a seprate call.
-    //check with markus about this, he may have it implemented already.
-
-
-
-
 }

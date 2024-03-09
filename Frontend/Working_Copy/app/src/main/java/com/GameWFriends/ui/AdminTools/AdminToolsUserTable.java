@@ -1,36 +1,27 @@
 package com.GameWFriends.ui.AdminTools;
 
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFriends.R;
+import com.GameWFriends.APIServices.GenericViewModel;
+import com.GameWFriends.APIServices.ServerTools;
 import com.GameWFriends.APIServices.VolleyAPIService;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.GameWFriends.R;
 
 /**
+ * @author Alek Norris
+ * @updated 2024-03-08, methods were all moved to ServerTools In api, to keep things running smoothly, a stripped version of
+ * the original method was left and within them is a call to the server tools method.
  * AdminToolsUserTable is a fragment that allows an admin to perform various actions on user accounts
  * Through Buttons to access specific fragments.
  * Also was used while building the app to test calls and functions for functionality.
@@ -40,12 +31,16 @@ public class AdminToolsUserTable extends Fragment {
     /**
      * The ViewModel for the AdminToolsUserTable fragment
      */
-    private AdminToolsUserTableViewModel mViewModel;
+    GenericViewModel mViewModel;
     /**
      * The VolleyAPIService for the AdminToolsUserTable fragment
      */
     private VolleyAPIService apiService;
 
+    /**
+     * The ServerTools instance for all Server api table manipulation
+     */
+    ServerTools serverTools;
 
 
     public static AdminToolsUserTable newInstance() {
@@ -68,7 +63,9 @@ public class AdminToolsUserTable extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(AdminToolsUserTableViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(GenericViewModel.class);
+
+        serverTools = new ServerTools(getContext(), apiService, mViewModel);
 
 
         // Setup button click listeners
@@ -84,15 +81,15 @@ public class AdminToolsUserTable extends Fragment {
 
     /**
      * Setup the listeners for the buttons in the fragment
+     *
      * @param view the view for buttons and listeners to be recognized. View must be passed.
      */
     private void setupListeners(View view) {
         //Edit text declarations
         EditText numberUserIDGroupID = view.findViewById(R.id.editTextGroupId);        // texview: Userid/GroupID
-        EditText emailEmailAddress  = view.findViewById(R.id.editTextGroup);           // texview: EmailAddress
-        EditText textUsername       = view.findViewById(R.id.editTextUserID);          // texview: Username, Havent Used Yet, but will need to eventually.
-        EditText passwordPassword   = view.findViewById(R.id.editTextRoleId);          // texview: Password
-
+        EditText emailEmailAddress = view.findViewById(R.id.editTextGroup);           // texview: EmailAddress
+        EditText textUsername = view.findViewById(R.id.editTextUserID);          // texview: Username, Havent Used Yet, but will need to eventually.
+        EditText passwordPassword = view.findViewById(R.id.editTextRoleId);          // texview: Password
 
 
         //button declarations
@@ -139,7 +136,7 @@ public class AdminToolsUserTable extends Fragment {
                 int finalId = getUseriD(numberUserIDGroupID);
 
                 // Call getRequest from VolleyAPIService
-               fetchUserProfile(finalId);
+                fetchUserProfile(finalId);
             }
         });
 
@@ -153,7 +150,7 @@ public class AdminToolsUserTable extends Fragment {
                 // Call PutRequest from VolleyAPIService
                 String displayName = textUsername.getText().toString();
                 String description = "I am vibing ^-^";
-                byte[] profilePicture = {1,2,3,4,5};
+                byte[] profilePicture = {1, 2, 3, 4, 5};
                 updateUserProfile(finalId, displayName, description, profilePicture);
 
 
@@ -198,144 +195,48 @@ public class AdminToolsUserTable extends Fragment {
 
     /**
      * Function for Deleting a user
-     * @param userIdtoDelete the users ID
+     *
+     * @param userIdtoDelete         the users ID
      * @param UserIdRequestingDelete the users current password
      */
     public void deleteUser(int userIdtoDelete, int UserIdRequestingDelete) {
-        String finalUrl = Constants.BASE_URL + "/users/" + userIdtoDelete;
-
-        apiService.deleteRequest(finalUrl, UserIdRequestingDelete, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Error message context for user deletion
-                Toast.makeText(getContext(), "User Deletion Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                // Success message context for user deletion
-                Toast.makeText(getContext(), "User Deletion Success", Toast.LENGTH_LONG).show();
-                try {
-                    // Optionally display the response for demo purposes
-                    String formattedResponse = response.toString(4); // 4 spaces for indentation
-                    mViewModel.setResponse("User deletion response: " + formattedResponse);
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Error parsing user deletion response", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        serverTools.deleteUser(userIdtoDelete, UserIdRequestingDelete);
     }
 
 
     /**
      * Function for changing a users password.
+     *
      * @param userId User ID
      * @param oldpwd users old pwd
      * @param newpwd users new password
      */
     public void changeUserPassword(int userId, String oldpwd, String newpwd) {
-        String finalUrl = Constants.BASE_URL + "/users/" + userId + "/password";
-
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("oldPassword", oldpwd);
-            postData.put("newPassword", newpwd);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for password change", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        apiService.putRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Error message context for password change
-                Toast.makeText(getContext(), "Password Change Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                // Success message context for password change
-                Toast.makeText(getContext(), "Password Change Success", Toast.LENGTH_LONG).show();
-                try {
-                    //we only display for demo 2 purposes.
-                    String formattedResponse = response.toString(4); // 4 spaces for indentation
-                    mViewModel.setResponse("Password change response: " + formattedResponse);
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Error parsing password change response", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        serverTools.changeUserPassword(userId, oldpwd, newpwd);
     }
 
 
-    /** Update user profile information, unsure how this works on the backend, but leave empty if no changes are desired.?
-    * @param userId the users ID
-     * @param displayName the new user profile name
-     * @param description the new user description
+    /**
+     * Update user profile information, unsure how this works on the backend, but leave empty if no changes are desired.?
+     *
+     * @param userId             the users ID
+     * @param displayName        the new user profile name
+     * @param description        the new user description
      * @param profilePictureData the new profile photo information.
-    *
      */
     public void updateUserProfile(int userId, String displayName, String description, byte[] profilePictureData) {
-        String finalUrl = Constants.BASE_URL + "/users/" + userId; // URL to the user update endpoint
-
-        // Convert the binary data of the profile picture to a Base64 encoded string
-        String profilePictureBase64 = Base64.encodeToString(profilePictureData, Base64.DEFAULT);
-
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("displayName", displayName);
-            postData.put("description", description);
-            postData.put("profilePicture", profilePictureBase64); // Include the Base64 encoded picture data
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for profile update", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        apiService.putRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Error message context for profile update
-                Toast.makeText(getContext(), "Profile Update Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                // Success message context for profile update
-                Toast.makeText(getContext(), "Profile Update Success", Toast.LENGTH_LONG).show();
-                try {
-                    // Optionally format the response for readability
-                    String formattedResponse = response.toString(4); // 4 spaces for indentation
-                    mViewModel.setResponse("Profile update response: " + formattedResponse);
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Error parsing profile update response", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        serverTools.updateUserProfile(userId, displayName, description, profilePictureData);
     }
 
 
-
-
-    /**Function converts edit text to an int.
+    /**
+     * Function converts edit text to an int.
      *
      * @param Id
      * @return the int value for the edittext/the user id
      */
-    public int getUseriD(EditText Id){
-        int userIDGroupID;
-
-        try {
-            userIDGroupID = Integer.parseInt(Id.getText().toString());
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Error: please Enter a number ", Toast.LENGTH_LONG).show();
-
-
-            //just incase set it to error 402 for now.
-            userIDGroupID = 402;
-        }
-                return userIDGroupID;
+    public int getUseriD(EditText Id) {
+        return serverTools.getUseriD(Id);
     }
 
     /**
@@ -343,45 +244,12 @@ public class AdminToolsUserTable extends Fragment {
      * Not many notes, however, this is a slightly modified version of the register user,
      * any specifics can be found in that method.
      *
-     * @param email the email of the new user..
+     * @param email    the email of the new user..
      * @param password the password the person wants to register
      */
     public void loginUser(String email, String password) {
-        String finalUrl = Constants.BASE_URL + "/login";
-
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("email", email);
-            postData.put("password", password);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for login", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-
-                Toast.makeText(getContext(), "Login Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-
-                Toast.makeText(getContext(), "Login Success", Toast.LENGTH_LONG).show();
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
-                    mViewModel.setResponse("Login response: " + formattedResponse);
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Error parsing login response", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        serverTools.loginUser(email, password);
     }
-
 
 
     /**
@@ -390,110 +258,18 @@ public class AdminToolsUserTable extends Fragment {
      * @param userId the ID of the user whose profile is to be fetched.
      */
     public void fetchUserProfile(int userId) {
-        String finalUrl = Constants.BASE_URL + "/users/" + userId;
-
-        apiService.getRequest(finalUrl,  userId, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
-            }
-        });
+        serverTools.fetchUserProfile(userId);
     }
 
 
     /**
      * Registers a user.
      *
-     * @param email the email of the new user..
+     * @param email    the email of the new user..
      * @param password the password the person wants to register
      */
-
-//    public void registerUser(String email, String password) {
-//        String finalUrl = Constants.BASE_URL + "/users";
-//
-//        JSONObject postData = new JSONObject();
-//
-//        try {
-//            postData.put("email", email);
-//            postData.put("password", password);
-//            //when needing to add a username with the todo later, add it here.
-//            // postData.put("username", username);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            Toast.makeText(getContext(), "Error creating JSON object for registration", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-//            @Override
-//            public void onError(String message) {
-//                Log.e("RegistrationError", message);
-//                Toast.makeText(getContext(), "Registration Error: " + message, Toast.LENGTH_LONG).show();
-//                mViewModel.setResponse("Registration response: " + message);
-//            }
-//
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                Toast.makeText(getContext(), "Registration Success", Toast.LENGTH_LONG).show();
-//                try {
-//                    //this is currently being used to see the responses in a text for demo 2
-//                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
-//                    mViewModel.setResponse("Registration response: " + formattedResponse);
-//                } catch (JSONException e) {
-//                    Toast.makeText(getContext(), "Error parsing registration response", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-//    }
-
     public void registerUser(String email, String password) {
-        String finalUrl = Constants.BASE_URL + "/users";
-
-        JSONObject postData = new JSONObject();
-
-        try {
-            postData.put("email", email);
-            postData.put("password", password);
-            //when needing to add a username with the todo later, add it here.
-            // postData.put("username", username);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error creating JSON object for registration", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                Log.e("RegistrationError", message);
-                Toast.makeText(getContext(), "Registration Error: " + message, Toast.LENGTH_LONG).show();
-                mViewModel.setResponse("Registration response: " + message);
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                Toast.makeText(getContext(), "Registration Success", Toast.LENGTH_LONG).show();
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
-                    mViewModel.setResponse("Registration response: " + formattedResponse);
-                } catch (JSONException e) {
-                    Toast.makeText(getContext(), "Error parsing registration response", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        serverTools.registerUser(email, password);
     }
 
 
@@ -501,65 +277,18 @@ public class AdminToolsUserTable extends Fragment {
      * Retrieves all user data for a specific user
      */
     public void getAllUserData() {
-        String finalUrl = Constants.BASE_URL + "/users";
-
-        apiService.getRequest(finalUrl, 0, new VolleyAPIService.VolleyResponseListener() {
-            @Override
-            public void onError(String message) {
-                // Display error message
-                Toast.makeText(getContext(), "Error: " + message, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(getContext(), "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
-            }
-        });
+        serverTools.getAllUserData();
     }
 
     /**
      * Specific Get request for get users (for demo 2 only currently.)
-     * @param finalUrl the final url
+     *
+     * @param finalUrl      the final url
      * @param userOrGroupId the user or group id
-     * @param listener the listener
+     * @param listener      the listener
      */
-    public void getRequest(final String finalUrl,  final int userOrGroupId, final VolleyAPIService.VolleyResponseListener listener) {
-
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, finalUrl, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        listener.onResponse(response); //pass string value
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMessage = "That didn't work!";
-                        if (error.getMessage() != null) {
-                            errorMessage += " " + error.getMessage();
-                        }
-                        listener.onError(errorMessage);
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-        };
+    public void getRequest(final String finalUrl, final int userOrGroupId, final VolleyAPIService.VolleyResponseListener listener) {
+        serverTools.getRequest(finalUrl, userOrGroupId, listener);
     }
-
-
 
 }
