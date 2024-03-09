@@ -1,4 +1,4 @@
-package com.GameWFriends.APIServices;
+package com.GameWFriends.APIServices.ServerInteractionCode;
 
 import android.content.Context;
 import android.util.Base64;
@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
 import com.GameWFriends.ui.AdminTools.Constants;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;

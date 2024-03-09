@@ -1,4 +1,4 @@
-package com.GameWFriends.APIServices;
+package com.GameWFriends.APIServices.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

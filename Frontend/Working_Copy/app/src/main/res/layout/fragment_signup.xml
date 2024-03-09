@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.LoginandSignup.SignupFragment">
+
+    <TextView
+        android:id="@+id/tvSignUpLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="SignUp"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editextsignupEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editextsignupEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSignUpLabel" />
+
+    <EditText
+        android:id="@+id/edittextsignupConfirmEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Confirm Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/editextsignupEmail"
+        app:layout_constraintStart_toStartOf="@+id/editextsignupEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editextsignupEmail"
+        android:minHeight="48dp"/>
+
+    <EditText
+        android:id="@+id/edittextsignupPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edittextsignupConfirmEmail"
+        app:layout_constraintStart_toStartOf="@+id/edittextsignupConfirmEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edittextsignupConfirmEmail"
+        android:minHeight="48dp"/>
+
+    <EditText
+        android:id="@+id/edittextsingupConfirmPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edittextsignupPassword"
+        app:layout_constraintStart_toStartOf="@+id/edittextsignupPassword"
+        app:layout_constraintTop_toBottomOf="@+id/edittextsignupPassword"
+        android:minHeight="48dp"/>
+
+    <Button
+        android:id="@+id/buttonsignupSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        app:layout_constraintTop_toBottomOf="@+id/edittextsingupConfirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/edittextsingupConfirmPassword"
+        app:layout_constraintEnd_toEndOf="@+id/edittextsingupConfirmPassword"
+        android:layout_marginTop="24dp"
+        android:minHeight="48dp"/>
+
+    <Button
+        android:id="@+id/buttonsignupLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        app:layout_constraintTop_toBottomOf="@+id/buttonsignupSignUp"
+        app:layout_constraintStart_toStartOf="@+id/buttonsignupSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/buttonsignupSignUp"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

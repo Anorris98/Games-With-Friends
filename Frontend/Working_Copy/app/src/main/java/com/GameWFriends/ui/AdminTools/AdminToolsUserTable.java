@@ -13,9 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFriends.APIServices.GenericViewModel;
-import com.GameWFriends.APIServices.ServerTools;
-import com.GameWFriends.APIServices.VolleyAPIService;
+import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
+import com.GameWFriends.APIServices.ServerInteractionCode.ServerTools;
+import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
 import com.GameWFriends.R;
 
 /**

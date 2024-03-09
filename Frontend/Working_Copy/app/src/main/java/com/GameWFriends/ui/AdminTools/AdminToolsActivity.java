@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,6 +13,8 @@ import com.GameWFriends.R;
 import com.GameWFriends.databinding.ActivityAdminToolsBinding;
 
 /**
+ * @author Alek
+ * @updated 03/09/2024 Reduced code clutter, redundant code, as well as methods to make the code more modular and easier to read. while also adding javadocs
  * This class is the activity for the Admin Tools, Has buttons for the user
  * To interact with  and be able to view the tools and manipulation tools.
  */
@@ -26,6 +29,26 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding = ActivityAdminToolsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setupListeners();
+    }
+
+    /**
+     * This method is called when the activity is created and initializes the UI elements.
+     */
+    private void onCreateInit() {
+
+        Button ButtonUserTable          = findViewById(R.id.Button_UserTable);
+        Button ButtonFriendGroupsTable  = findViewById(R.id.Button_friendGroupsTable);
+        Button ButtonTrophiesTable      = findViewById(R.id.Button_TrophiesTable);
+        Button ButtonAccessRoles        = findViewById(R.id.Button_AccessRolesTable);
+
+        setupListeners();
+    }
+
+    /**
+     * This method is called when the activity is created and from the onCreateInit method. to set up listeners.
+     */
+    private void setupListeners() {
         // Setup the listener for back stack changes
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener(){
             @Override
@@ -37,72 +60,24 @@ public class AdminToolsActivity extends AppCompatActivity {
             }
         });
 
-
-        Button ButtonUserTable          = findViewById(R.id.Button_UserTable);
-        Button ButtonFriendGroupsTable  = findViewById(R.id.Button_friendGroupsTable);
-        Button ButtonTrophiesTable      = findViewById(R.id.Button_TrophiesTable);
-        Button ButtonAccessRoles        = findViewById(R.id.Button_AccessRolesTable);
-
-
-        //TODO: condense this code, the 4 calls can all be put into a method and we can shrink this whole thing and make it more readable.
         binding.ButtonAccessRolesTable.setOnClickListener(view -> {
-            HideButtons();
-            // Create a new instance of the fragment
-            AdminToolsAccessRolesTable userTableFragment = AdminToolsAccessRolesTable.newInstance();
-            // Begin a fragment transaction
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            // Replace the container with the new fragment
-            transaction.replace(com.GameWFriends.R.id.fragment_container, userTableFragment);
-            // Add the transaction to the back stack, so the user can navigate back
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
+            changeFragment(AdminToolsAccessRolesTable.newInstance());
         });
 
-
         binding.ButtonTrophiesTable.setOnClickListener(view -> {
-            HideButtons();
-            // Create a new instance of the fragment
-            AdminToolsTrophiesTable userTableFragment = AdminToolsTrophiesTable.newInstance();
-            // Begin a fragment transaction
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            // Replace the container with the new fragment
-            transaction.replace(com.GameWFriends.R.id.fragment_container, userTableFragment);
-            // Add the transaction to the back stack, so the user can navigate back
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
+            changeFragment(AdminToolsTrophiesTable.newInstance());
         });
 
         binding.ButtonFriendGroupsTable.setOnClickListener(view -> {
-            HideButtons();
-            // Create a new instance of the fragment
-            AdminToolsFriendGroupsTable userTableFragment = AdminToolsFriendGroupsTable.newInstance();
-            // Begin a fragment transaction
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            // Replace the container with the new fragment
-            transaction.replace(com.GameWFriends.R.id.fragment_container, userTableFragment);
-            // Add the transaction to the back stack, so the user can navigate back
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
+            changeFragment(AdminToolsFriendGroupsTable.newInstance());
         });
 
         //change to fragment. Hide the current stuff.
         binding.ButtonUserTable.setOnClickListener(view -> {
-            HideButtons();
-            // Create a new instance of the fragment
-            AdminToolsUserTable userTableFragment = AdminToolsUserTable.newInstance();
-            // Begin a fragment transaction
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            // Replace the container with the new fragment
-            transaction.replace(com.GameWFriends.R.id.fragment_container, userTableFragment);
-            // Add the transaction to the back stack, so the user can navigate back
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
+            changeFragment(AdminToolsUserTable.newInstance());
         });
     }
+
 
 
     /**
@@ -125,6 +100,25 @@ public class AdminToolsActivity extends AppCompatActivity {
         binding.ButtonTrophiesTable.setVisibility(View.VISIBLE);
         binding.ButtonAccessRolesTable.setVisibility(View.VISIBLE);
         binding.TextviewAdminGreeting.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Changes the fragment to the new fragment
+     * @param fragment the new fragment to change to
+     */
+    public void changeFragment(Fragment fragment){
+        // Hide UI elements if needed
+        HideButtons();
+
+
+        // Begin a fragment transaction
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // Replace the container with the new fragment
+        transaction.replace(com.GameWFriends.R.id.fragment_container, fragment);
+        // Optionally add the transaction to the back stack
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
 
 }
