@@ -31,7 +31,7 @@ import java.util.Map;
  * To use this class one should initialize it with the context of the fragment or activity, the apiService,
  * and the generic view model
  */
-public class ServerTools {
+public class ServerToolsDemoTwo {
 
     /**
      * The apiService instance
@@ -56,7 +56,7 @@ public class ServerTools {
      * @param apiService the VolleyAPIService instance
      * @param viewModel  the GenericViewModel instance
      */
-    public ServerTools(Context context, VolleyAPIService apiService, GenericViewModel viewModel) {
+    public ServerToolsDemoTwo(Context context, VolleyAPIService apiService, GenericViewModel viewModel) {
         this.context = context;
         this.apiService = apiService;
         this.mViewModel = viewModel;
@@ -214,8 +214,44 @@ public class ServerTools {
      * @param email    the email of the new user..
      * @param password the password the person wants to register
      */
+    public void loginUser(String email, String password) {
+        String finalUrl = Constants.BASE_URL + "/login";
 
-    public void loginUser(String email, String password, @Nullable CustomResponseHandler customHandler) {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email", email);
+            postData.put("password", password);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Error creating JSON object for login", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
+            @Override
+            public void onError(String message) {
+
+                Toast.makeText(context, "Login Error: " + message, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Toast.makeText(context, "Login Success", Toast.LENGTH_LONG).show();
+                try {
+                    //this is currently being used to see the responses in a text for demo 2
+                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
+                    mViewModel.setResponse("Login response: " + formattedResponse);
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Error parsing login response", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    ///here is the custom response handler for the login user, this is used to handle the response from the server.
+    public void CustomResponseloginUser(String email, String password, @Nullable CustomResponseHandler customHandler) {
         String finalUrl = Constants.BASE_URL + "/login";
         JSONObject postData = new JSONObject();
         try {

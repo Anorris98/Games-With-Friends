@@ -13,14 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
-import com.GameWFriends.APIServices.ServerInteractionCode.ServerTools;
+import com.GameWFriends.APIServices.ServerInteractionCode.ServerToolsDemoTwo;
 import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
+import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
 import com.GameWFriends.R;
 
 /**
  * @author Alek Norris
- * @updated 2024-03-08, methods were all moved to ServerTools In api, to keep things running smoothly, a stripped version of
+ * @updated 2024-03-08, methods were all moved to ServerToolsDemoTwo In api, to keep things running smoothly, a stripped version of
  * the original method was left and within them is a call to the server tools method.
  * AdminToolsUserTable is a fragment that allows an admin to perform various actions on user accounts
  * Through Buttons to access specific fragments.
@@ -38,9 +38,9 @@ public class AdminToolsUserTable extends Fragment {
     private VolleyAPIService apiService;
 
     /**
-     * The ServerTools instance for all Server api table manipulation
+     * The ServerToolsDemoTwo instance for all Server api table manipulation
      */
-    ServerTools serverTools;
+    ServerToolsDemoTwo serverToolsDemoTwo;
 
 
     public static AdminToolsUserTable newInstance() {
@@ -65,7 +65,7 @@ public class AdminToolsUserTable extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(GenericViewModel.class);
 
-        serverTools = new ServerTools(getContext(), apiService, mViewModel);
+        serverToolsDemoTwo = new ServerToolsDemoTwo(getContext(), apiService, mViewModel);
 
 
         // Setup button click listeners
@@ -200,7 +200,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param UserIdRequestingDelete the users current password
      */
     public void deleteUser(int userIdtoDelete, int UserIdRequestingDelete) {
-        serverTools.deleteUser(userIdtoDelete, UserIdRequestingDelete);
+        serverToolsDemoTwo.deleteUser(userIdtoDelete, UserIdRequestingDelete);
     }
 
 
@@ -212,7 +212,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param newpwd users new password
      */
     public void changeUserPassword(int userId, String oldpwd, String newpwd) {
-        serverTools.changeUserPassword(userId, oldpwd, newpwd);
+        serverToolsDemoTwo.changeUserPassword(userId, oldpwd, newpwd);
     }
 
 
@@ -225,7 +225,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param profilePictureData the new profile photo information.
      */
     public void updateUserProfile(int userId, String displayName, String description, byte[] profilePictureData) {
-        serverTools.updateUserProfile(userId, displayName, description, profilePictureData);
+        serverToolsDemoTwo.updateUserProfile(userId, displayName, description, profilePictureData);
     }
 
 
@@ -236,7 +236,7 @@ public class AdminToolsUserTable extends Fragment {
      * @return the int value for the edittext/the user id
      */
     public int getUseriD(EditText Id) {
-        return serverTools.getUseriD(Id);
+        return serverToolsDemoTwo.getUseriD(Id);
     }
 
     /**
@@ -248,7 +248,8 @@ public class AdminToolsUserTable extends Fragment {
      * @param password the password the person wants to register
      */
     public void loginUser(String email, String password) {
-        serverTools.loginUser(email, password);
+        serverToolsDemoTwo.loginUser(email, password);
+
     }
 
 
@@ -258,7 +259,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param userId the ID of the user whose profile is to be fetched.
      */
     public void fetchUserProfile(int userId) {
-        serverTools.fetchUserProfile(userId);
+        serverToolsDemoTwo.fetchUserProfile(userId);
     }
 
 
@@ -269,7 +270,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param password the password the person wants to register
      */
     public void registerUser(String email, String password) {
-        serverTools.registerUser(email, password);
+        serverToolsDemoTwo.registerUser(email, password);
     }
 
 
@@ -277,7 +278,7 @@ public class AdminToolsUserTable extends Fragment {
      * Retrieves all user data for a specific user
      */
     public void getAllUserData() {
-        serverTools.getAllUserData();
+        serverToolsDemoTwo.getAllUserData();
     }
 
     /**
@@ -288,7 +289,7 @@ public class AdminToolsUserTable extends Fragment {
      * @param listener      the listener
      */
     public void getRequest(final String finalUrl, final int userOrGroupId, final VolleyAPIService.VolleyResponseListener listener) {
-        serverTools.getRequest(finalUrl, userOrGroupId, listener);
+        serverToolsDemoTwo.getRequest(finalUrl, userOrGroupId, listener);
     }
 
 }

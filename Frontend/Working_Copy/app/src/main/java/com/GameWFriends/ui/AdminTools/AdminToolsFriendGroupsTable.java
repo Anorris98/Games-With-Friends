@@ -13,14 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.GameWFriends.APIServices.ServerInteractionCode.ServerToolsDemoTwo;
 import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
-import com.GameWFriends.APIServices.ServerInteractionCode.ServerTools;
 import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
 import com.GameWFriends.R;
 
 /**
  * @author Alek
- * @updated 3/8/2024 functions moved to ServerTools helper class to clear up clutter and reduce redundancy.
+ * @updated 3/8/2024 functions moved to ServerToolsDemoTwo helper class to clear up clutter and reduce redundancy.
  * This class is the fragment for the Admin Tools Friend Groups Table, Has buttons for the user
  * To interact with  and be able to view the tools and manipulation tools.
  */
@@ -31,7 +31,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
     /**VolleyAPIService apiService; */
     private VolleyAPIService apiService;
 
-    private ServerTools serverTools;
+    private ServerToolsDemoTwo serverToolsDemoTwo;
 
     /**
      * This method is used to create a new instance of the fragment.
@@ -55,7 +55,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(GenericViewModel.class);
 
-        serverTools = new ServerTools(getContext(), apiService, mViewModel);
+        serverToolsDemoTwo = new ServerToolsDemoTwo(getContext(), apiService, mViewModel);
 
         setupListeners(view);
 
@@ -143,7 +143,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param stringUserIds the string of user ids to be added to the friend group.
      */
     public void createFriendGroup(String stringUserIds) {
-        serverTools.createFriendGroup(stringUserIds);
+        serverToolsDemoTwo.createFriendGroup(stringUserIds);
     }
 
     /**
@@ -151,7 +151,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param userId the user id to get the friend groups for.
      */
     public void getFriendGroupsUserIsIn(Integer userId) {
-        serverTools.getFriendGroupsUserIsIn(userId);
+        serverToolsDemoTwo.getFriendGroupsUserIsIn(userId);
     }
 
     /**
@@ -160,7 +160,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param groupId the id of the group to be updated.
      */
     public void updateFriendGroup(String stringUserIds, Integer groupId) {
-        serverTools.updateFriendGroup(stringUserIds, groupId);
+        serverToolsDemoTwo.updateFriendGroup(stringUserIds, groupId);
     }
 
     /**
@@ -168,7 +168,7 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param groupId the id of the group to get the users for.
      */
     public void getUsersInGroup(Integer groupId) {
-        serverTools.getUsersInGroup(groupId);
+        serverToolsDemoTwo.getUsersInGroup(groupId);
     }
 
     /**
@@ -177,6 +177,6 @@ public class AdminToolsFriendGroupsTable extends Fragment {
      * @param UserRequestingDeleteId the id of the user requesting the delete.
      */
     public void deleteFriendGroup(int groupId, int UserRequestingDeleteId) {
-        serverTools.deleteFriendGroup(groupId, UserRequestingDeleteId);
+        serverToolsDemoTwo.deleteFriendGroup(groupId, UserRequestingDeleteId);
     }
 }

@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hasLoggedIn = true;
         super.onCreate(savedInstanceState);
         OnCreateInit();
+        hasLoggedIn = false;
         HasUserLoggedinSignedUp();
     }
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         //TODO: need to create and store user information in the userINfo class.
         if (!hasLoggedIn) {
             //create a new user instance to begin storing the user information.
-            userinfo = new UserInfo(UserId, Username, Password);
+//            userinfo = new UserInfo(UserId, Username, Password);
             hasLoggedIn = true;
 
             //setup LoginActivity then handoff to it.

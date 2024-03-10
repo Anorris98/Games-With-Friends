@@ -1,58 +1,48 @@
 package com.GameWFriends;
 
-/**
- * This class is used to store user info once they have successfully logged in.
- */
+
+//TODO: need to make sure this is updated, then need to make sure it grabs all the users important information and updates them as well.
 public class UserInfo {
+    private static UserInfo instance;
 
-    /**
-     * Integer to Store UserID
-     */
-    private Integer userId;
+    // User information fields
+    private String username;
+    private String email;
+    private int userId;
 
-    /**
-     * String to Store UserName
-     */
-    private String userName;
-
-    /**
-     * String to Store UserEmail
-     */
-    private String userEmail;
-    // Add additional fields as necessary
-
-    /**
-     * Constructor for UserInfo, stores everything once a user has successfully logged  in.
-     * @param userId
-     * @param userName
-     * @param userEmail
-     */
-    public UserInfo(Integer userId, String userName, String userEmail) {
+    // Private constructor with userId as a parameter
+    private UserInfo(int userId) {
         this.userId = userId;
-        this.userName = userName;
-        this.userEmail = userEmail;
     }
 
-    /**
-     * Gets the current users Id
-     */
-    public Integer getUserId() {
+    // Static method to get the singleton instance
+    public static synchronized UserInfo getInstance(int userId) {
+        if (instance == null) {
+            instance = new UserInfo(userId);
+        }
+        return instance;
+    }
+
+    // Getter and setter for username
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Getter and setter for email
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Getter for userId (setter not provided as userId is set in constructor and presumed immutable)
+    public int getUserId() {
         return userId;
     }
-
-    /**
-     * Gets the current users Name
-     */
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * Gets the current users Email
-     */
-    public String getUserEmail() {
-        return userEmail;
-    }
-
 }
-

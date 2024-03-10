@@ -59,7 +59,7 @@
         android:minHeight="48dp"/>
 
     <EditText
-        android:id="@+id/edittextsingupConfirmPassword"
+        android:id="@+id/etConfirmPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -71,24 +71,24 @@
         android:minHeight="48dp"/>
 
     <Button
-        android:id="@+id/buttonsignupSignUp"
+        android:id="@+id/btnSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Sign Up"
-        app:layout_constraintTop_toBottomOf="@+id/edittextsingupConfirmPassword"
-        app:layout_constraintStart_toStartOf="@+id/edittextsingupConfirmPassword"
-        app:layout_constraintEnd_toEndOf="@+id/edittextsingupConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/etConfirmPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etConfirmPassword"
         android:layout_marginTop="24dp"
         android:minHeight="48dp"/>
 
     <Button
-        android:id="@+id/buttonsignupLogin"
+        android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Login"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsignupSignUp"
-        app:layout_constraintStart_toStartOf="@+id/buttonsignupSignUp"
-        app:layout_constraintEnd_toEndOf="@+id/buttonsignupSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
+        app:layout_constraintStart_toStartOf="@+id/btnSignUp"
+        app:layout_constraintEnd_toEndOf="@+id/btnSignUp"
         android:layout_marginTop="16dp"
         android:minHeight="48dp"/>
 
