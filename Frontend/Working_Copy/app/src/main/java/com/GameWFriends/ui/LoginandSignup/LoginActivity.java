@@ -15,7 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.GameWFriends.MainActivity;
 import com.GameWFriends.R;
+import com.GameWFriends.databinding.ActivityLoginBinding;
 
+//TODO: need to implement login and signup logic for user accounts.
 public class LoginActivity extends AppCompatActivity {
 
     private TextView messageText;   // define message textview variable
@@ -23,12 +25,20 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;     // define login button variable
     private Button signupButton;    // define signup button variable
 
+    private ActivityLoginBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);             // link to Main activity XML
 
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        OnCreateInit();
+        setupListeners();
+//        onLoginorSignup();
+    }
 
+    private void onLoginorSignup(){
         /* extract data passed into this activity from another activity */
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -77,10 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideUiElements();
-
-                //TODO: update this now that we are not using the example login stuff.
-
+                changeFragment(LoginFragment.newInstance());
             }
         });
 
@@ -88,11 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideUiElements();
-
-                /* when signup button is pressed, use intent to switch to Signup Fragment */
-                //TODO: update this now that we are not using the example login stuff.
-
+                changeFragment(SignupFragment.newInstance());
             }
         });
 
@@ -109,6 +112,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * hideUiElements is a method that hides the UI elements of the LoginActivity
+     */
     private void hideUiElements() {
         //hide the login and signup buttons
         loginButton.setVisibility(View.INVISIBLE);
@@ -117,6 +123,9 @@ public class LoginActivity extends AppCompatActivity {
         usernameText.setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * showUiElements is a method that shows the UI elements of the main LoginActivity
+     */
     private void showUiElements() {
         //show the login and signup buttons
         loginButton.setVisibility(View.VISIBLE);
@@ -125,22 +134,13 @@ public class LoginActivity extends AppCompatActivity {
         usernameText.setVisibility(View.VISIBLE);
     }
 
-    public void changeFragment(Class<? extends Fragment> fragmentClass, Bundle args) {
-        // Hide UI elements if needed
+    /**
+     * changeFragment is a method that changes the fragment of the LoginActivity
+     *
+     * @param fragment the new fragment to change to
+     */
+    public void changeFragment(Fragment fragment) {
         hideUiElements();
-
-        // Create a new instance of the fragment using reflection
-        Fragment fragment = null;
-        try {
-            fragment = fragmentClass.newInstance();
-            if (args != null) {
-                fragment.setArguments(args);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
         // Begin a fragment transaction
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace the container with the new fragment

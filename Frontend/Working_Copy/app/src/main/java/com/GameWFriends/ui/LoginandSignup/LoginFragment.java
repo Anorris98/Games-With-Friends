@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +16,8 @@ import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
 import com.GameWFriends.R;
 
 /**
- * @author Alek Norris
- * @updated 2024-03-08, methods were all moved to ServerTools In api, to keep things running smoothly, a stripped version of
- * the original method was left and within them is a call to the server tools method.
- * LoginFragment is a fragment that allows an admin to perform various actions on user accounts
- * Through Buttons to access specific fragments.
- * Also was used while building the app to test calls and functions for functionality.
+ * @author Alek
+* a fragment to handle the login in of a registered user.
  */
 public class LoginFragment extends Fragment {
 
@@ -42,8 +37,7 @@ public class LoginFragment extends Fragment {
 
 
     /**
-     * Create a new instance of the LoginFragment
-     *
+     * constructor for the LoginFragment
      * @return a new instance of the LoginFragment
      */
     public static LoginFragment newInstance() {
@@ -57,7 +51,7 @@ public class LoginFragment extends Fragment {
         apiService = new VolleyAPIService(requireContext());
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_tools_user_table, container, false);
+        return inflater.inflate(R.layout.fragment_login, container, false);
 
     }
 
@@ -73,8 +67,8 @@ public class LoginFragment extends Fragment {
 
         // Observe the LiveData for changes and update the TextView accordingly
         // Update the TextView with the response (ide combined these two statements, left for note clarity.)
-        TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
-        mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
+//        TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
+//        mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
 
         // Setup button click listeners
         setupListeners(view);

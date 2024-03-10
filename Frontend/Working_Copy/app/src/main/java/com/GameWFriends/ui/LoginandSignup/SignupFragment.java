@@ -5,61 +5,88 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.GameWFriends.APIServices.ServerInteractionCode.ServerTools;
+import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
+import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
 import com.GameWFriends.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link SignupFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * @author Alek Norris
+ * @updated 2024-03-08, methods were all moved to ServerTools In api, to keep things running smoothly, a stripped version of
+ * the original method was left and within them is a call to the server tools method.
+ * SignupFragment() is a fragment that allows an admin to perform various actions on user accounts
+ * Through Buttons to access specific fragments.
+ * Also was used while building the app to test calls and functions for functionality.
  */
 public class SignupFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    /**
+     * The ViewModel for the SignupFragment() fragment
+     */
+    GenericViewModel mViewModel;
+    /**
+     * The VolleyAPIService for the SignupFragment() fragment
+     */
+    private VolleyAPIService apiService;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    /**
+     * The ServerTools instance for all Server api table manipulation
+     */
+    ServerTools serverTools;
 
-    public SignupFragment() {
-        // Required empty public constructor
+
+    /**
+     * constructor for the SignupFragment()
+     * @return a new instance of the SignupFragment()
+     */
+    public static SignupFragment newInstance() {
+        return new SignupFragment();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        /*Initialize the VolleyAPIService with the fragment's context, context is required for being able to use device resources find view by ID etc.*/
+        apiService = new VolleyAPIService(requireContext());
+
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_signup, container, false);
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Initialize the ViewModel variable with this view after on create.
+        mViewModel = new ViewModelProvider(this).get(GenericViewModel.class);
+
+        // Initialize the ServerTools instance with the context, apiService, and ViewModel, will allow us to use server tools methods.
+        serverTools = new ServerTools(getContext(), apiService, mViewModel);
+
+        // Observe the LiveData for changes and update the TextView accordingly
+        // Update the TextView with the response (ide combined these two statements, left for note clarity.)
+//        TextView textViewResponse = view.findViewById(R.id.Textview_ResponseFriend);  //text view for string response
+//        mViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), textViewResponse::setText);
+
+        // Setup button click listeners
+        setupListeners(view);
+
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Setup the listeners for the buttons in the fragment
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignupFragment.
+     * @param view the view for buttons and listeners to be recognized. View must be passed.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SignupFragment newInstance(String param1, String param2) {
-        SignupFragment fragment = new SignupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private void setupListeners(View view) {
+
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false);
-    }
 }

@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        hasLoggedIn = true;
         super.onCreate(savedInstanceState);
         OnCreateInit();
+        hasLoggedIn = false;
         HasUserLoggedinSignedUp();
     }
 

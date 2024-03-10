@@ -109,8 +109,6 @@ public class AdminToolsActivity extends AppCompatActivity {
     public void changeFragment(Fragment fragment){
         // Hide UI elements if needed
         HideButtons();
-
-
         // Begin a fragment transaction
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace the container with the new fragment
