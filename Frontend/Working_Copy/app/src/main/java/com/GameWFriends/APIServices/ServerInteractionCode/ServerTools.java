@@ -47,6 +47,10 @@ public class ServerTools {
      * The GenericViewModel instance
      */
     private final GenericViewModel mViewModel;
+    /**
+     * The JsonObject for the user profile, if returned when called.
+     */
+    private JSONObject UserProfile;
 
 
     /**
@@ -261,30 +265,38 @@ public class ServerTools {
      *
      * @param userId the ID of the user whose profile is to be fetched.
      */
-    public void fetchUserProfile(int userId) {
+    public void fetchUserProfile(int userId, @Nullable CustomResponseHandler customHandler) {
         String finalUrl = Constants.BASE_URL + "/users/" + userId;
 
         apiService.getRequest(finalUrl, userId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                // Display error message
-                Toast.makeText(context, "Error: " + message, Toast.LENGTH_LONG).show();
+                if (customHandler != null) {
+                    customHandler.onError(message);
+                } else {
+                    // Default error handling
+                    Toast.makeText(context, "Error: " + message, Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(context, "Error handling JSON", Toast.LENGTH_LONG).show();
+                if (customHandler != null) {
+                    customHandler.onSuccess(response);
+                } else {
+                    // Default success behavior
+                    Toast.makeText(context, "Success", Toast.LENGTH_LONG).show();
+                    try {
+                        String formattedResponse = response.toString(4); // Indent with 4 spaces
+                        mViewModel.setResponse("Response is:\n" + formattedResponse);
+                    } catch (JSONException e) {
+                        Toast.makeText(context, "Error handling JSON", Toast.LENGTH_LONG).show();
+                    }
                 }
-                Toast.makeText(context, "Success", Toast.LENGTH_LONG).show();
             }
         });
     }
+
 
 
     /**
@@ -335,27 +347,19 @@ public class ServerTools {
     /**
      * Retrieves all user data for a specific user
      */
-    public void getAllUserData() {
+    public void getAllUserData(int userId) {
         String finalUrl = Constants.BASE_URL + "/users";
 
-        apiService.getRequest(finalUrl, 0, new VolleyAPIService.VolleyResponseListener() {
+        apiService.getRequest(finalUrl, userId, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                // Display error message
-                Toast.makeText(context, "Error: " + message, Toast.LENGTH_LONG).show();
+                //take error and log it/
+                Log.e("UserDataFetchError", message);
             }
 
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces
-                    mViewModel.setResponse("Response is:\n" + formattedResponse);
-                } catch (JSONException e) {
-                    // Handle JSON parsing error
-                    Toast.makeText(context, "Error handling JSON", Toast.LENGTH_LONG).show();
-                }
-                Toast.makeText(context, "Success", Toast.LENGTH_LONG).show();
+                UserProfile = response;
             }
         });
     }
@@ -623,6 +627,10 @@ public class ServerTools {
                 // Optionally parse and use the response data
             }
         });
+    }
+    public JSONObject getUserProfile(int userId) {
+        fetchUserProfile(userId, null);
+        return UserProfile;
     }
 
     //TODO: need to implement single user removal from group, waiting on backend to finish implementing it, or to let me know officially how it will be implemented, either by sending an update with a group id of a user in the group, or by a seprate call.

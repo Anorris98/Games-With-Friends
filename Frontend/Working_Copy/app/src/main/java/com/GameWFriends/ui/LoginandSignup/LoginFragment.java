@@ -1,6 +1,8 @@
 package com.GameWFriends.ui.LoginandSignup;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +19,11 @@ import com.GameWFriends.APIServices.ServerInteractionCode.CustomResponseHandler;
 import com.GameWFriends.APIServices.ServerInteractionCode.ServerTools;
 import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
 import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
+import com.GameWFriends.MainActivity;
 import com.GameWFriends.R;
+import com.GameWFriends.UserInfo;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -27,6 +32,7 @@ import org.json.JSONObject;
  */
 public class LoginFragment extends Fragment {
 
+    UserInfo userinfo;
     /**
      * The ViewModel for the LoginFragment fragment
      */
@@ -40,12 +46,13 @@ public class LoginFragment extends Fragment {
      * The ServerToolsDemoTwo instance for all Server api table manipulation
      */
     private ServerTools servertools;
+    private JSONObject ProfileInformation;
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonLogin;
     private Button buttonSignup;
 
-    private int userid;
+    private Integer userid;
 
 
     /**
@@ -110,15 +117,32 @@ public class LoginFragment extends Fragment {
                 @Override
                 public void onSuccess(JSONObject response) {
                     Toast.makeText(getContext(), "Login Success: ", Toast.LENGTH_LONG).show();
-//                    userid = Integer.parseInt(response.toString());
-                    userid = response.optInt("response");
-//TODO need to have this update the user info stuff.
+                    userid = response.optInt("response", -1);
+
+                    if (userid != -1) {
+                        userinfo = UserInfo.getInstance(userid, password,email);
+
+                        getprofileInformation(userid);
+                        //transfer back to main activity with the instance of userinfo.
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+// Optionally add flags to control the behavior of the intent
+// For example, to clear the top of the stack bringing `MainActivity` to the front
+
+                        userinfo.setUserLoggedIn(true);
+
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+
+                    } else {
+                        // Handle case where userId is not found or invalid
+                        Toast.makeText(getContext(), "Something went wrong on our end.", Toast.LENGTH_LONG).show();
+                        Log.e("LoginSuccess", "UserID not found in response");
+                    }
                 }
 
                 @Override
                 public void onError(String message) {
                     Toast.makeText(getContext(), "No matching username and password", Toast.LENGTH_LONG).show();
-
                 }
             });
 
@@ -129,6 +153,36 @@ public class LoginFragment extends Fragment {
         // Set the listener for the signup button //TODO: make sure this works.
         buttonSignup.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, SignupFragment.newInstance()).commitNow();
+        });
+    }
+
+    private void getprofileInformation(int userid){
+
+        servertools.fetchUserProfile(userid, new CustomResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                ProfileInformation = response;
+                try {
+                    // Extract individual properties
+                    String displayName = response.getString("displayname");
+                    String description = response.getString("description");
+                    String profilePicture = response.getString("profile-picture");
+
+                    userinfo.setUsername(displayName);
+                    userinfo.setBio(description);
+                    userinfo.setProfilePhoto(profilePicture);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // Handle parsing error
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(getContext(), "No matching username and password", Toast.LENGTH_LONG).show();
+            }
         });
     }
 

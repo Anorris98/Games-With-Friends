@@ -32,25 +32,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean hasLoggedIn;
 
-    /**
-     * The UserInfo for the App, stores user information, friends lists etc.
-     */
-    public UserInfo userinfo;
+    private UserInfo userinfo;
 
-    /**
-     * The User ID for the App, will be used to store temp information before transferring to the UserInfo class.
-     */
-    private int UserId;
-
-    /**
-     * The Username for the App, will be used to store temp information before transferring to the UserInfo class.
-     */
-    private String Username;
-
-    /**
-     * The User Email for the App, will be used to store temp information before transferring to the UserInfo class.
-     */
-    private String Password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
         if (!hasLoggedIn) {
             //create a new user instance to begin storing the user information.
 //            userinfo = new UserInfo(UserId, Username, Password);
-            hasLoggedIn = true;
 
             //setup LoginActivity then handoff to it.
             Intent intent = new Intent(com.GameWFriends.MainActivity.this, LoginActivity.class);
             startActivity(intent);
+
         }
 
         //user Has logged in, We can now open the main activity.
