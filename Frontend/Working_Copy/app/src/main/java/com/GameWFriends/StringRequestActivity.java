@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.GameWFriends.APIServices.ServerInteractionCode.VolleySingleton;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StringRequestActivity extends AppCompatActivity {
+
 
     private Button btnStringReq;
     private TextView msgResponse;

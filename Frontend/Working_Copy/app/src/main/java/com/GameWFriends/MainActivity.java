@@ -2,8 +2,6 @@ package com.GameWFriends;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -12,23 +10,58 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.GameWFriends.databinding.ActivityMainBinding;
+import com.GameWFriends.ui.LoginandSignup.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
+/**
+ * @author Alek Norris
+ * MainActivity is the main activity for the GameWFriends app
+ * It is the first activity that is launched when the app is opened
+ * It is the activity that contains the navigation bar and the fragments
+ * that are displayed when the user selects an option from the navigation bar
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * The binding for the MainActivity
+     */
     private ActivityMainBinding binding;
 
-    private TextView messageText;   // define message textview variable
-    private TextView usernameText;  // define username textview variable
-    private Button loginButton;     // define login button variable
-    private Button signupButton;    // define signup button variable
+    /**
+     * The boolean for if the user has logged in
+     */
+    private boolean hasLoggedIn;
 
-    private boolean hasLoggedIn = false;
+    private UserInfo userinfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OnCreateInit();
+        hasLoggedIn = false;
+        HasUserLoggedinSignedUp();
+    }
+
+    private void HasUserLoggedinSignedUp(){
+        //check if user has logged in
+        //TODO: this will be needing changed back to false for login screen to work, for demo 2 this has been nulled to use for testing of string pulling.
+        //TODO: need to create and store user information in the userINfo class.
+        if (!hasLoggedIn) {
+            //create a new user instance to begin storing the user information.
+//            userinfo = new UserInfo(UserId, Username, Password);
+
+            //setup LoginActivity then handoff to it.
+            Intent intent = new Intent(com.GameWFriends.MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
+
+        //user Has logged in, We can now open the main activity.
+
+    }
+
+    private void OnCreateInit(){
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,16 +76,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        //check if user has logged in
-        //TODO: this will be needing changed back to false for login screen to work, for demo 2 this has been nulled to use for testing of string pulling.
-        if (hasLoggedIn == false) {
-            hasLoggedIn = true;
-            Intent intent = new Intent(com.GameWFriends.MainActivity.this, askforloginActivity.class);
-            startActivity(intent);
-        }
-        //user has logged in, run like normal.
-        else {
-        }
     }
 
 }

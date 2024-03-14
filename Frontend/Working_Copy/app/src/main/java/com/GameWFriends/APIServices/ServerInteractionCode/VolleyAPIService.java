@@ -1,4 +1,4 @@
-package com.GameWFriends;
+package com.GameWFriends.APIServices.ServerInteractionCode;
 
 import android.content.Context;
 
@@ -18,26 +18,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-
-//Example of how to use this class in other activites:
-// VolleyAPIService apiService = new VolleyAPIService(getContext()); // Use 'this' if in an Activity
-//
-//apiService.deleteRequest(new VolleyAPIService.VolleyResponseListener() {
-//    @Override
-//    public void onError(String message) {
-//        // Handle error
-//    }
-//
-//    @Override
-//    public void onResponse(String response) {
-//        // Handle response
-//    }
-//});
-
+/**
+ * This class is used to make formated API requests using Volley library.
+ */
 public class VolleyAPIService {
 
-    //made equal to base as to not have to refactor this code.
+
+    /**
+     * The base url for the API
+     */
     private String url = Constants.BASE_URL;
+
+    /**
+     * The request queue
+     */
     private RequestQueue requestQueue; // Volley request queue
 
     // Constructor
@@ -64,20 +58,10 @@ public class VolleyAPIService {
                         String trimmedResponse = response.trim();
                         JSONObject responseObject = new JSONObject();
 
-                        // Check if the response is numeric (potentially an integer)
-                        if (trimmedResponse.matches("-?\\d+")) { // Regular expression for an integer
-                            int responseInt = Integer.parseInt(trimmedResponse);
-                            responseObject.put("response", responseInt);
-                        } else if (!trimmedResponse.isEmpty()) {
-                            // Handle non-numeric string response
-                            responseObject.put("message", trimmedResponse);
-                        } else {
-                            // Handle empty response
-                            responseObject.put("message", "Success, but no content");
-                        }
+                        JSONObject response1 = new JSONObject(response);    //todo, CHECK IF THIS WORKS ON SERVER, IF SO, WE CNA DELETE ALOT OF CODE.
 
                         // Notify listener about the successful response
-                        listener.onResponse(responseObject);
+                        listener.onResponse(response1);     //WE PASS IT HERE.
                     } catch (JSONException e) {
                         e.printStackTrace();
                         listener.onError("Error processing the response");

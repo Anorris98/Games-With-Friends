@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.GameWFriends.R;
-import com.GameWFriends.VolleyAPIService;
+import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -155,7 +155,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
      * @param Roleid The ID of the role to promote the user to.
      */
     public void promoteUsers(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
@@ -196,7 +196,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
      * @param Roleid The ID of the role to demote the user to.
      */
     public void demoteUsers(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
@@ -237,7 +237,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
      * @param Roleid The ID of the role.
      */
     public void listAllRoles(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {
@@ -278,7 +278,7 @@ public class AdminToolsAccessRolesTable extends Fragment {
      * @param Roleid The ID of the new role.
      */
     public void changeUsersRole(int id, int Userid, int Roleid){
-        String finalUrl = Constants.BASE_URL + "/access_roles";
+        String finalUrl = Constants.ELIURL + "/access_roles";
         JSONObject postData = new JSONObject();
 
         try {

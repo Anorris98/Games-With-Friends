@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 
 import com.GameWFriends.R;
-import com.GameWFriends.VolleyAPIService;
+import com.GameWFriends.APIServices.ServerInteractionCode.VolleyAPIService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -139,7 +139,7 @@ public class AdminToolsTrophiesTable extends Fragment {
     }
     //action preformed once delete trophy is slected
     public void deleteTrophy(int trophyID){
-        String finalUrl = Constants.BASE_URL + "/trophies/" + trophyID;
+        String finalUrl = Constants.ELIURL + "/trophies/" + trophyID;
         JSONObject postData = new JSONObject();
 
         try {
@@ -172,7 +172,7 @@ public class AdminToolsTrophiesTable extends Fragment {
     }
     //action preformed once add new trophy is slected
     public void addNewTrophy(int id, String name, String description) {
-        String finalUrl = Constants.BASE_URL + "/trophies";
+        String finalUrl = Constants.ELIURL + "/trophies";
         JSONObject postData = new JSONObject();
 
         try {
@@ -207,7 +207,7 @@ public class AdminToolsTrophiesTable extends Fragment {
     }
     //action preformed once list all trophy is slected
     public void listAllTrophies(int userID){
-        String finalUrl = Constants.BASE_URL + "/trophies";
+        String finalUrl = Constants.ELIURL + "/trophies";
         JSONObject postData = new JSONObject();
 
         try {
@@ -242,7 +242,7 @@ public class AdminToolsTrophiesTable extends Fragment {
     }
     //action preformed once update locked trophy is slected
     public void updateLockedTrophy(int userID,int progress){
-        String finalUrl = Constants.BASE_URL + "/trophies/"+userID;
+        String finalUrl = Constants.ELIURL + "/trophies/"+userID;
         JSONObject postData = new JSONObject();
 
         try {
