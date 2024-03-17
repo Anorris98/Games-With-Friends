@@ -175,9 +175,15 @@ public class LoginFragment extends Fragment {
 
         });
 
-        // Set the listener for the signup button //TODO: make sure this works.
+        // Set the listener for the signup button.
         buttonSignup.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, SignupFragment.newInstance()).commitNow();
+            try{
+                ((LoginActivity)getActivity()).changeFragment(SignupFragment.newInstance());
+            }
+            catch (Exception e){
+                Log.e("LoginFragment", "Error changing fragment to SignupFragment");
+            }
+
         });
     }
 
