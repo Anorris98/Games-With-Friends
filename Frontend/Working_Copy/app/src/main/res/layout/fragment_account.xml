@@ -6,29 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".ui.Account.AccountFragment">
 
-    <TextView
-        android:id="@+id/text_Account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/Button_Account_AdminTools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Admin Tools"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textViewUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
+        android:contentDescription="@string/Account_Photo"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeBio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/Account_Username"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.981" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/Account_Bio"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeBio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.377" />
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/ButtonAccountChangeUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Username"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangePassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ButtonAccountChangePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeEmail"
+        app:layout_constraintEnd_toEndOf="@+id/ButtonAccountChangeUsername"
+        app:layout_constraintStart_toStartOf="@+id/ButtonAccountChangeUsername" />
+
+    <Button
+        android:id="@+id/ButtonAccountChangeEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Email"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountLogout"
+        app:layout_constraintEnd_toEndOf="@+id/ButtonAccountChangePassword"
+        app:layout_constraintStart_toStartOf="@+id/ButtonAccountChangePassword" />
+
+    <Button
+        android:id="@+id/ButtonAccountLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/ButtonAccountChangeBio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Bio"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeUsername"
+        app:layout_constraintEnd_toEndOf="@+id/ButtonAccountChangeUsername"
+        app:layout_constraintStart_toStartOf="@+id/ButtonAccountChangeUsername" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
