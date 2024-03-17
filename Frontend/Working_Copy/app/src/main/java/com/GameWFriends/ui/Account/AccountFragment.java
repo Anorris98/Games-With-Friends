@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.GameWFriends.StringRequestActivity;
 import com.GameWFriends.databinding.FragmentAccountBinding;
 
 /**
@@ -31,8 +30,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         binding = FragmentAccountBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Set click listeners for buttons here
-        binding.ButtonAccountStringReqActivity.setOnClickListener(this);    // String Request Activity
         binding.ButtonAccountAdminTools.setOnClickListener(this);           // Admin tools
         // Example: binding.OtherButton.setOnClickListener(this);
 
@@ -41,11 +38,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == binding.ButtonAccountStringReqActivity.getId()) {
-            startActivity(new Intent(getActivity(), StringRequestActivity.class));
-
-        }
-        else if (v.getId() == binding.ButtonAccountAdminTools.getId()){
+        if (v.getId() == binding.ButtonAccountAdminTools.getId()){
             startActivity(new Intent(getActivity(), com.GameWFriends.ui.AdminTools.AdminToolsActivity.class));
         }
         //} else if (v.getId() == binding.OtherButton.getId()) {
