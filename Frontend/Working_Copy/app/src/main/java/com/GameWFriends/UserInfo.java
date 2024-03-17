@@ -4,6 +4,13 @@ package com.GameWFriends;
 //TODO: need to make sure this is updated, then need to make sure it grabs all the users important information and updates them as well.
 
 import android.content.Context;
+import android.widget.Toast;
+
+import com.GameWFriends.APIServices.ServerInteractionCode.CustomResponseHandler;
+import com.GameWFriends.APIServices.ServerInteractionCode.ServerTools;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -38,30 +45,41 @@ public class UserInfo {
      */
     private String password;
 
-    /**
-     * The friend group ids for the user.
-     */
-    private ArrayList<Integer> friendGroupIds;
+
     /**
      * The context for the user.
      */
     private Context context;
+
+    /**
+     * The friend group ids for the user.
+     */
+    private ArrayList<Integer> friendGroupIds;
     /**
      * private constructor for the UserInfo class.
      * @param userId the user id for the user
      * @param email the email for the user
      * @param password the password for the user
      */
-    private UserInfo(int userId, String email, String password) {
+
+    private ServerTools servertools;
+
+    private UserInfo(int userId, String email, String password, ServerTools servertools, Context context) {
         this.userId = userId;
         this.email = email;
         this.password = password;
+        this.servertools = servertools;
+
+        initalizeprofileInformation(userId, context);
+
+
+
     }
 
     // Static method to get the singleton instance
-    public static synchronized UserInfo getInstance(int userId, String email, String password) {
+    public static synchronized UserInfo getInstance(int userId, String email, String password,ServerTools servertools, Context context) {
         if (instance == null) {
-            instance = new UserInfo(userId, email, password);   //check if instance is null, if so create a new instance, otherwise return the instance
+            instance = new UserInfo(userId, email, password, servertools, context);   //check if instance is null, if so create a new instance, otherwise return the instance
         }
         return instance;
     }
@@ -125,5 +143,35 @@ public class UserInfo {
 
     private void loadFriendGroupData() {
         //get all friend group ids
+    }
+    private void initalizeprofileInformation(int userid, Context context){
+
+        servertools.fetchUserProfile(userid, new CustomResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+
+                    String displayName = response.getString("displayname");
+                    String description = response.getString("description");
+                    String profilePicture = response.getString("profile-picture");
+
+                    setUsername(displayName);
+                    setBio(description);
+                    setProfilePhoto(profilePicture);
+
+                    setUserLoggedIn(true);
+
+                    Toast.makeText(context, "User Log In Success", Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    //todo: Handle parsing error
+                }
+            }
+            @Override
+            public void onError(String message) {
+                Toast.makeText(context, "No matching username and password", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

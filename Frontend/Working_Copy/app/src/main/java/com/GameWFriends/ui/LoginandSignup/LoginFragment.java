@@ -2,6 +2,8 @@ package com.GameWFriends.ui.LoginandSignup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import org.json.JSONObject;
  */
 public class LoginFragment extends Fragment {
 
+    private Handler checkHandler;
     UserInfo userinfo;
     /**
      * The ViewModel for the LoginFragment fragment
@@ -53,6 +56,8 @@ public class LoginFragment extends Fragment {
     private Button buttonSignup;
 
     private Integer userid;
+
+    private Runnable checkRunnable;
 
 
     /**
@@ -79,6 +84,36 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         LoginInit(view);
         setupListeners(view);
+
+        checkHandler= new Handler(Looper.getMainLooper());
+
+        checkRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Check the value or state of something here
+                if (userinfo != null && userinfo.isUserLoggedIn()) {
+
+                    stopChecking();
+                    //if user is logged in and initalized we want to transfer control back to the main activity.
+                    //transfer back to main activity with the instance of userinfo.
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    //transfer control back to main and clear everything we've done on the stack.
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+
+                } else {
+                    // Otherwise, re-post this Runnable to check again after some delay
+                    checkHandler.postDelayed(this, 1000);
+                }
+            }
+        };
+
+
+
+        //start checking the handler for user being logged in.
+        startChecking();
+
+
     }
     /**
      * Initialize the LoginFragment fragment
@@ -120,18 +155,9 @@ public class LoginFragment extends Fragment {
                     userid = response.optInt("response", -1);
 
                     if (userid != -1) {
-                        userinfo = UserInfo.getInstance(userid, password,email);
+                        // Initalize user info.
+                        userinfo = UserInfo.getInstance(userid, password,email, servertools, getContext());
 
-                        getprofileInformation(userid);
-                        //transfer back to main activity with the instance of userinfo.
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-// Optionally add flags to control the behavior of the intent
-// For example, to clear the top of the stack bringing `MainActivity` to the front
-
-                        userinfo.setUserLoggedIn(true);
-
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
 
                     } else {
                         // Handle case where userId is not found or invalid
@@ -139,7 +165,6 @@ public class LoginFragment extends Fragment {
                         Log.e("LoginSuccess", "UserID not found in response");
                     }
                 }
-
                 @Override
                 public void onError(String message) {
                     Toast.makeText(getContext(), "No matching username and password", Toast.LENGTH_LONG).show();
@@ -175,7 +200,7 @@ public class LoginFragment extends Fragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    // Handle parsing error
+                    //todo: Handle parsing error
                 }
             }
 
@@ -185,6 +210,15 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+    private void startChecking() {
+        checkRunnable.run(); // Start the checking process
+    }
+
+    private void stopChecking() {
+        checkHandler.removeCallbacks(checkRunnable); // Stop the checking process
+    }
+
 
 
 }
