@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnCreateInit();
-        hasLoggedIn = true;         //change this to be able to skip logging in.
+        hasLoggedIn = false;         //change this to be able to skip logging in.
         HasUserLoggedinSignedUp();
     }
 

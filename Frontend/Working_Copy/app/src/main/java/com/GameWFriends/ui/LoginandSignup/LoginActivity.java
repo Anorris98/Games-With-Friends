@@ -15,11 +15,16 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.GameWFriends.MainActivity;
 import com.GameWFriends.R;
+import com.GameWFriends.UsefulFragmentandActivityTools;
 import com.GameWFriends.databinding.ActivityLoginBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO: need to implement login and signup logic for user accounts.
 public class LoginActivity extends AppCompatActivity {
 
+    private List<View> viewObjects;
     private TextView messageText;   // define message textview variable
     private TextView usernameText;  // define username textview variable
     private Button loginButton;     // define login button variable
@@ -69,11 +74,18 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void OnCreateInit() {
 
+        viewObjects = new ArrayList<>();
+
         /* initialize UI elements */
         messageText = findViewById(R.id.main_msg_txt);      // link to message textview in the Main activity XML
         usernameText = findViewById(R.id.main_username_txt);// link to username textview in the Main activity XML
         loginButton = findViewById(R.id.main_login_btn);    // link to login button in the Main activity XML
         signupButton = findViewById(R.id.main_signup_btn);  // link to signup button in the Main activity XML
+
+        viewObjects.add(messageText);
+        viewObjects.add(usernameText);
+        viewObjects.add(loginButton);
+        viewObjects.add(signupButton);
 
         //a call to setup the listeners for the buttons.
         setupListeners();
@@ -105,33 +117,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onBackStackChanged() {
                 // If there are no entries in the back stack (user navigated back), show the buttons again
                 if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                    showUiElements();
+                    UsefulFragmentandActivityTools.showUiElements(viewObjects);
                 }
             }
         });
 
-    }
-
-    /**
-     * hideUiElements is a method that hides the UI elements of the LoginActivity
-     */
-    private void hideUiElements() {
-        //hide the login and signup buttons
-        loginButton.setVisibility(View.INVISIBLE);
-        signupButton.setVisibility(View.INVISIBLE);
-        messageText.setVisibility(View.INVISIBLE);
-        usernameText.setVisibility(View.INVISIBLE);
-    }
-
-    /**
-     * showUiElements is a method that shows the UI elements of the main LoginActivity
-     */
-    private void showUiElements() {
-        //show the login and signup buttons
-        loginButton.setVisibility(View.VISIBLE);
-        signupButton.setVisibility(View.VISIBLE);
-        messageText.setVisibility(View.VISIBLE);
-        usernameText.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -140,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
      * @param fragment the new fragment to change to
      */
     public void changeFragment(Fragment fragment) {
-        hideUiElements();
+        UsefulFragmentandActivityTools.hideUiElements(viewObjects);
         // Begin a fragment transaction
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         // Replace the container with the new fragment
