@@ -19,13 +19,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButtonProfilePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="96dp"
         android:contentDescription="@string/Account_Photo"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeBio"
+        app:layout_constraintBottom_toTopOf="@+id/TextViewAccountBio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:layout_marginBottom="16dp"
         android:text="@string/Account_Username"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtonProfilePhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,11 +52,11 @@
         android:layout_marginTop="20dp"
         android:text="@string/Account_Bio"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeBio"
+        app:layout_constraintBottom_toTopOf="@+id/TextViewAccountBio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/imageButtonProfilePhoto"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -97,7 +97,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/ButtonAccountChangeBio"
+        android:id="@+id/TextViewAccountBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Bio"

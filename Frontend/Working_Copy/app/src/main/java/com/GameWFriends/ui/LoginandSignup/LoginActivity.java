@@ -24,11 +24,20 @@ import java.util.List;
 //TODO: need to implement login and signup logic for user accounts.
 public class LoginActivity extends AppCompatActivity {
 
+    /**
+     * The list of view objects for the LoginActivity
+     */
     private List<View> viewObjects;
-    private TextView messageText;   // define message textview variable
-    private TextView usernameText;  // define username textview variable
-    private Button loginButton;     // define login button variable
-    private Button signupButton;    // define signup button variable
+    
+    /**
+     * The TextView for the username in the LoginActivity
+     */
+    private TextView usernameText, messageText;  // define username textview variable
+
+    /**
+     * The Button for the signup in the LoginActivity
+     */
+    private Button signupButton, loginButton;    // define signup button variable
 
     private ActivityLoginBinding binding;
 

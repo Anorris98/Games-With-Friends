@@ -34,7 +34,18 @@ import org.json.JSONObject;
  */
 public class LoginFragment extends Fragment {
 
+    /**
+     * The handler for the checking process
+     */
+    private Runnable checkRunnable;
+
+    /**
+     * The handler for the checking process
+     */
     private Handler checkHandler;
+    /**
+     * The singleton UserInfo instance for the user that is logged in.
+     */
     UserInfo userinfo;
     /**
      * The ViewModel for the LoginFragment fragment
@@ -49,15 +60,24 @@ public class LoginFragment extends Fragment {
      * The ServerToolsDemoTwo instance for all Server api table manipulation
      */
     private ServerTools servertools;
+
+    /**
+     * The JSONObject for the profile information
+     */
     private JSONObject ProfileInformation;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
-    private Button buttonLogin;
-    private Button buttonSignup;
+    /**
+     * The EditText for the email.
+     */
+    private EditText editTextEmail, editTextPassword;
 
+    /**
+     * The button for logging in.
+     */
+    private Button buttonLogin, buttonSignup;
+    /**
+     * The user id for the user that is logged in.
+     */
     private Integer userid;
-
-    private Runnable checkRunnable;
 
 
     /**
