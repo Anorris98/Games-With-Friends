@@ -25,7 +25,7 @@
         android:layout_marginBottom="96dp"
         android:contentDescription="@string/Account_Photo"
         android:src="@drawable/ic_launcher_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/TextViewAccountBio"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeBio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,13 +46,13 @@
         app:layout_constraintVertical_bias="0.981" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textViewBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/Account_Bio"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/TextViewAccountBio"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonAccountChangeBio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +97,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/TextViewAccountBio"
+        android:id="@+id/ButtonAccountChangeBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Bio"

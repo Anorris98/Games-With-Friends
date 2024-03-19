@@ -105,7 +105,7 @@ public class AccountFragment extends Fragment {
         apiService = new VolleyAPIService(requireContext());
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        return inflater.inflate(R.layout.fragment_account, container, false);
 
     }
 
@@ -114,7 +114,7 @@ public class AccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Init(view);
         setupListeners(view);
-
+//TODO: Uncomment these.
     }
 
     /**
@@ -133,7 +133,7 @@ public class AccountFragment extends Fragment {
 
         //button inits
         imageButtonProfilePhoto = view.findViewById(R.id.imageButtonProfilePhoto);
-        ButtonAccountChangeBio = view.findViewById(R.id.TextViewAccountBio);
+        ButtonAccountChangeBio = view.findViewById(R.id.ButtonAccountChangeBio);
         ButtonAccountChangeUsername = view.findViewById(R.id.ButtonAccountChangeUsername);
         ButtonAccountChangePassword = view.findViewById(R.id.ButtonAccountChangePassword);
         ButtonAccountChangeEmail = view.findViewById(R.id.ButtonAccountChangeEmail);
@@ -141,7 +141,7 @@ public class AccountFragment extends Fragment {
 
         //TextView inits
         editTextAccountUsername = view.findViewById(R.id.textViewUsername);
-        editTextAccountBio = view.findViewById(R.id.TextViewAccountBio);
+        editTextAccountBio = view.findViewById(R.id.textViewBio);
 
         //add everything to the viewObjects list
         viewObjects.add(imageButtonProfilePhoto);

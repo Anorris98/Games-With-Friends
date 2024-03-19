@@ -108,7 +108,7 @@ public class SignupFragment extends Fragment {
         profilePhoto = new byte[0];
 
         //setup text fields and buttons
-        SignupInit();
+        getFields();
 
         // Setup button click listeners
         setupListeners(view);
@@ -124,15 +124,14 @@ public class SignupFragment extends Fragment {
 
         //signup button, will sign up the user, then change them to the login fragment.
         buttonSignup.setOnClickListener(v -> {
+            getFields();
+
             //first check that all fields do not equal null.
-            if (editTextEmail.getText().toString().equals("") || editTextConfirmEmail.getText().toString().equals("") || editTextPassword.getText().toString().equals("") || editTextConfirmPassword.getText().toString().equals("")) {
+            if ((editTextDisplayName.getText().toString().equals("")) || editTextEmail.getText().toString().equals("") || editTextConfirmEmail.getText().toString().equals("") || editTextPassword.getText().toString().equals("") || editTextConfirmPassword.getText().toString().equals("")) {
                 //toast letting the user know.
                 Toast.makeText(getContext(), "One or more fields are empty", Toast.LENGTH_SHORT).show();
             }
             else {
-                //check for a display name
-                if (editTextDisplayName.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "Please enter a display name", Toast.LENGTH_SHORT).show();
                     //check if the email and confirm email are the same
                     if (editTextEmail.getText().toString().equals(editTextConfirmEmail.getText().toString())) {
                         //check if the password and confirm password are the same
@@ -174,11 +173,6 @@ public class SignupFragment extends Fragment {
                         Toast.makeText(getContext(), "Emails do not match", Toast.LENGTH_SHORT).show();
                         Log.e("SignupFragment", "Emails do not match");
                     }
-                }
-                else {
-                    Toast.makeText(getContext(), "Please enter a display name", Toast.LENGTH_SHORT).show();
-                    Log.e("SignupFragment", "No display name entered");
-                }
             }
 
         });
@@ -186,6 +180,7 @@ public class SignupFragment extends Fragment {
 
         // Login Button, will change to fragment to the login fragment.
         buttonLogin.setOnClickListener(v -> {
+            getFields();
             try{
                 ((LoginActivity)getActivity()).changeFragment(LoginFragment.newInstance());
             }
@@ -196,7 +191,7 @@ public class SignupFragment extends Fragment {
     }
 
 
-    private void SignupInit(){
+    private void getFields(){
         try {
             //email
             editTextEmail = getView().findViewById(R.id.editextsignupEmail);
