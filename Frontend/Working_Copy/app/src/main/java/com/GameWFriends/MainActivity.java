@@ -39,14 +39,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnCreateInit();
-        hasLoggedIn = false;
+        hasLoggedIn = false;         //change this to be able to skip logging in.
         HasUserLoggedinSignedUp();
     }
 
     private void HasUserLoggedinSignedUp(){
         //check if user has logged in
-        //TODO: this will be needing changed back to false for login screen to work, for demo 2 this has been nulled to use for testing of string pulling.
-        //TODO: need to create and store user information in the userINfo class.
         if (!hasLoggedIn) {
             //create a new user instance to begin storing the user information.
 //            userinfo = new UserInfo(UserId, Username, Password);

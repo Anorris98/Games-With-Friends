@@ -306,7 +306,7 @@ public class ServerTools {
      * @param password the password the person wants to register
      */
 
-    public void registerUser(String email, String password) {
+    public void registerUser(String email, String password, @Nullable CustomResponseHandler customHandler) {
         String finalUrl = Constants.BASE_URL + "/users";
 
         JSONObject postData = new JSONObject();
@@ -324,20 +324,31 @@ public class ServerTools {
         apiService.postRequest(finalUrl, postData, new VolleyAPIService.VolleyResponseListener() {
             @Override
             public void onError(String message) {
-                Log.e("RegistrationError", message);
-                Toast.makeText(context, "Registration Error: " + message, Toast.LENGTH_LONG).show();
-                mViewModel.setResponse("Registration response: " + message);
+                if (customHandler != null) {
+                    customHandler.onError(message);
+                } else {
+                    Toast.makeText(context, "Registration Error: " + message, Toast.LENGTH_LONG).show();
+                    Log.e("RegistrationError", message);
+                    Toast.makeText(context, "Registration Error: " + message, Toast.LENGTH_LONG).show();
+                    mViewModel.setResponse("Registration response: " + message);
+                }
             }
 
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(context, "Registration Success", Toast.LENGTH_LONG).show();
-                try {
-                    //this is currently being used to see the responses in a text for demo 2
-                    String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
-                    mViewModel.setResponse("Registration response: " + formattedResponse);
-                } catch (JSONException e) {
-                    Toast.makeText(context, "Error parsing registration response", Toast.LENGTH_LONG).show();
+
+                if (customHandler != null) {
+                    customHandler.onSuccess(response);
+                }
+                else {
+                    Toast.makeText(context, "Registration Success", Toast.LENGTH_LONG).show();
+                    try {
+                        //this is currently being used to see the responses in a text for demo 2
+                        String formattedResponse = response.toString(4); // Indent with 4 spaces for readability
+                        mViewModel.setResponse("Registration response: " + formattedResponse);
+                    } catch (JSONException e) {
+                        Toast.makeText(context, "Error parsing registration response", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
