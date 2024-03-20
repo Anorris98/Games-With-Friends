@@ -2,8 +2,11 @@ package com.GameWFriends;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -13,9 +16,11 @@ import com.GameWFriends.databinding.ActivityMainBinding;
 import com.GameWFriends.ui.LoginandSignup.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
+
 /**
  * @author Alek Norris
- * MainActivity is the main activity for the GameWFriends app
+ * MainActivity is the main activity for the GameWFriendsActivity1 app
  * It is the first activity that is launched when the app is opened
  * It is the activity that contains the navigation bar and the fragments
  * that are displayed when the user selects an option from the navigation bar
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnCreateInit();
-        hasLoggedIn = false;         //change this to be able to skip logging in.
+        hasLoggedIn = true;         //change this to be able to skip logging in.
         HasUserLoggedinSignedUp();
     }
 
@@ -74,6 +79,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+    }
+
+    /**
+     * This method is used to change the fragment that is displayed in the main activity
+     * @param fragment the fragment that is to be displayed
+     * @param viewObjects the list of view objects that are to be hidden
+     */
+    public void changeFragment(Fragment fragment, List<View> viewObjects) {
+        // Hide the UI elements
+        UsefulFragmentandActivityTools.hideUiElements(viewObjects);
+        // Begin a fragment transaction
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        // Replace the container with the new fragment
+        transaction.replace(com.GameWFriends.R.id.fragment_container, fragment);
+        // Optionally add the transaction to the back stack
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
 
 }

@@ -40,7 +40,9 @@ android {
 dependencies {
 
     // OkHttp client
-    implementation( "com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    //okhttp debug
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

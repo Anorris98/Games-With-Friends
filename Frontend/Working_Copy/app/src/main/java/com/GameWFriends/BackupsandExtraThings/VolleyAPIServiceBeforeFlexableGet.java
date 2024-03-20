@@ -1,10 +1,10 @@
-//package com.GameWFriends.BackupsandExtraThings;
+//package com.GameWFriendsActivity1.BackupsandExtraThings;
 //
 //import android.content.Context;
 //
 //import androidx.annotation.Nullable;
 //
-//import com.GameWFriends.ui.AdminTools.Constants;
+//import com.GameWFriendsActivity1.ui.AdminTools.Constants;
 //import com.android.volley.AuthFailureError;
 //import com.android.volley.Request;
 //import com.android.volley.RequestQueue;

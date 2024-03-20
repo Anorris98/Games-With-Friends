@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.037" />
 
     <Button
-        android:id="@+id/newGame"
+        android:id="@+id/buttonNewGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Game"
@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newGame"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNewGame"
         app:layout_constraintVertical_bias="0.474" />
 
     <Button
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newGame" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonNewGame" />
 
     <Button
         android:id="@+id/leaderBoard"

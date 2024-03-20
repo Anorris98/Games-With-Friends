@@ -1,5 +1,6 @@
 package com.GameWFriends.ui.Account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
 import com.GameWFriends.R;
 import com.GameWFriends.UsefulFragmentandActivityTools;
 import com.GameWFriends.databinding.FragmentAccountBinding;
-import com.GameWFriends.ui.LoginandSignup.LoginFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class AccountFragment extends Fragment {
     private VolleyAPIService apiService;
 
     /**
-     * The ServerToolsDemoTwo instance for all Server api table manipulation
+     * The ServerTools instance for all Server api table manipulation
      */
     private ServerTools servertools;
 
@@ -59,44 +59,18 @@ public class AccountFragment extends Fragment {
     private ImageButton imageButtonProfilePhoto;
 
     /**
-     * The Button for the AccountFragment fragment
+     * The buttons for the user to interact with to change and edit their personal account.
      */
-    private Button ButtonAccountChangeBio;
-
-    /**
-     * The Button for the AccountFragment fragment
-     */
-    private Button ButtonAccountChangeUsername;
-
-    /**
-     * The Button for the AccountFragment fragment
-     */
-    private Button ButtonAccountChangePassword;
-
-    /**
-     * The Button for the AccountFragment fragment
-     */
-    private Button ButtonAccountChangeEmail;
-
-    /**
-     * The Button for the AccountFragment fragment
-     */
-    private Button ButtonAccountLogout;
+    private Button ButtonAccountChangeBio,ButtonAccountLogout,
+            ButtonAccountChangeEmail, ButtonAccountChangePassword,
+            ButtonAccountChangeUsername, ButtonAccountAdminTools;
 
     /**
      * The TextView for the AccountFragment fragment
      */
-    private TextView editTextAccountUsername;
+    private TextView editTextAccountUsername,editTextAccountBio;
 
-    /**
-     * The TextView for the AccountFragment fragment
-     */
-    private TextView editTextAccountBio;
-
-
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
-    }
+    private String ARG_STRING_KEY;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -126,7 +100,7 @@ public class AccountFragment extends Fragment {
         // Initialize the ViewModel variable with this view after on create.
         mViewModel = new ViewModelProvider(this).get(GenericViewModel.class);
 
-        // Initialize the ServerToolsDemoTwo instance with the context, apiService, and ViewModel, will allow us to use server tools methods.
+        // Initialize the ServerTools instance with the context, apiService, and ViewModel, will allow us to use server tools methods.
         servertools = new ServerTools(getContext(), apiService, mViewModel);
 
         viewObjects = new ArrayList<>();
@@ -138,6 +112,8 @@ public class AccountFragment extends Fragment {
         ButtonAccountChangePassword = view.findViewById(R.id.ButtonAccountChangePassword);
         ButtonAccountChangeEmail = view.findViewById(R.id.ButtonAccountChangeEmail);
         ButtonAccountLogout = view.findViewById(R.id.ButtonAccountLogout);
+        ButtonAccountAdminTools = view.findViewById(R.id.Button_Account_AdminTools);
+
 
         //TextView inits
         editTextAccountUsername = view.findViewById(R.id.textViewUsername);
@@ -152,6 +128,7 @@ public class AccountFragment extends Fragment {
         viewObjects.add(ButtonAccountLogout);
         viewObjects.add(editTextAccountUsername);
         viewObjects.add(editTextAccountBio);
+        viewObjects.add(ButtonAccountAdminTools);
     }
 
     /**
@@ -166,7 +143,14 @@ public class AccountFragment extends Fragment {
         ButtonAccountChangePassword.setOnClickListener(v -> onChangePasswordClicked());
         ButtonAccountChangeEmail.setOnClickListener(v -> onChangeEmailClicked());
         ButtonAccountLogout.setOnClickListener(v -> onLogoutClicked());
+        ButtonAccountAdminTools.setOnClickListener(v -> onAdminToolsClicked());
 
+    }
+    /**
+     * The method for when the admin tools button is clicked
+     */
+    private void onAdminToolsClicked() {
+        startActivity(new Intent(getActivity(), com.GameWFriends.ui.AdminTools.AdminToolsActivity.class));
     }
 
     /**
@@ -187,8 +171,9 @@ public class AccountFragment extends Fragment {
      * The method for when the username is clicked
      */
     private void onChangeUsernameClicked() {
+        ARG_STRING_KEY = "username";
         //hide everything then change fragments.
-        UsefulFragmentandActivityTools.hideUiElements(viewObjects);
+        UsefulFragmentandActivityTools.hideUiElements(viewObjects);//TODO: Remove this, use change fragment from main activity, pass in a list of view objects.
 //        ((MainActivity)getActivity()).changeFragment(AccountChangeInfoFragment.newInstance());
         //TODO: Need to pass a string for the change info fragment
 
@@ -198,8 +183,9 @@ public class AccountFragment extends Fragment {
      * The method for when the password is clicked
      */
     private void onChangePasswordClicked() {
+        ARG_STRING_KEY = "password";
         //hide everything then change fragments.
-        UsefulFragmentandActivityTools.hideUiElements(viewObjects);
+        UsefulFragmentandActivityTools.hideUiElements(viewObjects);//TODO: Remove this, use change fragment from main activity, pass in a list of view objects.
         //TODO: Same as above but will use password information and not username.
     }
 
@@ -207,8 +193,9 @@ public class AccountFragment extends Fragment {
      * The method for when the email is clicked
      */
     private void onChangeEmailClicked() {
+        ARG_STRING_KEY = "email";
         //hide everything then change fragments.
-        UsefulFragmentandActivityTools.hideUiElements(viewObjects);
+        UsefulFragmentandActivityTools.hideUiElements(viewObjects);//TODO: Remove this, use change fragment from main activity, pass in a list of view objects.
         //TODO: same as above but will use email information.
     }
 
