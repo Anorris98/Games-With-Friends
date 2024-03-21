@@ -25,7 +25,6 @@ import com.GameWFriends.MainActivity;
 import com.GameWFriends.R;
 import com.GameWFriends.UserInfo;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -46,11 +45,11 @@ public class LoginFragment extends Fragment {
     /**
      * The singleton UserInfo instance for the user that is logged in.
      */
-    UserInfo userinfo;
+    private UserInfo userinfo;
     /**
      * The ViewModel for the LoginFragment fragment
      */
-    GenericViewModel mViewModel;
+    private GenericViewModel mViewModel;
     /**
      * The VolleyAPIService for the LoginFragment fragment
      */
@@ -207,40 +206,18 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private void getprofileInformation(int userid){
-
-        servertools.fetchUserProfile(userid, new CustomResponseHandler() {
-            @Override
-            public void onSuccess(JSONObject response) {
-                ProfileInformation = response;
-                try {
-                    // Extract individual properties
-                    String displayName = response.getString("displayname");
-                    String description = response.getString("description");
-                    String profilePicture = response.getString("profile-picture");
-
-                    userinfo.setUsername(displayName);
-                    userinfo.setBio(description);
-                    userinfo.setProfilePhoto(profilePicture);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    //todo: Handle parsing error
-                }
-            }
-
-            @Override
-            public void onError(String message) {
-                Toast.makeText(getContext(), "No matching username and password", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
+    /**
+     * This method is used to start the checking handler and seeing if
+     * the users info has successfully finished loading.
+     */
     private void startChecking() {
         checkRunnable.run(); // Start the checking process
     }
 
+    /**
+     * This method is used to stop the checking handler and seeing if
+     * the users info has successfully finished loading.
+     */
     private void stopChecking() {
         checkHandler.removeCallbacks(checkRunnable); // Stop the checking process
     }

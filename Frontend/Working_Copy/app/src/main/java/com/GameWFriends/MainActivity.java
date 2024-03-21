@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         OnCreateInit();
         hasLoggedIn = true;         //change this to be able to skip logging in.
         HasUserLoggedinSignedUp();
@@ -65,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void OnCreateInit(){
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

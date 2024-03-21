@@ -2,7 +2,7 @@ package com.GameWFriends.APIServices.ServerInteractionCode;
 
 import android.content.Context;
 
-import com.GameWFriends.ui.AdminTools.Constants;
+import com.GameWFriends.Constants;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;

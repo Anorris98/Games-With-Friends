@@ -63,6 +63,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_login_btn" />
 
+    <!-- Fragment Container for dynamically adding or replacing Fragments -->
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_width="0dp"

@@ -38,8 +38,11 @@ android {
 }
 
 dependencies {
-
-    // OkHttp client
+    // for websockets
+    implementation ("org.java-websocket:Java-WebSocket:1.5.2")
+    // for bluring the background
+    implementation ("jp.wasabeef:blurry:4.0.0")
+    // OkHttp client.... not used , but might be useful
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     //okhttp debug
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
