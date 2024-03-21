@@ -9,7 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.GameWFriends.APIServices.ViewModel.GenericViewModel;
-import com.GameWFriends.ui.AdminTools.Constants;
+import com.GameWFriends.Constants;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -44,7 +44,7 @@ public class ServerTools {
     public Context context;
 
     /**
-     * The GenericViewModel instance
+     * The GameViewModel instance
      */
     private final GenericViewModel mViewModel;
     /**
@@ -58,7 +58,7 @@ public class ServerTools {
      *
      * @param context    the context of the fragment or activity
      * @param apiService the VolleyAPIService instance
-     * @param viewModel  the GenericViewModel instance
+     * @param viewModel  the GameViewModel instance
      */
     public ServerTools(Context context, VolleyAPIService apiService, GenericViewModel viewModel) {
         this.context = context;
